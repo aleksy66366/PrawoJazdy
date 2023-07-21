@@ -291,7 +291,7 @@ h1 {
     height:424px;
     background-color: rgba(255, 241, 232, 0.7);
     opacity: 0;
-    transition: opacity 0.5s linear(0 0%, 1 10%);;
+    transition: opacity 0.5s linear(0 0%, 1 10%);
     display: flex;
     align-items: center;
     justify-content: center;
