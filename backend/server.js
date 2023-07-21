@@ -154,6 +154,10 @@ app.get('/car-color', checkAuth, (req, res) => {
   });
 });
 
+app.get('/kiosk', checkAuth, (req, res) => {
+  const Path = path.join(staticDir, '../frontend/kiosk.html');
+  res.sendFile(Path);
+});
 //-----_____-----______-----_____-----_____-----_____-----_____-----
 // Uruchomienie serwera
 app.listen(port, () => {
