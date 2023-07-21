@@ -283,7 +283,7 @@ h1 {
     display:inline-block;
 }
 
-.tekst {
+.tekstKiosk {
     position: absolute;
     top:19px;
     right:15px;
@@ -298,16 +298,16 @@ h1 {
     box-sizing: border-box;
 }
 
-.tekst p {
+.tekstKiosk p {
     display:none;
 }
 
-#kiosk:hover .tekst {
+#kiosk:hover .tekstKiosk {
     opacity:1;
     box-shadow: 0 0 8px 8px rgb(255,236,39);
 }
 
-#kiosk:hover .tekst p{
+#kiosk:hover .tekstKiosk p{
     display: block;
     font-size: 25px;
 
@@ -325,12 +325,50 @@ h1 {
     background-size: cover;
     margin-top: 406px;
     box-sizing: border-box;
+    background-position: inherit;
+    position: relative;
+    display:inline-block;
+}
+
+.tekstRace {
+    position: absolute;
+    margin-top: 10px;
+    margin-left: 15px;
+    width: 140px;
+    height: 140px;
+    background-color: rgba(255, 241, 232, 0.7);
+    opacity: 0;
+    transition: opacity 0.5s linear(0 0%, 1 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.tekstRace p {
+    display:none;
+}
+
+#race:hover .tekstRace {
+    opacity:1;
+    box-shadow: 0 0 8px 8px rgb(255,236,39);
+}
+
+#race:hover .tekstRace p{
+    display: block;
+    font-size: 25px;
+
 }
 
 #race:hover {
-    background-color: yellow;
+    transform: scale(1.01);
 
 }
+/*
+#race:hover {
+    background-color: yellow;
+
+}*/
 
 #garage {
     background-image: url("./assets/city/garaz.png");
