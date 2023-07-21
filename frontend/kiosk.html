@@ -17,14 +17,15 @@
         </div>
         <div id="screen">
             <div class="Stats" id="babolotStats"></div>
-            <div class="Stats" id="holeRaceStats"></div>
+            <div class="Stats" id="holeraceStats"></div>
             <div class="Stats" id="quizyStats"></div>
             <div class="Stats" id="XP"></div>
             <div class="Stats" id="lvl"></div>
         </div>
         <div id="AllStatsInfo">
             <div id="backToScreen"></div>
-        </div>
+            <table id="statsContainer"></table>
+          </div>          
         <div id="settings">
             <div class="settingsButton" id="back"></div>
             <div class="settingsButton" id="zoomIn"></div>
@@ -49,35 +50,63 @@
         };
 
         var AllStatsInfo = document.getElementById("AllStatsInfo");
+
         var babolotStats = document.getElementById("babolotStats");
         babolotStats.onclick = function() {
-                AllStatsInfo.style.display = "flex";
-                document.getElementById("screen").style.display = "none";
-        }
-
-        var holeRaceStats = document.getElementById("holeRaceStats");
-        holeRaceStats.onclick = function() {
-            AllStatsInfo.style.display = "flex";
-            document.getElementById("screen").style.display = "none";
-        }
-
-        var quizyStats = document.getElementById("quizyStats");
-        quizyStats.onclick = function() {
-            AllStatsInfo.style.display = "flex";
-            document.getElementById("screen").style.display = "none";
-        }
-
-        var XP = document.getElementById("XP");
-        XP.onclick = function() {
-            AllStatsInfo.style.display = "flex";
-            document.getElementById("screen").style.display = "none";
-        }
-
-        var lvl = document.getElementById("lvl");
-        lvl.onclick = function() {
-            AllStatsInfo.style.display = "flex";
-            document.getElementById("screen").style.display = "none";
-        }
+          AllStatsInfo.style.display = "flex";
+          document.getElementById("screen").style.display = "none";
+          fetch('/stats-babolot')
+            .then(response => response.json())
+            .then(data => {
+              var statsContainer = document.getElementById("statsContainer");
+              statsContainer.innerHTML = ""; // Czyszczenie kontenera na statystyki przed wyświetleniem nowych danych
+            
+              if (data.length > 0) {
+                var tableHTML = "<tr><th>Miejsce</th><th>Login użytkownika</th><th>Nazwa statystyki</th><th>Punkty</th></tr>";
+                data.forEach(stat => {
+                  tableHTML += `<tr><td>${stat.miejsce}</td><td>${stat.loginUzytkownika}</td><td>${stat.statName}</td><td>${stat.iloscPunktow}</td></tr>`;
+                });
+                statsContainer.innerHTML = tableHTML;
+              } else {
+                var noStatsMsg = document.createElement("p");
+                noStatsMsg.textContent = "Nie znaleziono statystyk.";
+                statsContainer.appendChild(noStatsMsg);
+              }
+            })
+            .catch(error => {
+              console.error(error);
+              var statsContainer = document.getElementById("statsContainer");
+              statsContainer.innerHTML = "Wystąpił błąd podczas pobierania statystyk.";
+            });
+        };
+        var babolotStats = document.getElementById("holeraceStats");
+        babolotStats.onclick = function() {
+          AllStatsInfo.style.display = "flex";
+          document.getElementById("screen").style.display = "none";
+          fetch('/stats-babolot')
+            .then(response => response.json())
+            .then(data => {
+              var statsContainer = document.getElementById("statsContainer");
+              statsContainer.innerHTML = ""; // Czyszczenie kontenera na statystyki przed wyświetleniem nowych danych
+            
+              if (data.length > 0) {
+                var tableHTML = "<tr><th>Miejsce</th><th>Login użytkownika</th><th>Nazwa statystyki</th><th>Punkty</th></tr>";
+                data.forEach(stat => {
+                  tableHTML += `<tr><td>${stat.miejsce}</td><td>${stat.loginUzytkownika}</td><td>${stat.statName}</td><td>${stat.iloscPunktow}</td></tr>`;
+                });
+                statsContainer.innerHTML = tableHTML;
+              } else {
+                var noStatsMsg = document.createElement("p");
+                noStatsMsg.textContent = "Nie znaleziono statystyk.";
+                statsContainer.appendChild(noStatsMsg);
+              }
+            })
+            .catch(error => {
+              console.error(error);
+              var statsContainer = document.getElementById("statsContainer");
+              statsContainer.innerHTML = "Wystąpił błąd podczas pobierania statystyk.";
+            });
+        };
 
         var backToScreen = document.getElementById("backToScreen");
         backToScreen.onclick = function(){
