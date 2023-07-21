@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <link rel="icon" href="assets/icon.png" type="image/png">
+    <title>City</title>
+    <style>
+        #screen {
+            background-image: url("./assets/city/menu1.png");
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="body">
+        <div id="money">
+            <div id="moneyValue">
+                <div id="mon"></div>
+                <div id="val"></div>
+            </div>
+        </div>
+        <div id="screen">
+            <div id="kiosk"></div>
+            <div id="race"></div>
+            <div id="garage"></div>
+            <div id="nauka"></div>
+            <div id="biblioteka"></div>
+            <div id="salon"></div>
+        </div>
+        <div id="settings">
+            <div class="settingsButton" id="back"></div>
+            <div class="settingsButton" id="zoomIn"></div>
+            <div class="settingsButton" id="zoomOut"></div>
+            <div class="settingsButton" id="music"></div>
+            <div class="settingsButton" id="volume">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function logout() {
+            fetch('/logout', { method: 'POST' }) // Wysłanie żądania POST do /logout na serwerze
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Błąd podczas wylogowywania.');
+                }
+            })
+            .then(data => {
+                if (data.success) {
+                    window.location.href = 'login.html'; // Przekierowanie na stronę logowania
+                    } else {
+                    throw new Error('Błąd podczas wylogowywania.');
+                }
+            })
+            .catch(error => {
+            console.error(error);
+      });
+  }
+  // Przypisanie obsługi kliknięcia dla przycisku "back"
+  var backDiv = document.getElementById("back");
+  backDiv.onclick = function() {
+    logout(); // Wywołanie funkcji logout() przy kliknięciu przycisku "back"
+  };
+
+        var zoomInButton = document.getElementById("zoomIn");
+        zoomInButton.onclick = function() {
+            document.body.style.zoom = parseFloat(window.getComputedStyle(document.body).zoom) + 0.1;
+        };
+        var zoomOutButton = document.getElementById("zoomOut");
+        zoomOutButton.onclick = function() {
+            document.body.style.zoom = parseFloat(window.getComputedStyle(document.body).zoom) - 0.1;
+        };
+
+        var kioskDiv = document.getElementById("kiosk");
+        kioskDiv.onclick = function() {
+            window.location.href = 'kiosk.html';
+        };
+        var raceDiv = document.getElementById("race");
+        raceDiv.onclick = function() {
+            window.location.href = 'race.html';
+        };
+        var garageDiv = document.getElementById("garage");
+        garageDiv.onclick = function() {
+            window.location.href = 'garage.html';
+        };
+        var naukaDiv = document.getElementById("nauka");
+        naukaDiv.onclick = function() {
+            window.location.href = 'nauka.html';
+        };
+        var bibliotekaDiv = document.getElementById("biblioteka");
+        bibliotekaDiv.onclick = function() {
+            window.location.href = 'biblioteka.html';
+        };
+        var salonDiv = document.getElementById("salon");
+        salonDiv.onclick = function() {
+            window.location.href = 'salon.html';
+        };
+    </script>
+</body>
+</html>

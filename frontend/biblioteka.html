@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <link rel="icon" href="assets/icon.png" type="image/png">
+    <title>Biblioteka</title>
+</head>
+<body>
+    <div class="body">
+        <div id="money">
+            <div id="moneyValue">
+                <div id="mon"></div>
+                <div id="val"></div>
+            </div>
+        </div>
+        <div id="screen">
+            <div class="bookbutton", id="ostrzegawcze"></div>
+            <div class="bookbutton", id="zakazu"></div>
+            <div class="bookbutton", id="nakazu"></div>
+            <div class="bookbutton", id="informacyjne"></div>
+            <div class="bookbutton", id="uzupelniajace"></div>
+            <div class="bookbutton", id="poziome"></div>
+            <div class="bookbutton", id="swietlne"></div>
+            <div class="bookbutton", id="kodeks"></div>
+        </div>
+        <div id="book">
+            <div id="leftArrow"></div>
+            <div id="info">
+                <div id="photoInfo"></div>
+                <div id="titleInfo">
+                    <h1>Lorem Ipsum lorem ipsum lorem ipsum </h1>
+                </div>
+                <div id="aboutInfo">
+                    <p>
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                        when an unknown printer took a galley of type and scrambled it to make a
+                        type specimen book. It has survived not only five centuries, but also the
+                        leap into electronic typesetting, remaining essentially unchanged.
+                    </p>
+                </div>
+                <div id="backToScreen"></div>
+            </div>
+            <div id="rightArrow"></div>
+        </div>
+        <div id="settings">
+            <div class="settingsButton" id="back"></div>
+            <div class="settingsButton" id="zoomIn"></div>
+            <div class="settingsButton" id="zoomOut"></div>
+            <div class="settingsButton" id="music"></div>
+            <div class="settingsButton" id="volume"></div>
+        </div>
+    </div>
+
+    <script>
+        var backDiv = document.getElementById("back");
+        backDiv.onclick = function() {
+            window.location.href = 'city.html';
+        };
+        var zoomInButton = document.getElementById("zoomIn");
+        zoomInButton.onclick = function() {
+            document.body.style.zoom = parseFloat(window.getComputedStyle(document.body).zoom) + 0.1;
+        };
+        var zoomOutButton = document.getElementById("zoomOut");
+        zoomOutButton.onclick = function() {
+            document.body.style.zoom = parseFloat(window.getComputedStyle(document.body).zoom) - 0.1;
+        };
+
+        var book = document.getElementById("book");
+        var bookbuttons = document.getElementsByClassName("bookbutton");
+        for (var i = 0; i < bookbuttons.length; i++) {
+            bookbuttons[i].onclick = function() {
+                book.style.display = "flex";
+                document.getElementById("screen").style.display = "none";
+            };
+        }
+        var backToScreen = document.getElementById("backToScreen");
+        backToScreen.onclick = function(){
+            book.style.display = "none";
+            document.getElementById("screen").style.display = "flex";
+
+        }
+
+    </script>
+</body>
+</html>

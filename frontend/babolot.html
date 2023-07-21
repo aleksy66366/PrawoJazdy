@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <link rel="icon" href="assets/icon.png" type="image/png">
+    <title>Babolot</title>
+</head>
+<body>
+    <div class="body">
+        <div id="money">
+            <div id="moneyValue">
+                <div id="mon"></div>
+                <div id="val"></div>
+            </div>
+        </div>
+        <div id="screen">
+            <canvas></canvas>
+        </div>
+        <div id="settings">
+            <div class="settingsButton" id="back"></div>
+            <div class="settingsButton" id="zoomIn"></div>
+            <div class="settingsButton" id="zoomOut"></div>
+            <div class="settingsButton" id="music"></div>
+            <div class="settingsButton" id="volume"></div>
+        </div>
+    </div>
+
+    <script>
+        var backDiv = document.getElementById("back");
+        backDiv.onclick = function() {
+            window.location.href = 'city.html';
+        };
+        var zoomInButton = document.getElementById("zoomIn");
+        zoomInButton.onclick = function() {
+            document.body.style.zoom = parseFloat(window.getComputedStyle(document.body).zoom) + 0.1;
+        };
+        var zoomOutButton = document.getElementById("zoomOut");
+        zoomOutButton.onclick = function() {
+            document.body.style.zoom = parseFloat(window.getComputedStyle(document.body).zoom) - 0.1;
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,711 @@
+/* register.html, login.html  */
+
+:root {
+    --primary-color: #fff1e8;
+    --border: black;
+    --h1-color: black;
+    --button-color: rgb(41,173,255);
+}
+
+body {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    background-image: url("./assets/menu/background51.png");
+    background-repeat: repeat;
+    background-size: auto;
+    zoom:1;
+}
+.body {
+    width:1436px;
+    height: 737px;
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-start;
+}
+
+.container {
+    width: 593px;
+    height: 737px;
+    border: 2px solid var(--border);
+    margin: 0 auto;
+    border-radius: 30px;
+    background-color: rgba(212,217,219, 0.9);
+}
+
+h1 {
+    text-align: center;
+    color: var(--h1-color);
+    font-size: 43px;
+    margin-top: 40px;
+}
+
+.form-group {
+    width: 593px;
+    height: 80px;
+    padding: 0 20px;
+    margin: 40px 40px;
+}
+
+.form-group input {
+    width: 425px;
+    height: 75px;
+    font-size: 23px;
+    padding: 10px 25px;
+    border-radius: 20px;
+}
+
+.accept {
+    padding: 30px 0;
+    margin: 30px 70px;
+    font-size: 21px;
+}
+
+.accept a{
+    text-decoration: none;
+    color: #065ab5;
+}
+
+.link {
+    width:225px;
+    height: 60px;
+    font-size: 23px;
+    box-sizing: border-box;
+    margin: 0 20px 20px 50px;
+    border-radius: 7px;
+    background-color: var(--button-color);
+    border: none;
+    box-shadow: 0 0 2px 2px var(--button-color);
+    transition: 0.2s;
+}
+
+.link a{
+    text-decoration: none;
+    color: inherit;
+}
+
+.link:hover {
+    background-color: rgba(255,163,0, 1.0);
+    transition: 0.7s;
+    box-shadow: 0 0 4px 4px rgb(0,0,0);
+}
+
+
+.accept input[type="checkbox"] {
+    display: inline-block;
+    transform: scale(2.7);
+    margin-right: 25px;
+}
+
+.sign-in {
+    width:225px;
+    height: 60px;
+    float:right;
+    margin-right: 50px;
+    font-size: 23px;
+    border-radius: 7px;
+    background-color: var(--button-color);
+    color: rgb(243,239,125);
+    border: none;
+    box-shadow: 0 0 2px 2px var(--button-color);
+}
+
+.sign-in:hover {
+    background-color: limegreen;
+    transition: 0.7s;
+    box-shadow: 0 0 4px 4px rgb(0,0,0);
+    color: black;
+}
+
+
+.gif {
+    width: 475px;
+    height: 320px;
+    margin-top: 35px;
+    margin-left: 60px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1d2b53;
+    position: relative;
+
+}
+
+.gif img {
+    max-width: 320px;
+    max-height: 320px;
+    border-radius: 70%;
+    text-align: center;
+    transform: scale(1.2);
+    z-index: 1;
+}
+
+.name {
+    position: absolute;
+    text-align: center;
+    top: 10px;
+    color: white;
+    z-index: 2;
+    font-size: 25px;
+}
+
+
+/*  city.html */
+
+#money {
+    width: 86px;
+    height: 729px;
+    float: left;
+    padding-left: 4px;
+    padding-top:  4px;
+}
+
+#screen {
+    width: 1296px;
+    height: 729px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-wrap:wrap;
+    background-color: white;
+}
+
+#settings{
+    width: 50px;
+    height: 729px;
+    float: left;
+
+}
+
+#moneyValue {
+    width: 90px;
+    height: 100px;
+}
+
+#mon {
+    width: 90px;
+    height: 50px;
+    float: left;
+    background-image: url("./assets/menu/money.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+#val {
+    width: 90px;
+    height: 50px;
+    float: left;
+}
+
+.settingsButton {
+    width: 46px;
+    height: 46px;
+    float: left;
+    margin: 2px;
+}
+
+#back{
+    background-image: url("./assets/menu/logout1.png");
+    background-size: cover;
+}
+
+#back:hover {
+    background-image: url("./assets/menu/logout.png");
+    background-size: cover;
+}
+
+#zoomIn{
+    background-image: url("./assets/menu/plus1.png");
+    background-size: cover;
+}
+
+#zoomIn:hover{
+    background-image: url("./assets/menu/plus.png");
+    background-size: cover;
+}
+
+#zoomOut{
+    background-image: url("./assets/menu/minus1.png");
+    background-size: cover;
+}
+
+#zoomOut:hover{
+    background-image: url("./assets/menu/minus.png");
+    background-size: cover;
+}
+
+#music{
+    background-image: url("./assets/menu/nutka1.png");
+    background-size: cover;
+}
+
+#music:hover{
+    background-image: url("./assets/menu/nutka.png");
+    background-size: cover;
+}
+
+/*  suwak */
+
+#volume {
+    width: 42px;
+    height: 400px;
+    padding: 2px 2px 27px 2px;
+    float: left;
+    position: relative;
+    overflow-y: scroll;
+}
+
+
+/* budynki */
+
+#kiosk {
+    background-image: url("./assets/city/zaba.png");
+    width: 150px;
+    height: 443px;
+    background-size: cover;
+    margin-top: 113px;
+    box-sizing: border-box;
+
+}
+
+#kiosk:hover {
+    background-color: yellow;
+    transform: scale(1.01);
+    transition: 0.7s;
+}
+
+#race {
+    background-image: url("./assets/city/tormenu.png");
+    width: 160px;
+    height: 150px;
+    background-size: cover;
+    margin-top: 406px;
+    box-sizing: border-box;
+}
+
+#race:hover {
+    background-color: yellow;
+
+}
+
+#garage {
+    background-image: url("./assets/city/garaz.png");
+    width: 166px;
+    height: 149px;
+    background-size: cover;
+    margin-top: 407px;
+    box-sizing: border-box;
+}
+
+#garage:hover {
+    background-color: yellow;
+}
+
+#nauka {
+    background-image: url("./assets/city/szkoła.png");
+    width: 250px;
+    height: 405px;
+    background-size: cover;
+    margin: 151px 10px 0 0;
+    box-sizing: border-box;
+}
+
+#nauka:hover {
+    background-color: yellow;
+}
+
+#biblioteka {
+    background-image: url("./assets/city/biblio.png");
+    width: 300px;
+    height: 405px;
+    background-size: cover;
+    margin-top: 151px;
+    box-sizing: border-box;
+}
+
+#biblioteka:hover {
+    background-color: yellow;
+}
+
+#salon {
+    background-image: url("./assets/city/salon.png");
+    width: 260px;
+    height: 350px;
+    background-size: cover;
+    margin-top: 206px;
+    box-sizing: border-box;
+}
+
+#salon:hover {
+    background-color: yellow;
+}
+
+
+/* biblioteka.html */
+
+
+#ostrzegawcze {
+    background-color: lime;
+}
+
+#zakazu {
+    background-color: aqua;
+}
+
+#nakazu {
+    background-color: blue;
+}
+
+#informacyjne {
+    background-color: bisque;
+}
+
+#uzupelniajace {
+    background-color: blueviolet;
+}
+
+#poziome {
+    background-color: burlywood;
+}
+
+#swietlne {
+    background-color: coral;
+}
+
+#kodeks {
+    background-color: greenyellow;
+}
+
+.bookbutton{
+    width: 162px;
+    height: 725px;
+    border-radius: 20px;
+    margin-top: 1px;
+    box-sizing: border-box;
+
+}
+
+#book {
+    width: 1296px;
+    height: 729px;
+    float: left;
+    background-color: red;
+    display:none;
+}
+
+
+#leftArrow{
+    width: 150px;
+    height: 729px;
+    float: left;
+    background-color: black;
+}
+
+#info {
+    width: 996px;
+    height: 619px;
+    float: left;
+    background-color: blue;
+    margin: 30px 0 80px 0;
+}
+
+#rightArrow {
+    width: 150px;
+    height: 729px;
+    float: left;
+    background-color: black;
+}
+
+#photoInfo {
+    width: 300px;
+    height: 250px;
+    float:left;
+    background-color: aqua;
+    margin: 50px 0 0 50px;
+}
+
+#titleInfo {
+    width: 500px;
+    height: 200px;
+    float:left;
+    background-color: blueviolet;
+    margin: 70px 73px 30px 73px;
+}
+
+#titleInfo h1 {
+    text-align: center;
+    font-size: 30px;
+    padding: 30px 30px 0 30px;
+}
+
+#aboutInfo {
+    float:left;
+    width: 896px;
+    height: 229px;
+    margin: 50px;
+    background-color: chartreuse;
+}
+
+#aboutInfo p {
+    text-align: center;
+    font-size: 25px;
+    padding: 20px 30px 0 30px;
+}
+
+#backToScreen {
+    width: 46px;
+    height: 46px;
+    background-image: url("./assets/menu/powrot1.png");
+    background-size: cover;
+    float:left;
+    margin: 5px 458px 25px 458px ;
+}
+
+#backToScreen:hover{
+    background-image: url("./assets/menu/powrot.png");
+    background-size: cover;
+}
+
+
+
+/* nauka.html  */
+
+#oknaWybor {
+    box-sizing: border-box;
+    width: 448px;
+    height: 265px;
+    margin: 100px 50px 50px 150px;
+    background-color: greenyellow;
+}
+
+#empty {
+    width: 448px;
+    height: 265px;
+    box-sizing: border-box;
+    margin: 100px 150px 50px 0;
+    background-color: darkorange;
+}
+
+#znaki {
+    width: 448px;
+    height: 264px;
+    background-color: chartreuse;
+    margin: 0 50px 100px 150px;
+    box-sizing: border-box;
+}
+
+#kodeksNauka {
+    width: 448px;
+    height: 264px;
+    background-color: aqua;
+    margin: 0 150px 100px 0;
+    box-sizing: border-box;
+}
+
+/*  quiz   */
+
+#quiz, #quizEnd, #AllStatsInfo {
+    width: 1296px;
+    height: 729px;
+    box-sizing: border-box;
+    display: none;
+    background-color: blueviolet;
+}
+
+#boxQuiz {
+    width: 1096px;
+    height: 639px;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap:wrap;
+    background-color: darkorange;
+    margin: 20px 100px 50px 100px;
+}
+
+#poprawneSymbol {
+    width: 448px;
+    height: 40px;
+    background-color: bisque;
+    box-sizing: border-box;
+}
+
+#poprawne {
+    width: 100px;
+    height: 40px;
+    background-color: #1d2b53;
+    box-sizing: border-box;
+}
+
+#niepoprawneSymbol {
+    width: 100px;
+    height: 40px;
+    background-color: darkkhaki;
+    box-sizing: border-box;
+}
+
+#niepoprawne {
+    width: 448px;
+    height: 40px;
+    background-color: #1d2b53;
+    box-sizing: border-box;
+}
+
+#pytanie {
+    width: 498px;
+    height: 549px;
+    margin: 50px 50px 0 0;
+    background-color: crimson;
+    box-sizing: border-box;
+}
+
+#ans {
+    width: 498px;
+    height: 549px;
+    background-color: blue;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-around;
+    margin: 50px 0 0 50px;
+}
+
+.answer {
+    width: 498px;
+    height: 130px;
+    background-color: brown;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+}
+ /* qiuzEnd  */
+
+#box {
+    width: 593px;
+    height: 619px;
+    box-sizing: border-box;
+    display: flex;
+    background-color: bisque;
+    margin: 55px auto;
+    flex-flow: column wrap;
+}
+
+#gratulacjeNapis {
+    width: 503px;
+    height: 200px;
+    box-sizing: border-box;
+    display: flex;
+    background-color: crimson;
+    margin: 50px 45px 0 45px;
+}
+
+#podsumowanie {
+    width: 503px;
+    height: 150px;
+    box-sizing: border-box;
+    display: flex;
+    background-color: crimson;
+    margin: 43px 45px 0 45px;
+}
+
+#jeszczeRaz {
+    width: 503px;
+    height: 75px;
+    box-sizing: border-box;
+    display: flex;
+    background-color: crimson;
+    margin: 50px 45px;
+}
+
+
+/* KIOSK.HTML */
+
+#babolotStats {
+    width: 548px;
+    height: 264px;
+    margin: 100px 0 0 100px;
+    box-sizing: border-box;
+    background-color: crimson;
+    border-top-left-radius: 20px;
+    cursor: pointer;
+}
+
+#babolotStats:hover {
+    transform: scale(0.95);
+    cursor: grab;
+}
+
+#holeRaceStats {
+    width: 548px;
+    height: 264px;
+    margin: 100px 100px 0 0;
+    box-sizing: border-box;
+    background-color: bisque;
+}
+
+#quizyStats {
+    width: 548px;
+    height: 264px;
+    margin: 0 0 101px 100px;
+    box-sizing: border-box;
+    background-color: bisque;
+}
+
+#XP {
+    width: 548px;
+    height: 264px;
+    margin: 0 100px 101px 0;
+    box-sizing: border-box;
+    background-color: crimson;
+    position: relative;
+}
+
+#lvl {
+    position: absolute;
+    width: 264px;
+    height: 264px;
+    box-sizing: border-box;
+    background-color: aqua;
+    margin: 232px 516px 233px 516px;
+    border-radius: 50%;
+}
+
+
+
+/* SALON.HTML */
+
+#animacjaAuta {
+    width: 896px;
+    height: 729px;
+    box-sizing: border-box;
+    background-color: chartreuse;
+}
+
+#koloryOpcje {
+    width: 400px;
+    height: 729px;
+    display:flex;
+    flex-direction: column;
+    background-color: brown;
+}
+
+#kolory {
+    width: 400px;
+    height: 479px;
+    box-sizing: border-box;
+    background-color: skyblue;
+}
+
+#resetUlepszen {
+    width: 400px;
+    height: 150px;
+    box-sizing: border-box;
+    background-color: cornsilk;
+}
+
+#zapiszNowyKolor {
+    width: 400px;
+    height: 100px;
+    box-sizing: border-box;
+    background-color: sandybrown;
+}

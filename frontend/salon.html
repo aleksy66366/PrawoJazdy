@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <link rel="icon" href="assets/icon.png" type="image/png">
+    <title>Salon</title>
+</head>
+<body>
+    <style>
+    
+    </style>
+    <div class="body">
+        <div id="money">
+            <div id="moneyValue">
+                <div id="mon"></div>
+                <div id="val"></div>
+            </div>
+        </div>
+        <div id="screen">
+            <div id="animacjaAuta"></div>
+            <div id="koloryOpcje">
+                <div id="kolory"></div>
+                <div id="resetUlepszen"></div>
+                <div id="zapiszNowyKolor"></div>
+            </div>
+        </div>
+        <div id="settings">
+            <div class="settingsButton" id="back"></div>
+            <div class="settingsButton" id="zoomIn"></div>
+            <div class="settingsButton" id="zoomOut"></div>
+            <div class="settingsButton" id="music"></div>
+            <div class="settingsButton" id="volume"></div>
+        </div>
+    </div>
+
+    <script>
+        var backDiv = document.getElementById("back");
+        backDiv.onclick = function() {
+            window.location.href = 'city.html';
+        };
+        var zoomInButton = document.getElementById("zoomIn");
+        zoomInButton.onclick = function() {
+            document.body.style.zoom = parseFloat(window.getComputedStyle(document.body).zoom) + 0.1;
+        };
+        var zoomOutButton = document.getElementById("zoomOut");
+        zoomOutButton.onclick = function() {
+            document.body.style.zoom = parseFloat(window.getComputedStyle(document.body).zoom) - 0.1;
+        };
+
+        var animacjaAuta = document.getElementById("animacjaAuta");
+  
+        // Pobieramy link do koloru auta dla zalogowanego użytkownika
+        fetch('/car-color')
+        .then(response => response.json())
+        .then(data => {
+            if (data.colorLink) {
+                console.log(data.colorLink);
+                // Jeśli link został pobrany, ustawiamy go jako tło animacji auta
+                animacjaAuta.style.backgroundImage = `url('${data.colorLink}')`;
+            } else {
+                // Możesz tutaj obsłużyć przypadek, gdy użytkownik nie ma przypisanego koloru auta
+                // Możesz ustawić domyślny kolor lub wyświetlić komunikat, że użytkownik powinien najpierw wybrać kolor auta
+            }
+        })
+        .catch(error => {
+            console.error('Błąd podczas pobierania linku do koloru auta:', error);
+            // Możesz obsłużyć błąd, np. wyświetlić komunikat dla użytkownika
+        });
+    </script>
+</body>
+</html>

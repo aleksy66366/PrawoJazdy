@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title> Register </title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <link rel="icon" href="assets/icon.png" type="image/png">
+
+</head>
+<body>
+<div class="body">
+    <div class="container">
+            <h1>Formularz Rejestracji</h1>
+            <form action="/register" method="post">
+            <div class="form-group">
+                <input type="text" placeholder="Login" name="login" required>
+            </div>
+            <div class="form-group">
+                <input type="password" placeholder="Password" name="password" required>
+            </div>
+            <div class="form-group">
+                <input type="password" placeholder="Repeat password " name="repeatPassword" required>
+            </div>
+            <div class="accept">
+                <input type="checkbox" id="checkbox" required>
+                <label for="checkbox">Akceptuję <a href="https://www.google.pl" target="_blank">regulamin</a> serwisu</label>
+            </div>
+            <a href="./login.html">Logowanie</a>
+
+                <button class="sign-in" type="submit">Zarejestruj się</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

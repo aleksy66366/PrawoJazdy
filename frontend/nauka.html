@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <link rel="icon" href="assets/icon.png" type="image/png">
+    <title>Nauka Jazdy</title>
+</head>
+<body>
+    <div class="body">
+        <div id="money">
+            <div id="moneyValue">
+                <div id="mon"></div>
+                <div id="val"></div>
+            </div>
+        </div>
+        <div id="screen">
+            <div id="oknaWybor">
+                <input type="checkbox" name="sign" value="ZnakiOstrzegawcze"> Znaki Ostrzegawcze<br>
+                <input type="checkbox" name="sign" value="ZnakiZakazu"> Znaki Zakazu<br>
+                <input type="checkbox" name="sign" value="ZnakiNakazu"> Znaki Nakazu<br>
+                <input type="checkbox" name="sign" value="ZnakiInformacyjne"> Znaki Informacyjne<br>
+                <input type="checkbox" name="sign" value="ZnakiUzupelniajace"> Znaki Uzupełniające<br>
+                <input type="checkbox" name="sign" value="ZnakiPoziome"> Znaki Poziome<br>
+                <input type="checkbox" name="sign" value="ZnakiSwietlne"> Znaki Świetlne<br>
+            </div>
+            <div id="empty"></div>
+            <div id="znaki"></div>
+            <div id="kodeksNauka"></div>            
+        </div>
+        <div id="quiz">
+            <div id="boxQuiz">
+                <div id="poprawneSymbol"></div><div id="poprawne"></div>
+                <div id="niepoprawneSymbol"></div><div id="niepoprawne"></div>
+                <div id="pytanie"></div>
+                <div id="ans" >
+                    <div class="answer" id="odp1"></div>
+                    <div class="answer" id="odp2"></div>
+                    <div class="answer" id="odp3"></div>
+                </div>
+            </div>
+        </div>
+        <div id="quizEnd">
+            <div id="box">
+                <div id="gratulacjeNapis"></div>
+                <div id="podsumowanie"></div>
+                <div id="jeszczeRaz"></div>
+            </div>
+        </div>
+        <div id="settings">
+            <div class="settingsButton" id="back"></div>
+            <div class="settingsButton" id="zoomIn"></div>
+            <div class="settingsButton" id="zoomOut"></div>
+            <div class="settingsButton" id="music"></div>
+            <div class="settingsButton" id="volume"></div>
+        </div>
+    </div>
+
+    <script>
+        var backDiv = document.getElementById("back");
+        backDiv.onclick = function() {
+            window.location.href = 'city.html';
+        };
+        var zoomInButton = document.getElementById("zoomIn");
+        zoomInButton.onclick = function() {
+            document.body.style.zoom = parseFloat(window.getComputedStyle(document.body).zoom) + 0.1;
+        };
+        var zoomOutButton = document.getElementById("zoomOut");
+        zoomOutButton.onclick = function() {
+            document.body.style.zoom = parseFloat(window.getComputedStyle(document.body).zoom) - 0.1;
+        };
+
+        var screen = document.getElementById("screen");
+        var quiz = document.getElementById("quiz");
+        var znaki = document.getElementById("znaki");
+        
+        znaki.onclick = function() {
+            quiz.style.display = "flex";
+            screen.style.display = "none";
+        };
+
+    </script>
+</body>
+</html>
