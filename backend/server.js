@@ -158,6 +158,74 @@ app.get('/kiosk', checkAuth, (req, res) => {
   const Path = path.join(staticDir, '../frontend/kiosk.html');
   res.sendFile(Path);
 });
+// Endpoint do pobrania linku babolot
+app.get('/stats-babolot', checkAuth, (req, res) => {
+  const getStatsQuery = 'SELECT (SELECT COUNT(DISTINCT as2.score) FROM allStat as2 WHERE as2.statId = 1 AND as2.score > as1.score) + 1 AS miejsce, u.login AS loginUzytkownika, s.name AS statName, as1.score AS iloscPunktow FROM allStat AS as1 JOIN user AS u ON as1.userId = u.id JOIN stat AS s ON as1.statId = s.id WHERE as1.statId = 1 ORDER BY as1.score DESC;';
+  db.all(getStatsQuery, (err, rows) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      if (rows.length > 0) {
+        res.json(rows); // Wysyłamy dane w formacie JSON
+      } else {
+        // Jeśli nie znaleziono statystyk
+        res.status(404).send('Nie znaleziono statystyk');
+      }
+    }
+  });
+});
+// Endpoint do pobrania linku holerace
+app.get('/stats-holerace', checkAuth, (req, res) => {
+  const getStatsQuery = 'SELECT (SELECT COUNT(DISTINCT as2.score) FROM allStat as2 WHERE as2.statId = 2 AND as2.score > as1.score) + 1 AS miejsce, u.login AS loginUzytkownika, s.name AS statName, as1.score AS iloscPunktow FROM allStat AS as1 JOIN user AS u ON as1.userId = u.id JOIN stat AS s ON as1.statId = s.id WHERE as1.statId = 2 ORDER BY as1.score DESC;';
+  db.all(getStatsQuery, (err, rows) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      if (rows.length > 0) {
+        res.json(rows); // Wysyłamy dane w formacie JSON
+      } else {
+        // Jeśli nie znaleziono statystyk
+        res.status(404).send('Nie znaleziono statystyk');
+      }
+    }
+  });
+});
+// Endpoint do pobrania linku quizy
+app.get('/stats-quizy', checkAuth, (req, res) => {
+  const getStatsQuery = 'SELECT (SELECT COUNT(DISTINCT as2.score) FROM allStat as2 WHERE as2.statId = 3 AND as2.score > as1.score) + 1 AS miejsce, u.login AS loginUzytkownika, s.name AS statName, as1.score AS iloscPunktow FROM allStat AS as1 JOIN user AS u ON as1.userId = u.id JOIN stat AS s ON as1.statId = s.id WHERE as1.statId = 3 ORDER BY as1.score DESC;';
+  db.all(getStatsQuery, (err, rows) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      if (rows.length > 0) {
+        res.json(rows); // Wysyłamy dane w formacie JSON
+      } else {
+        // Jeśli nie znaleziono statystyk
+        res.status(404).send('Nie znaleziono statystyk');
+      }
+    }
+  });
+});
+// Endpoint do pobrania linku xp
+app.get('/stats-xp', checkAuth, (req, res) => {
+  const getStatsQuery = 'SELECT (SELECT COUNT(DISTINCT as2.score) FROM allStat as2 WHERE as2.statId = 4 AND as2.score > as1.score) + 1 AS miejsce, u.login AS loginUzytkownika, s.name AS statName, as1.score AS iloscPunktow FROM allStat AS as1 JOIN user AS u ON as1.userId = u.id JOIN stat AS s ON as1.statId = s.id WHERE as1.statId = 4 ORDER BY as1.score DESC;';
+  db.all(getStatsQuery, (err, rows) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      if (rows.length > 0) {
+        res.json(rows); // Wysyłamy dane w formacie JSON
+      } else {
+        // Jeśli nie znaleziono statystyk
+        res.status(404).send('Nie znaleziono statystyk');
+      }
+    }
+  });
+});
 
 app.get('/race', checkAuth, (req, res) => {
   const Path = path.join(staticDir, '../frontend/race.html');
