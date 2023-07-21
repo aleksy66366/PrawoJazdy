@@ -158,6 +158,36 @@ app.get('/kiosk', checkAuth, (req, res) => {
   const Path = path.join(staticDir, '../frontend/kiosk.html');
   res.sendFile(Path);
 });
+
+app.get('/race', checkAuth, (req, res) => {
+  const Path = path.join(staticDir, '../frontend/race.html');
+  res.sendFile(Path);
+});
+
+app.get('/garage', checkAuth, (req, res) => {
+  const Path = path.join(staticDir, '../frontend/garage.html');
+  res.sendFile(Path);
+});
+
+app.get('/nauka', checkAuth, (req, res) => {
+  const Path = path.join(staticDir, '../frontend/nauka.html');
+  res.sendFile(Path);
+});
+
+app.get('/biblioteka', checkAuth, (req, res) => {
+  const Path = path.join(staticDir, '../frontend/biblioteka.html');
+  res.sendFile(Path);
+});
+
+app.get('/babolot', checkAuth, (req, res) => {
+  const Path = path.join(staticDir, '../frontend/babolot.html');
+  res.sendFile(Path);
+});
+
+app.get('/racehole', checkAuth, (req, res) => {
+  const Path = path.join(staticDir, '../frontend/racehole.html');
+  res.sendFile(Path);
+});
 //-----_____-----______-----_____-----_____-----_____-----_____-----
 // Uruchomienie serwera
 app.listen(port, () => {
