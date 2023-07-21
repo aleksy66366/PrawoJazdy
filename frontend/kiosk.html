@@ -16,13 +16,15 @@
             </div>
         </div>
         <div id="screen">
-            <div id="babolotStats"></div>
-            <div id="holeRaceStats"></div>
-            <div id="quizyStats"></div>
-            <div id="XP"></div>
-            <div id="lvl"></div>
+            <div class="Stats" id="babolotStats"></div>
+            <div class="Stats" id="holeRaceStats"></div>
+            <div class="Stats" id="quizyStats"></div>
+            <div class="Stats" id="XP"></div>
+            <div class="Stats" id="lvl"></div>
         </div>
-        <div id="AllStatsInfo"></div>
+        <div id="AllStatsInfo">
+            <div id="backToScreen"></div>
+        </div>
         <div id="settings">
             <div class="settingsButton" id="back"></div>
             <div class="settingsButton" id="zoomIn"></div>
@@ -35,7 +37,7 @@
     <script>
         var backDiv = document.getElementById("back");
         backDiv.onclick = function() {
-            window.location.href = 'city.html';
+            window.location.href = '/city';
         };
         var zoomInButton = document.getElementById("zoomIn");
         zoomInButton.onclick = function() {
@@ -45,6 +47,45 @@
         zoomOutButton.onclick = function() {
             document.body.style.zoom = parseFloat(window.getComputedStyle(document.body).zoom) - 0.1;
         };
+
+        var AllStatsInfo = document.getElementById("AllStatsInfo");
+        var babolotStats = document.getElementById("babolotStats");
+        babolotStats.onclick = function() {
+                AllStatsInfo.style.display = "flex";
+                document.getElementById("screen").style.display = "none";
+        }
+
+        var holeRaceStats = document.getElementById("holeRaceStats");
+        holeRaceStats.onclick = function() {
+            AllStatsInfo.style.display = "flex";
+            document.getElementById("screen").style.display = "none";
+        }
+
+        var quizyStats = document.getElementById("quizyStats");
+        quizyStats.onclick = function() {
+            AllStatsInfo.style.display = "flex";
+            document.getElementById("screen").style.display = "none";
+        }
+
+        var XP = document.getElementById("XP");
+        XP.onclick = function() {
+            AllStatsInfo.style.display = "flex";
+            document.getElementById("screen").style.display = "none";
+        }
+
+        var lvl = document.getElementById("lvl");
+        lvl.onclick = function() {
+            AllStatsInfo.style.display = "flex";
+            document.getElementById("screen").style.display = "none";
+        }
+
+        var backToScreen = document.getElementById("backToScreen");
+        backToScreen.onclick = function(){
+            AllStatsInfo.style.display = "none";
+            document.getElementById("screen").style.display = "flex";
+
+        }
+
     </script>
 </body>
 </html>
