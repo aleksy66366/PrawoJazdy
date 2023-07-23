@@ -49,6 +49,50 @@ function getObjectById(objectId, callback) {
   });
 }
 
+
+
+function getKodeksById(objectId, callback) {
+  db.get('SELECT * FROM roadCode WHERE id = ?', objectId, function (err, row) {
+    if (err) {
+      console.log(err);
+      return callback(err);
+    }
+    if (!row) {
+      return callback(new Error('Nie znaleziono obiektu o podanym ID.'));
+    }
+    callback(null, row);
+  });
+}
+
+
+app.get('/getKodeksById/:id', function (req, res) {
+  const objectId = req.params.id;
+  getKodeksById(objectId, function (err, objectData) {
+    if (err) {
+      console.log(err);
+      return res.status(404).send('Nie znaleziono obiektu o podanym ID.');
+    }
+    res.json(objectData);
+  });
+});
+
+
+
+app.get('/getKodeksById/:id', function (req, res) {
+  const objectId = req.params.id;
+  getKodeksById(objectId, function (err, objectData) {
+    if (err) {
+      console.log(err);
+      return res.status(404).send('Nie znaleziono obiektu o podanym ID.');
+    }
+    res.json(objectData);
+  });
+});
+
+
+
+
+
 // Endpoint do pobierania danych obiektu na podstawie ID
 app.get('/getObjectById/:id', function (req, res) {
   const objectId = req.params.id;

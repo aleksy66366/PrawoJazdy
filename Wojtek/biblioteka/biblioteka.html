@@ -23,7 +23,7 @@
             <div class="bookbutton" id="uzupelniajace" onclick="setObjectIdAndFetch(5, 135)"></div>
             <div class="bookbutton" id="poziome" onclick="setObjectIdAndFetch(6, 160)"></div>
             <div class="bookbutton" id="swietlne" onclick="setObjectIdAndFetch(7, 189)"></div>
-            <div class="bookbutton" id="kodeks" onclick="aha()">12</div>
+            <div class="bookbutton" id="kodeks" onclick="setKodeksIdAndFetch(8, 2)">12</div>
         </div>
         <div id="book">
             <div id="leftArrow" onclick="showPrevious()"></div>
@@ -83,21 +83,31 @@
         }
 
         let currentObjectId = 1;
+		let is8=false;
 
         function displayObjectData(objectData, categoryName) {
+			document.getElementById("photoInfo").style.display = "flex";
             const photoInfoDiv = document.getElementById('photoInfo');
             const titleInfoDiv = document.getElementById('titleInfo');
             const aboutInfoDiv = document.getElementById('aboutInfo');
 
+			if (!is8)
+			{
             const imagePath = `/assets/sign/${categoryName}/${objectData.linkPhoto}`;
             const objectImage = document.createElement('img');
             objectImage.src = imagePath;
             photoInfoDiv.innerHTML = '';
             photoInfoDiv.appendChild(objectImage);
-
+			}
+			else{
+			document.getElementById("photoInfo").style.display = "none";
+			}
             titleInfoDiv.innerHTML = `<h1>${objectData.title}</h1>`;
             aboutInfoDiv.innerHTML = `<p>${objectData.about}</p>`;
         }
+		
+
+		
 
         function fetchObjectDataById(objectId) {
             fetch(`/getObjectById/${objectId}`)
@@ -112,21 +122,128 @@
                 displayErrorMessage('Wystąpił błąd podczas pobierania danych.');
             });
         }
+		
+        function fetchKodeksDataById(objectId) {
+            fetch(`/getKodeksById/${objectId}`)
+            .then(response => response.json())
+            .then(data => {
+                displayObjectData(data);
+            })
+            .catch(error => {
+                console.error('Wystąpił błąd przy pobieraniu danych:', error);
+                displayErrorMessage('Wystąpił błąd podczas pobierania danych.');
+            });
+        }
+		
+		
+		
 
         function showPrevious() {
             currentObjectId--;
-            if (currentObjectId < 1) {
+			if(is8)
+			{
+            if (currentObjectId < 2) {
+                currentObjectId = 2;
+            }
+			fetchKodeksDataById(currentObjectId);
+			}
+			else{
+           if (currentObjectId < 1) {
                 currentObjectId = 1;
             }
             fetchObjectDataById(currentObjectId);
+			}
         }
 
         function showNext() {
-            currentObjectId++;
+            currentObjectId++;			
+            if(is8)
+			{
+            if (currentObjectId > 136) {
+                currentObjectId = 136;
+            }
+			if(currentObjectId==30)
+			{
+			currentObjectId=35
+			}
+			if(currentObjectId==38)
+			{
+			currentObjectId=40
+			}
+			if(currentObjectId==41)
+			{
+			currentObjectId=67
+			}
+			if(currentObjectId==68)
+			{
+			currentObjectId=71
+			}
+			if(currentObjectId==72)
+			{
+			currentObjectId=73
+			}
+			if(currentObjectId==74)
+			{
+			currentObjectId=76
+			}
+			if(currentObjectId==77)
+			{
+			currentObjectId=83
+			}
+			if(currentObjectId==84)
+			{
+			currentObjectId=85
+			}
+			if(currentObjectId==86)
+			{
+			currentObjectId=94
+			}
+			if(currentObjectId==99)
+			{
+			currentObjectId=102
+			}
+			if(currentObjectId==104)
+			{
+			currentObjectId=105
+			}
+			if(currentObjectId==110)
+			{
+			currentObjectId=111
+			}
+			if(currentObjectId==112)
+			{
+			currentObjectId=113
+			}
+			if(currentObjectId==118)
+			{
+			currentObjectId=119
+			}
+			if(currentObjectId==121)
+			{
+			currentObjectId=122
+			}
+			if(currentObjectId==128)
+			{
+			currentObjectId=129
+			}
+			if(currentObjectId==130)
+			{
+			currentObjectId=131
+			}
+			if(currentObjectId==133)
+			{
+			currentObjectId=134
+			}
+			
+			
+			fetchKodeksDataById(currentObjectId);
+			}
+			else{
             if (currentObjectId > 203) {
                 currentObjectId = 203;
             }
             fetchObjectDataById(currentObjectId);
+			}
         }
 
         fetchObjectDataById(currentObjectId);
@@ -154,7 +271,21 @@
             fetchObjectDataById(currentObjectId);
          book.style.display = "flex";
          document.getElementById("screen").style.display = "none";
+		 is8=false
         }
+		
+function setKodeksIdAndFetch(categoryId, objectId) {
+    currentObjectId = objectId;
+    fetchKodeksDataById(currentObjectId); // Użyj funkcji fetchKodeksDataById() zamiast fetchObjectDataById()
+    book.style.display = "flex";
+    document.getElementById("screen").style.display = "none";
+	is8=true;
+}
+
+		
+		
+		
+		
 		
     </script>
 </body>
