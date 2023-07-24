@@ -23,7 +23,7 @@
             <div class="bookbutton" id="uzupelniajace" onclick="setObjectIdAndFetch(5, 135)"></div>
             <div class="bookbutton" id="poziome" onclick="setObjectIdAndFetch(6, 160)"></div>
             <div class="bookbutton" id="swietlne" onclick="setObjectIdAndFetch(7, 189)"></div>
-            <div class="bookbutton" id="kodeks" onclick="setKodeksIdAndFetch(8, 2)">12</div>
+            <div class="bookbutton" id="kodeks" onclick="setKodeksIdAndFetch(8,137)"></div>
         </div>
         <div id="book">
             <div id="leftArrow" onclick="showPrevious()"></div>
@@ -70,12 +70,6 @@
 
         var book = document.getElementById("book");
         var bookbuttons = document.getElementsByClassName("bookbutton");
-        //for (var i = 0; i < bookbuttons.length; i++) {
-        //    bookbuttons[i].onclick = function() {
-        //       book.style.display = "flex";
-        //        document.getElementById("screen").style.display = "none";
-        //    };
-        //}
         
         function backToScreenClick(){
             book.style.display = "none";
@@ -142,8 +136,9 @@
             currentObjectId--;
 			if(is8)
 			{
-            if (currentObjectId < 2) {
-                currentObjectId = 2;
+            if (currentObjectId < 137) 
+			{
+                currentObjectId = 137;
             }
 			fetchKodeksDataById(currentObjectId);
 			}
@@ -159,82 +154,9 @@
             currentObjectId++;			
             if(is8)
 			{
-            if (currentObjectId > 136) {
-                currentObjectId = 136;
+            if (currentObjectId > 207) {
+                currentObjectId = 207;
             }
-			if(currentObjectId==30)
-			{
-			currentObjectId=35
-			}
-			if(currentObjectId==38)
-			{
-			currentObjectId=40
-			}
-			if(currentObjectId==41)
-			{
-			currentObjectId=67
-			}
-			if(currentObjectId==68)
-			{
-			currentObjectId=71
-			}
-			if(currentObjectId==72)
-			{
-			currentObjectId=73
-			}
-			if(currentObjectId==74)
-			{
-			currentObjectId=76
-			}
-			if(currentObjectId==77)
-			{
-			currentObjectId=83
-			}
-			if(currentObjectId==84)
-			{
-			currentObjectId=85
-			}
-			if(currentObjectId==86)
-			{
-			currentObjectId=94
-			}
-			if(currentObjectId==99)
-			{
-			currentObjectId=102
-			}
-			if(currentObjectId==104)
-			{
-			currentObjectId=105
-			}
-			if(currentObjectId==110)
-			{
-			currentObjectId=111
-			}
-			if(currentObjectId==112)
-			{
-			currentObjectId=113
-			}
-			if(currentObjectId==118)
-			{
-			currentObjectId=119
-			}
-			if(currentObjectId==121)
-			{
-			currentObjectId=122
-			}
-			if(currentObjectId==128)
-			{
-			currentObjectId=129
-			}
-			if(currentObjectId==130)
-			{
-			currentObjectId=131
-			}
-			if(currentObjectId==133)
-			{
-			currentObjectId=134
-			}
-			
 			
 			fetchKodeksDataById(currentObjectId);
 			}

@@ -25,9 +25,9 @@
                 <input type="checkbox" name="sign" value="6"> Znaki Poziome<br>
                 <input type="checkbox" name="sign" value="7"> Znaki Świetlne<br>
             </div>
-            <div id="empty">RYBA</div>
+            <div id="empty"></div>
             <div id="znaki"></div>
-            <div id="kodeksNauka"></div>            
+            <div id="kodeksNauka">kodeks</div>            
         </div>
         <div id="quiz">
             <div id="boxQuiz">
@@ -58,38 +58,7 @@
         </div>
     </div>
 
-    <script>
-        var backDiv = document.getElementById("back");
-        backDiv.onclick = function() {
-            window.location.href = 'city.html';
-        };
-        var zoomInButton = document.getElementById("zoomIn");
-        zoomInButton.onclick = function() {
-            document.body.style.zoom = parseFloat(window.getComputedStyle(document.body).zoom) + 0.1;
-        };
-        var zoomOutButton = document.getElementById("zoomOut");
-        zoomOutButton.onclick = function() {
-            document.body.style.zoom = parseFloat(window.getComputedStyle(document.body).zoom) - 0.1;
-        };
-
-        var screen = document.getElementById("screen");
-        var quiz = document.getElementById("quiz");
-        var znaki = document.getElementById("znaki");
-        
-        znaki.onclick = function() {
-            quiz.style.display = "flex";
-            screen.style.display = "none";
-        };
-
-	    var testButton = document.getElementById('jeszczeRaz');
-        testButton.addEventListener('click', function() {
-			quiz.style.display = "none";
-			quizEnd.style.display = "none";
-            screen.style.display = "flex";
-            znaki.style.display = "flex";
-		});
-
-    </script>
+    
 	<script src="script.js"></script>
 </body>
 </html>
