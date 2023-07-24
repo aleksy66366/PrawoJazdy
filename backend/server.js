@@ -69,7 +69,26 @@ app.post('/login', (req, res) => {
     }
   });
 });
-
+app.get('/money', checkAuth, (req, res) => {
+  const userId = req.session.loggedUserId; // Corrected variable name
+  // Zapytanie do bazy danych w celu pobrania pieniędzy dla zalogowanego użytkownika
+  const getStatsQuery = 'SELECT money FROM user WHERE id = ?';
+  db.get(getStatsQuery, [userId], (err, row) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      if (row) {
+        const userLevel = row.money;
+        // Przekazujemy poziom użytkownika jako odpowiedź do klienta
+        res.json({ userLevel });
+      } else {
+        // Jeśli użytkownik o podanym id nie został znaleziony w bazie danych
+        res.status(404).send('Nie znaleziono użytkownika o podanym id.');
+      }
+    }
+  });
+});
 
 app.get('/register', checkAuth, (req, res) => {
   const registerPath = path.join(staticDir, '../frontend/register.html');
