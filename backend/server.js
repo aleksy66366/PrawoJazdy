@@ -226,6 +226,29 @@ app.get('/stats-xp', checkAuth, (req, res) => {
     }
   });
 });
+// Endpoint do pobrania linku lvl
+app.get('/stats-lvl', checkAuth, (req, res) => {
+  const userId = req.session.loggedUserId; // Corrected variable name
+
+  // Zapytanie do bazy danych w celu pobrania poziomu użytkownika (lvl) dla zalogowanego użytkownika
+  const getStatsQuery = 'SELECT lvl FROM user WHERE id = ?';
+  db.get(getStatsQuery, [userId], (err, row) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      if (row) {
+        const userLevel = row.lvl;
+        // Przekazujemy poziom użytkownika jako odpowiedź do klienta
+        res.json({ userLevel });
+      } else {
+        // Jeśli użytkownik o podanym id nie został znaleziony w bazie danych
+        res.status(404).send('Nie znaleziono użytkownika o podanym id.');
+      }
+    }
+  });
+});
+
 
 app.get('/race', checkAuth, (req, res) => {
   const Path = path.join(staticDir, '../frontend/race.html');
