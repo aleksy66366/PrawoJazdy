@@ -872,9 +872,11 @@ h1 {
 #babolotStats {
     width: 41.5%;
     height: 264px;
-    margin: 100px 0 0 100px;
+    margin: 100px 100px 0 200px;
     box-sizing: border-box;
     background-color: crimson;
+    /*background-image: url("./assets/garage/kioskbabolot.jpg");
+    background-size: cover;*/
     border-top-left-radius: 20px;
 }
 
@@ -889,6 +891,8 @@ h1 {
     margin: 100px 100px 0 0;
     box-sizing: border-box;
     background-color: #1d2b53;
+    background-image: url("./assets/garage/kioskholerace.png");
+    background-size: cover;
     border-top-right-radius: 20px;
 }
 
