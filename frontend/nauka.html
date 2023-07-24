@@ -87,6 +87,27 @@
             screen.style.display = "none";
         };
 
+        function updateMoney() {
+    fetch('/money', { method: 'GET' })
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Błąd podczas pobierania danych.');
+        }
+      })
+      .then(data => {
+        const moneyValue = data.userLevel; // Assuming the response JSON has a 'userLevel' field for money
+        const valDiv = document.getElementById('val');
+        valDiv.textContent = `${moneyValue}`; // Update the 'val' div with the user's money
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+
+  // Call the updateMoney function to initially fetch and display user's money
+  updateMoney();
     </script>
 </body>
 </html>
