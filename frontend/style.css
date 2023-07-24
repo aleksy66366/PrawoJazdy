@@ -876,20 +876,20 @@ h1 {
     box-sizing: border-box;
     background-color: crimson;
     border-top-left-radius: 20px;
-    cursor: pointer;
 }
 
-#babolotStats:hover {
+.Stats:hover {
     transform: scale(0.95);
     cursor: grab;
 }
 
-#holeRaceStats {
+#holeraceStats {
     width: 41.5%;
     height: 264px;
     margin: 100px 100px 0 0;
     box-sizing: border-box;
-    background-color: bisque;
+    background-color: #1d2b53;
+    border-top-right-radius: 20px;
 }
 
 #quizyStats {
@@ -897,7 +897,8 @@ h1 {
     height: 264px;
     margin: 0 0 101px 100px;
     box-sizing: border-box;
-    background-color: bisque;
+    background-color: #ffa300;
+    border-bottom-left-radius: 20px;
 }
 
 #XP {
@@ -906,7 +907,7 @@ h1 {
     margin: 0 100px 101px 0;
     box-sizing: border-box;
     background-color: crimson;
-    position: relative;
+    border-bottom-right-radius: 20px;
 }
 
 #lvl {
@@ -915,9 +916,15 @@ h1 {
     height: 264px;
     box-sizing: border-box;
     background-color: aqua;
-    margin: 232px 516px 233px 516px;
+    margin: 232px 487px 233px 488px;
     border-radius: 50%;
+    font-size: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color:green;
 }
+
 
 #AllStatsInfo {
     width: 100%;
