@@ -40,6 +40,27 @@
             znaki.style.display = "flex";
             kodeks.style.display = "flex";
         });
+        function updateMoney() {
+          fetch('/money', { method: 'GET' })
+            .then(response => {
+              if (response.ok) {
+                return response.json();
+              } else {
+                throw new Error('Błąd podczas pobierania danych.');
+              }
+            })
+            .then(data => {
+              const moneyValue = data.userLevel; // Assuming the response JSON has a 'userLevel' field for money
+              const valDiv = document.getElementById('val');
+              valDiv.textContent = `${moneyValue}`; // Update the 'val' div with the user's money
+            })
+            .catch(error => {
+              console.error(error);
+            });
+        }
+      
+        // Call the updateMoney function to initially fetch and display user's money
+        updateMoney();
 
 
 
@@ -68,7 +89,7 @@ var isRoadCodeQuiz = false;
 function getCategoryById(categoryId) {
   return new Promise(function(resolve, reject) {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'http://localhost:8081/categoryById/' + categoryId, true);
+    xhr.open('GET', 'http://localhost:3000/categoryById/' + categoryId, true);
     xhr.onload = function() {
       if (xhr.status === 200) {
         var category = JSON.parse(xhr.responseText);
@@ -100,10 +121,10 @@ function showQuiz() {
 }
 
 async function displayQuestionAndAnswers(selectedCategories, isRoadCodeQuiz) {
-  var url = 'http://localhost:8081/randomObjects';
+  var url = 'http://localhost:3000/randomObjects';
 
   if (isRoadCodeQuiz) {
-    url = 'http://localhost:8081/randomRoadCode';
+    url = 'http://localhost:3000/randomRoadCode';
     canAnswer = true;
   } else if (selectedCategories.length > 0) {
     url += '?categoryIds=' + selectedCategories.join(',');

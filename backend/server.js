@@ -417,6 +417,206 @@ app.get('/racehole', checkAuth, (req, res) => {
   res.sendFile(Path);
 });
 //-----_____-----______-----_____-----_____-----_____-----_____-----
+//Kod wojtek
+
+// Obsługa tablicy "sign"
+function getRandomObjects(categoryIds, callback) {
+  if (categoryIds && categoryIds.length > 0) {
+    const randomCategoryId = categoryIds[Math.floor(Math.random() * categoryIds.length)];
+    db.all('SELECT * FROM sign WHERE signCategoryId = ? ORDER BY RANDOM() LIMIT 3', randomCategoryId, function (err, rows) {
+      if (err) {
+        console.log(err);
+        return callback(err);
+      }
+      callback(null, rows);
+    });
+  } else {
+    const signCategoryId = Math.floor(Math.random() * 5) + 1;
+    db.all('SELECT * FROM sign WHERE signCategoryId = ? ORDER BY RANDOM() LIMIT 3', signCategoryId, function (err, rows) {
+      if (err) {
+        console.log(err);
+        return callback(err);
+      }
+      callback(null, rows);
+    });
+  }
+}
+
+function getCategoryById(categoryId, callback) {
+  db.get('SELECT name FROM signCategory WHERE id = ?', categoryId, function (err, row) {
+    if (err) {
+      console.log(err);
+      return callback(err);
+    }
+    if (!row) {
+      // Dodaj obsługę przypadku, gdy nie znaleziono kategorii o podanym ID
+      return callback(new Error('Nie znaleziono kategorii o podanym ID.'));
+    }
+    // Jeśli dane są poprawne, przekazujemy nazwę kategorii do callbacka
+    callback(null, row.name);
+  });
+}
+
+function listSigns(callback) {
+  db.all('SELECT * FROM sign', function (err, rows) {
+    if (err) {
+      console.log(err);
+      return callback(err);
+    }
+    callback(null, rows);
+  });
+}
+
+function getRandomRoadCode(callback) {
+  db.all('SELECT * FROM roadCode ORDER BY RANDOM() LIMIT 3', function (err, rows) {
+    if (err) {
+      console.log(err);
+      return callback(err);
+    }
+    callback(null, rows);
+  });
+}
+
+// Routing
+
+app.get('/listSign', function (req, res) {
+  listSigns(function (err, rows) {
+    if (err) {
+      console.log(err);
+      return res.status(500).send('Błąd serwera');
+    }
+    res.json(rows);
+  });
+});
+
+app.get('/randomObjects', function (req, res) {
+  const categoryIds = req.query.categoryIds ? req.query.categoryIds.split(',').map(id => parseInt(id)) : null;
+  getRandomObjects(categoryIds, function (err, objects) {
+    if (err) {
+      return res.status(500).send('Błąd serwera');
+    }
+
+    let count = 0;
+    objects.forEach(function (object) {
+      getCategoryById(object.signCategoryId, function (err, categoryName) {
+        if (err) {
+          return res.status(500).send('Błąd serwera');
+        }
+        object.categoryName = categoryName;
+        count++;
+        if (count === objects.length) {
+          res.json(objects);
+        }
+      });
+    });
+  });
+});
+
+app.get('/categoryById/:id', function(req, res) {
+  const categoryId = req.params.id;
+  getCategoryById(categoryId, function(err, categoryName) {
+    if (err) {
+      console.log(err);
+      return res.status(500).send('Błąd serwera');
+    }
+    res.json({ name: categoryName });
+  });
+});
+
+app.get('/randomRoadCode', function (req, res) {
+  getRandomRoadCode(function (err, codes) {
+    if (err) {
+      return res.status(500).send('Błąd serwera');
+    }
+    res.json(codes);
+  });
+});
+
+// Funkcja getObjectById, pobierająca dane obiektu na podstawie ID obiektu
+function getObjectById(objectId, callback) {
+  db.get('SELECT * FROM sign WHERE id = ?', objectId, function (err, row) {
+    if (err) {
+      console.log(err);
+      return callback(err);
+    }
+    if (!row) {
+      return callback(new Error('Nie znaleziono obiektu o podanym ID.'));
+    }
+    getCategoryById(row.signCategoryId, function (err, categoryName) {
+      if (err) {
+        return callback(err);
+      }
+      row.category = categoryName;
+      callback(null, row);
+    });
+  });
+}
+
+//kodeks biblioteka
+
+function getKodeksById(objectId, callback) {
+  db.get('SELECT * FROM roadCode WHERE id = ?', objectId, function (err, row) {
+    if (err) {
+      console.log(err);
+      return callback(err);
+    }
+    if (!row) {
+      return callback(new Error('Nie znaleziono obiektu o podanym ID.'));
+    }
+    callback(null, row);
+  });
+}
+
+
+app.get('/getKodeksById/:id', function (req, res) {
+  const objectId = req.params.id;
+  getKodeksById(objectId, function (err, objectData) {
+    if (err) {
+      console.log(err);
+      return res.status(404).send('Nie znaleziono obiektu o podanym ID.');
+    }
+    res.json(objectData);
+  });
+});
+
+app.get('/getKodeksById/:id', function (req, res) {
+  const objectId = req.params.id;
+  getKodeksById(objectId, function (err, objectData) {
+    if (err) {
+      console.log(err);
+      return res.status(404).send('Nie znaleziono obiektu o podanym ID.');
+    }
+    res.json(objectData);
+  });
+});
+
+// Endpoint do pobierania danych obiektu na podstawie ID
+app.get('/getObjectById/:id', function (req, res) {
+  const objectId = req.params.id;
+  getObjectById(objectId, function (err, objectData) {
+    if (err) {
+      console.log(err);
+      return res.status(404).send('Nie znaleziono obiektu o podanym ID.');
+    }
+    res.json(objectData);
+  });
+});
+
+// Endpoint do pobierania nazwy kategorii na podstawie ID
+app.get('/categoryName/:id', function (req, res) {
+  const categoryId = req.params.id;
+  getCategoryById(categoryId, function (err, categoryName) {
+    if (err) {
+      console.log(err);
+      return res.status(500).send('Błąd serwera');
+    }
+    res.json({ name: categoryName });
+  });
+}
+
+);
+
+//-----_____-----______-----_____-----_____-----_____-----_____-----
 // Uruchomienie serwera
 app.listen(port, () => {
     console.log(`Serwer działa na porcie ${port}`);
