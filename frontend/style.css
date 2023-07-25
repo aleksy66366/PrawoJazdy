@@ -1017,19 +1017,26 @@ h1 {
     width:1096px;
     height: 629px;
     display: flex;
+    position: relative;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     margin: 50px auto;
+    /*overflow: auto;*/
+}
+
+#statsContainer{
+    box-sizing: border-box;
+    width: 1000px;
+    height: 483px;
+    overflow: auto;
+    display: flex;
+    justify-content: center;
 }
 
 table {
-    box-sizing: border-box;
     border-collapse: separate;
     border-spacing: 0 10px;
-    width: 800px;
-    max-height: 483px;
-    overflow: auto;
     border-radius: 20px;
     empty-cells: hide;
 }
@@ -1177,4 +1184,20 @@ td {
 #silzdj {
     background-image: url("./assets/garage/silnik.png");
     background-size: cover;
+}
+
+/* RACE.HTML */
+
+#babolot {
+    width:50%;
+    display: flex;
+    box-sizing: border-box;
+    background-color: #ffa300;
+}
+
+#racehole {
+    width: 50%;
+    display: flex;
+    box-sizing: border-box;
+    background-color: #8D18F2;
 }
