@@ -721,7 +721,7 @@ h1 {
     background-color: greenyellow;
     padding: 24px 24px 24px 90px;
     font-size: 26px;
-    /*color: ;*/
+
 
 }
 
@@ -1028,7 +1028,8 @@ table {
     border-collapse: separate;
     border-spacing: 0 10px;
     width: 800px;
-    height: 483px;
+    max-height: 483px;
+    overflow: auto;
     border-radius: 20px;
     empty-cells: hide;
 }

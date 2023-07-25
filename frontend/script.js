@@ -23,7 +23,7 @@ var znaki = document.getElementById("znaki");
 var kodeks = document.getElementById("kodeksNauka");
 
 kodeks.onclick = function() {
-    quiz.style.display = "block";
+    quiz.style.display = "flex";
     screen.style.display = "none";
     isRoadCodeQuiz = true;
 };
@@ -128,7 +128,7 @@ canAnswer = true;
 } else if (selectedCategories.length > 0) {
 url += '?categoryIds=' + selectedCategories.join(',');
 canAnswer = true;
-quiz.style.display = "block";
+quiz.style.display = "flex";
       screen.style.display = "none";
       isRoadCodeQuiz = false;
 } else {
