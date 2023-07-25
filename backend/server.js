@@ -109,7 +109,7 @@ app.post('/register', (req, res) => {
       res.status(409).send('Użytkownik o podanym loginie już istnieje.');
     } else {
       // Jeśli użytkownik o podanym loginie nie istnieje, dodaj go do bazy danych
-      const insertUserQuery = 'INSERT INTO user (login, password, money, lvl) VALUES (?, ?, 0, 1)';
+      const insertUserQuery = 'INSERT INTO user (login, password, money, lvl) VALUES (?, ?, 100, 1)';
       db.run(insertUserQuery, [username, password], function (err) {
         if (err) {
           console.error('Błąd przy dodawaniu użytkownika:', err.message);
@@ -119,7 +119,6 @@ app.post('/register', (req, res) => {
 
           // Po dodaniu użytkownika, teraz dodajemy dla niego auto o kolorze o id równym 1
           const userId = this.lastID; // Pobieramy ID ostatnio dodanego użytkownika
-          
           const insertCarQuery = 'INSERT INTO car (userId, colorId) VALUES (?, 1)';
           db.run(insertCarQuery, [userId], (err) => {
             if (err) {
@@ -127,14 +126,28 @@ app.post('/register', (req, res) => {
               res.status(500).send('Internal Server Error');
             } else {
               console.log(`Dodano auto dla użytkownika o id ${userId} o kolorze o id 1.`);
-              res.redirect('/login'); // Możesz przekierować użytkownika na stronę logowania po zarejestrowaniu
+              // Po dodaniu auta, teraz dodajemy trzy wpisy do tabeli carEnchant dla tego samochodu
+              const carId = this.lastID; // Pobieramy ID ostatnio dodanego auta
+              const insertCarEnchantQuery = 'INSERT INTO carEnchant (carId, enchantId) VALUES (?, ?), (?, ?), (?, ?)';
+              db.run(insertCarEnchantQuery, [carId, 1, carId, 8, carId, 15], (err) => {
+                if (err) {
+                  console.error('Błąd przy dodawaniu wpisów do tabeli carEnchant:', err.message);
+                  res.status(500).send('Internal Server Error');
+                } else {
+                  console.log(`Dodano wpisy do tabeli carEnchant dla samochodu o id ${carId}.`);
+                  res.redirect('/login'); // Możesz przekierować użytkownika na stronę logowania po zarejestrowaniu
+                }
+              });
             }
           });
+         
         }
       });
     }
   });
 });
+
+
 
 
 
@@ -172,6 +185,29 @@ app.get('/car-color', checkAuth, (req, res) => {
     }
   });
 });
+// Endpoint do aktualizacji koloru auta
+app.post('/update-car-color', checkAuth, (req, res) => {
+  const userId = req.session.loggedUserId;
+  const colorId = req.body.colorId;
+
+  // Validate the colorId (1, 2, 3, or 4)
+  if (![1, 2, 3, 4].includes(colorId)) {
+    return res.status(400).send('Invalid colorId. It should be 1, 2, 3, or 4.');
+  }
+
+  // Update the car color for the logged-in user in the database
+  const updateCarColorQuery = 'UPDATE car SET colorId = ? WHERE userId = ?';
+  db.run(updateCarColorQuery, [colorId, userId], (err) => {
+    if (err) {
+      console.error('Error updating car color:', err.message);
+      res.status(500).send('Internal Server Error');
+    } else {
+      console.log(`Updated car color for user with id ${userId}.`);
+      res.sendStatus(200);
+    }
+  });
+});
+
 
 app.get('/kiosk', checkAuth, (req, res) => {
   const Path = path.join(staticDir, '../frontend/kiosk.html');
