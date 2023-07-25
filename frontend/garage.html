@@ -84,6 +84,102 @@
 
   // Call the updateMoney function to initially fetch and display user's money
   updateMoney();
+
+
+
+  function updateGarageData(data) {
+        // Pobieramy elementy div, w których chcemy wyświetlić dane
+        const amorlvlDiv = document.getElementById('amorlvl');
+        const amorcenaDiv = document.getElementById('amorcena');
+        const zdelvlDiv = document.getElementById('zdelvl');
+        const zdecenaDiv = document.getElementById('zdecena');
+        const sillvlDiv = document.getElementById('sillvl');
+        const silcenaDiv = document.getElementById('silcena');
+
+        // Aktualizujemy zawartość div-ów z danymi zwróconymi z serwera
+        data.forEach(entry => {
+            const aktualnyPoziom = entry['Aktualny poziom'];
+            const cenaKolejnegoUlepszenia = entry['Cena kolejnego ulepszenia'];
+            const typUlepszenia = entry['Typ ulepszenia'];
+
+            if (typUlepszenia === 'Zawieszenie') {
+                amorlvlDiv.textContent = `${aktualnyPoziom}`;
+                amorcenaDiv.textContent = `${cenaKolejnegoUlepszenia} $`;
+            } else if (typUlepszenia === 'Zderzaki') {
+                zdelvlDiv.textContent = `${aktualnyPoziom}`;
+                zdecenaDiv.textContent = `${cenaKolejnegoUlepszenia} $`;
+            } else if (typUlepszenia === 'Silnik') {
+                sillvlDiv.textContent = `${aktualnyPoziom}`;
+                silcenaDiv.textContent = `${cenaKolejnegoUlepszenia} $`;
+            }
+        });
+    }
+     // Funkcja do pobierania danych z serwera i wywołania funkcji aktualizującej HTML
+     function fetchGarageUpdates() {
+        fetch('/garage-updates', { method: 'GET' })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Błąd podczas pobierania danych.');
+                }
+            })
+            .then(data => {
+                updateGarageData(data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
+    // Wywołujemy funkcję, aby zaktualizować dane w miejscach HTML na starcie strony
+    fetchGarageUpdates();
+
+    var amortyzator=document.getElementById("amortyzator");
+    var zderzak=document.getElementById("zderzak");
+    var silnik=document.getElementById("silnik");
+
+  amortyzator.onclick = function () {
+    handleUpgrade('amortyzator');
+  };
+
+  zderzak.onclick = function () {
+    handleUpgrade('zderzak');
+  };
+
+  silnik.onclick = function () {
+    handleUpgrade('silnik');
+  };
+  function handleUpgrade(element) {
+  // Pobieramy wartość aktualnego poziomu i ceny kolejnego ulepszenia dla wybranego elementu
+  const aktualnyPoziom = parseFloat(document.getElementById(`${element}lvl`).textContent);
+  const cenaKolejnegoUlepszenia = parseFloat(document.getElementById(`${element}cena`).textContent);
+
+  // Pobieramy wartość pieniędzy użytkownika
+  const moneyValue = parseFloat(document.getElementById('val').textContent);
+
+  // Sprawdzamy, czy użytkownik ma wystarczająco pieniędzy na ulepszenie
+  if (moneyValue >= cenaKolejnegoUlepszenia) {
+    fetch(`/upgrade-${element}`, { method: 'POST' })
+      .then((response) => {
+        if (response.ok) {
+          // Po udanym ulepszeniu odświeżamy dane w garażu
+          fetchGarageUpdates();
+          // Aktualizujemy także ilość pieniędzy użytkownika na stronie
+          updateMoney();
+        } else {
+          throw new Error('Błąd podczas ulepszania.');
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  } else {
+    alert('Brak wystarczającej ilości pieniędzy na ulepszenie.');
+  }
+}
+
+    
     </script>
 </body>
 </html>

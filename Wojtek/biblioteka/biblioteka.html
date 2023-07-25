@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <link rel="icon" href="assets/icon.png" type="image/png">
+    <title>Biblioteka</title>
+</head>
+<body>
+    <div class="body">
+        <div id="money">
+            <div id="moneyValue">
+                <div id="mon"></div>
+                <div id="val"></div>
+            </div>
+        </div>
+        <div id="screen">
+            <div class="bookbutton" id="ostrzegawcze" onclick="setObjectIdAndFetch(1, 1)"></div>
+            <div class="bookbutton" id="zakazu" onclick="setObjectIdAndFetch(2, 43)"></div>
+            <div class="bookbutton" id="nakazu" onclick="setObjectIdAndFetch(3, 89)"></div>
+            <div class="bookbutton" id="informacyjne" onclick="setObjectIdAndFetch(4, 110)"></div>
+            <div class="bookbutton" id="uzupelniajace" onclick="setObjectIdAndFetch(5, 135)"></div>
+            <div class="bookbutton" id="poziome" onclick="setObjectIdAndFetch(6, 160)"></div>
+            <div class="bookbutton" id="swietlne" onclick="setObjectIdAndFetch(7, 189)"></div>
+            <div class="bookbutton" id="kodeks" onclick="setKodeksIdAndFetch(8,137)"></div>
+        </div>
+        <div id="book">
+            <div id="leftArrow" onclick="showPrevious()"></div>
+            <div id="info">
+                <div id="photoInfo"></div>
+                <div id="titleInfo">
+                    <h1>Lorem Ipsum lorem ipsum lorem ipsum</h1>
+                </div>
+                <div id="aboutInfo">
+                    <p>
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                        when an unknown printer took a galley of type and scrambled it to make a
+                        type specimen book. It has survived not only five centuries, but also the
+                        leap into electronic typesetting, remaining essentially unchanged.
+                    </p>
+                </div>
+                <div id="backToScreen" onclick="backToScreenClick()"></div>
+            </div>
+            <div id="rightArrow" onclick="showNext()"></div>
+        </div>
+        <div id="settings">
+            <div class="settingsButton" id="back"></div>
+            <div class="settingsButton" id="zoomIn"></div>
+            <div class="settingsButton" id="zoomOut"></div>
+            <div class="settingsButton" id="music"></div>
+            <div class="settingsButton" id="volume"></div>
+        </div>
+    </div>
+
+    <script>
+        var backDiv = document.getElementById("back");
+        backDiv.onclick = function() {
+            window.location.href = 'city.html';
+        };
+        var zoomInButton = document.getElementById("zoomIn");
+        zoomInButton.onclick = function() {
+            document.body.style.zoom = parseFloat(window.getComputedStyle(document.body).zoom) + 0.1;
+        };
+        var zoomOutButton = document.getElementById("zoomOut");
+        zoomOutButton.onclick = function() {
+            document.body.style.zoom = parseFloat(window.getComputedStyle(document.body).zoom) - 0.1;
+        };
+
+        var book = document.getElementById("book");
+        var bookbuttons = document.getElementsByClassName("bookbutton");
+        
+        function backToScreenClick(){
+            book.style.display = "none";
+            document.getElementById("screen").style.display = "flex";
+        }
+
+        let currentObjectId = 1;
+		let is8=false;
+
+        function displayObjectData(objectData, categoryName) {
+			document.getElementById("photoInfo").style.display = "flex";
+            const photoInfoDiv = document.getElementById('photoInfo');
+            const titleInfoDiv = document.getElementById('titleInfo');
+            const aboutInfoDiv = document.getElementById('aboutInfo');
+
+			if (!is8)
+			{
+            const imagePath = `/assets/sign/${categoryName}/${objectData.linkPhoto}`;
+            const objectImage = document.createElement('img');
+            objectImage.src = imagePath;
+            photoInfoDiv.innerHTML = '';
+            photoInfoDiv.appendChild(objectImage);
+			}
+			else{
+			document.getElementById("photoInfo").style.display = "none";
+			}
+            titleInfoDiv.innerHTML = `<h1>${objectData.title}</h1>`;
+            aboutInfoDiv.innerHTML = `<p>${objectData.about}</p>`;
+        }
+		
+
+		
+
+        function fetchObjectDataById(objectId) {
+            fetch(`/getObjectById/${objectId}`)
+            .then(response => response.json())
+            .then(data => {
+                getCategoryName(data.signCategoryId, categoryName => {
+                    displayObjectData(data, categoryName);
+                });
+            })
+            .catch(error => {
+                console.error('Wystąpił błąd przy pobieraniu danych:', error);
+                displayErrorMessage('Wystąpił błąd podczas pobierania danych.');
+            });
+        }
+		
+        function fetchKodeksDataById(objectId) {
+            fetch(`/getKodeksById/${objectId}`)
+            .then(response => response.json())
+            .then(data => {
+                displayObjectData(data);
+            })
+            .catch(error => {
+                console.error('Wystąpił błąd przy pobieraniu danych:', error);
+                displayErrorMessage('Wystąpił błąd podczas pobierania danych.');
+            });
+        }
+		
+		
+		
+
+        function showPrevious() {
+            currentObjectId--;
+			if(is8)
+			{
+            if (currentObjectId < 137) 
+			{
+                currentObjectId = 137;
+            }
+			fetchKodeksDataById(currentObjectId);
+			}
+			else{
+           if (currentObjectId < 1) {
+                currentObjectId = 1;
+            }
+            fetchObjectDataById(currentObjectId);
+			}
+        }
+
+        function showNext() {
+            currentObjectId++;			
+            if(is8)
+			{
+            if (currentObjectId > 207) {
+                currentObjectId = 207;
+            }
+			
+			fetchKodeksDataById(currentObjectId);
+			}
+			else{
+            if (currentObjectId > 203) {
+                currentObjectId = 203;
+            }
+            fetchObjectDataById(currentObjectId);
+			}
+        }
+
+        fetchObjectDataById(currentObjectId);
+
+        function getCategoryName(categoryId, callback) {
+            fetch(`/categoryName/${categoryId}`)
+            .then(response => response.json())
+            .then(data => {
+                callback(data.name);
+            })
+            .catch(error => {
+                console.error('Wystąpił błąd przy pobieraniu nazwy kategorii:', error);
+                callback('Nieznana kategoria');
+            });
+        }
+
+        function displayErrorMessage(message) {
+            const objectDataDiv = document.getElementById('objectData');
+            objectDataDiv.innerHTML = `<p style="color: red;">${message}</p>`;
+        }
+
+        function setObjectIdAndFetch(categoryId, objectId) {
+		
+            currentObjectId = objectId;
+            fetchObjectDataById(currentObjectId);
+         book.style.display = "flex";
+         document.getElementById("screen").style.display = "none";
+		 is8=false
+        }
+		
+function setKodeksIdAndFetch(categoryId, objectId) {
+    currentObjectId = objectId;
+    fetchKodeksDataById(currentObjectId); // Użyj funkcji fetchKodeksDataById() zamiast fetchObjectDataById()
+    book.style.display = "flex";
+    document.getElementById("screen").style.display = "none";
+	is8=true;
+}
+
+		
+		
+		
+		
+		
+    </script>
+</body>
+</html>

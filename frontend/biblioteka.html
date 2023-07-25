@@ -6,12 +6,6 @@
     <link rel="stylesheet" href="style.css" type="text/css">
     <link rel="icon" href="assets/icon.png" type="image/png">
     <title>Biblioteka</title>
-    <style>
-        #screen {
-            background-image: url("./assets/background/background3.png");
-            background-size: auto;
-        }
-    </style>
 </head>
 <body>
     <div class="body">
@@ -21,23 +15,22 @@
                 <div id="val"></div>
             </div>
         </div>
-        <div id="ramka">
         <div id="screen">
-            <div class="bookbutton" id="ostrzegawcze"></div>
-            <div class="bookbutton" id="zakazu"></div>
-            <div class="bookbutton" id="nakazu"></div>
-            <div class="bookbutton" id="informacyjne"></div>
-            <div class="bookbutton" id="uzupelniajace"></div>
-            <div class="bookbutton" id="poziome"></div>
-            <div class="bookbutton" id="swietlne"></div>
-            <div class="bookbutton" id="kodeks"></div>
+            <div class="bookbutton" id="ostrzegawcze" onclick="setObjectIdAndFetch(1, 1)"></div>
+            <div class="bookbutton" id="zakazu" onclick="setObjectIdAndFetch(2, 43)"></div>
+            <div class="bookbutton" id="nakazu" onclick="setObjectIdAndFetch(3, 89)"></div>
+            <div class="bookbutton" id="informacyjne" onclick="setObjectIdAndFetch(4, 110)"></div>
+            <div class="bookbutton" id="uzupelniajace" onclick="setObjectIdAndFetch(5, 135)"></div>
+            <div class="bookbutton" id="poziome" onclick="setObjectIdAndFetch(6, 160)"></div>
+            <div class="bookbutton" id="swietlne" onclick="setObjectIdAndFetch(7, 189)"></div>
+            <div class="bookbutton" id="kodeks" onclick="setKodeksIdAndFetch(8,137)"></div>
         </div>
         <div id="book">
-            <div id="leftArrow"></div>
+            <div id="leftArrow" onclick="showPrevious()"></div>
             <div id="info">
                 <div id="photoInfo"></div>
                 <div id="titleInfo">
-                    <h1>Lorem Ipsum lorem ipsum lorem ipsum </h1>
+                    <h1>Lorem Ipsum lorem ipsum lorem ipsum</h1>
                 </div>
                 <div id="aboutInfo">
                     <p>
@@ -48,10 +41,9 @@
                         leap into electronic typesetting, remaining essentially unchanged.
                     </p>
                 </div>
-                <div id="backToScreen"></div>
+                <div id="backToScreen" onclick="backToScreenClick()"></div>
             </div>
-            <div id="rightArrow"></div>
-        </div>
+            <div id="rightArrow" onclick="showNext()"></div>
         </div>
         <div id="settings">
             <div class="settingsButton" id="back"></div>
@@ -63,35 +55,7 @@
     </div>
 
     <script>
-        var backDiv = document.getElementById("back");
-        backDiv.onclick = function() {
-            window.location.href = '/city';
-        };
-        var zoomInButton = document.getElementById("zoomIn");
-        zoomInButton.onclick = function() {
-            document.body.style.zoom = parseFloat(window.getComputedStyle(document.body).zoom) + 0.1;
-        };
-        var zoomOutButton = document.getElementById("zoomOut");
-        zoomOutButton.onclick = function() {
-            document.body.style.zoom = parseFloat(window.getComputedStyle(document.body).zoom) - 0.1;
-        };
-
-        var book = document.getElementById("book");
-        var bookbuttons = document.getElementsByClassName("bookbutton");
-        for (var i = 0; i < bookbuttons.length; i++) {
-            bookbuttons[i].onclick = function() {
-                book.style.display = "flex";
-                document.getElementById("screen").style.display = "none";
-            };
-        }
-        var backToScreen = document.getElementById("backToScreen");
-        backToScreen.onclick = function(){
-            book.style.display = "none";
-            document.getElementById("screen").style.display = "flex";
-
-        }
-
-        function updateMoney() {
+         function updateMoney() {
     fetch('/money', { method: 'GET' })
       .then(response => {
         if (response.ok) {
@@ -112,7 +76,160 @@
 
   // Call the updateMoney function to initially fetch and display user's money
   updateMoney();
+        var backDiv = document.getElementById("back");
+        backDiv.onclick = function() {
+            window.location.href = '/city';
+        };
+        var zoomInButton = document.getElementById("zoomIn");
+        zoomInButton.onclick = function() {
+            document.body.style.zoom = parseFloat(window.getComputedStyle(document.body).zoom) + 0.1;
+        };
+        var zoomOutButton = document.getElementById("zoomOut");
+        zoomOutButton.onclick = function() {
+            document.body.style.zoom = parseFloat(window.getComputedStyle(document.body).zoom) - 0.1;
+        };
 
+        var book = document.getElementById("book");
+        var bookbuttons = document.getElementsByClassName("bookbutton");
+        
+        function backToScreenClick(){
+            book.style.display = "none";
+            document.getElementById("screen").style.display = "flex";
+        }
+
+        let currentObjectId = 1;
+		let is8=false;
+
+        function displayObjectData(objectData, categoryName) {
+			document.getElementById("photoInfo").style.display = "flex";
+            const photoInfoDiv = document.getElementById('photoInfo');
+            const titleInfoDiv = document.getElementById('titleInfo');
+            const aboutInfoDiv = document.getElementById('aboutInfo');
+
+			if (!is8)
+			{
+            const imagePath = `/assets/sign/${categoryName}/${objectData.linkPhoto}`;
+            const objectImage = document.createElement('img');
+            objectImage.src = imagePath;
+            photoInfoDiv.innerHTML = '';
+            photoInfoDiv.appendChild(objectImage);
+			}
+			else{
+			document.getElementById("photoInfo").style.display = "none";
+			}
+            titleInfoDiv.innerHTML = `<h1>${objectData.title}</h1>`;
+            aboutInfoDiv.innerHTML = `<p>${objectData.about}</p>`;
+        }
+		
+
+		
+
+        function fetchObjectDataById(objectId) {
+            fetch(`/getObjectById/${objectId}`)
+            .then(response => response.json())
+            .then(data => {
+                getCategoryName(data.signCategoryId, categoryName => {
+                    displayObjectData(data, categoryName);
+                });
+            })
+            .catch(error => {
+                console.error('Wystąpił błąd przy pobieraniu danych:', error);
+                displayErrorMessage('Wystąpił błąd podczas pobierania danych.');
+            });
+        }
+		
+        function fetchKodeksDataById(objectId) {
+            fetch(`/getKodeksById/${objectId}`)
+            .then(response => response.json())
+            .then(data => {
+                displayObjectData(data);
+            })
+            .catch(error => {
+                console.error('Wystąpił błąd przy pobieraniu danych:', error);
+                displayErrorMessage('Wystąpił błąd podczas pobierania danych.');
+            });
+        }
+		
+		
+		
+
+        function showPrevious() {
+            currentObjectId--;
+			if(is8)
+			{
+            if (currentObjectId < 137) 
+			{
+                currentObjectId = 137;
+            }
+			fetchKodeksDataById(currentObjectId);
+			}
+			else{
+           if (currentObjectId < 1) {
+                currentObjectId = 1;
+            }
+            fetchObjectDataById(currentObjectId);
+			}
+        }
+
+        function showNext() {
+            currentObjectId++;			
+            if(is8)
+			{
+            if (currentObjectId > 207) {
+                currentObjectId = 207;
+            }
+			
+			fetchKodeksDataById(currentObjectId);
+			}
+			else{
+            if (currentObjectId > 203) {
+                currentObjectId = 203;
+            }
+            fetchObjectDataById(currentObjectId);
+			}
+        }
+
+        fetchObjectDataById(currentObjectId);
+
+        function getCategoryName(categoryId, callback) {
+            fetch(`/categoryName/${categoryId}`)
+            .then(response => response.json())
+            .then(data => {
+                callback(data.name);
+            })
+            .catch(error => {
+                console.error('Wystąpił błąd przy pobieraniu nazwy kategorii:', error);
+                callback('Nieznana kategoria');
+            });
+        }
+
+        function displayErrorMessage(message) {
+            const objectDataDiv = document.getElementById('objectData');
+            objectDataDiv.innerHTML = `<p style="color: red;">${message}</p>`;
+        }
+
+        function setObjectIdAndFetch(categoryId, objectId) {
+		
+            currentObjectId = objectId;
+            fetchObjectDataById(currentObjectId);
+         book.style.display = "flex";
+         document.getElementById("screen").style.display = "none";
+		 is8=false
+        }
+		
+function setKodeksIdAndFetch(categoryId, objectId) {
+    currentObjectId = objectId;
+    fetchKodeksDataById(currentObjectId); // Użyj funkcji fetchKodeksDataById() zamiast fetchObjectDataById()
+    book.style.display = "flex";
+    document.getElementById("screen").style.display = "none";
+	is8=true;
+}
+
+		
+		
+		
+		
+		
     </script>
 </body>
 </html>

@@ -9,7 +9,24 @@
 </head>
 <body>
     <style>
-    
+        .colors{
+            width: 50%;
+            height: 50%;
+            float: left;
+        }
+        #color1{
+            background-color: red;
+        }
+        #color2{
+            background-color: orange;
+        }
+        #color3{
+            background-color: green;
+        }
+        #color4{
+            background-color: pink ;
+        }
+        
     </style>
     <div class="body">
         <div id="money">
@@ -22,7 +39,12 @@
         <div id="screen">
             <div id="animacjaAuta"></div>
             <div id="koloryOpcje">
-                <div id="kolory"></div>
+                <div id="kolory">
+                    <div class="colors" id="color1"></div>
+                    <div class="colors" id="color2"></div>
+                    <div class="colors" id="color3"></div>
+                    <div class="colors" id="color4"></div>
+                </div>
                 <div id="resetUlepszen"></div>
                 <div id="zapiszNowyKolor"></div>
             </div>
@@ -88,6 +110,53 @@
       .catch(error => {
         console.error(error);
       });
+
+        var color1 = document.getElementById("color1");
+        var color2 = document.getElementById("color2");
+        var color3 = document.getElementById("color3");
+        var color4 = document.getElementById("color4");
+
+        let actualColor = 0;
+
+        color1.onclick = function() {
+            actualColor = 1;
+            animacjaAuta.style.backgroundImage = `url('./assets/car/car1.gif')`;
+        };
+        color2.onclick = function() {
+            actualColor = 2;
+            animacjaAuta.style.backgroundImage = `url('./assets/car/car2.gif')`;
+        };
+        color3.onclick = function() {
+            actualColor = 3;
+            animacjaAuta.style.backgroundImage = `url('./assets/car/car3.gif')`;
+        };
+        color4.onclick = function() {
+            actualColor = 4;
+            animacjaAuta.style.backgroundImage = `url('./assets/car/car4.gif')`;
+        };
+
+        var zapiszNowyKolor = document.getElementById("zapiszNowyKolor");
+        zapiszNowyKolor.onclick = function() {
+  if (actualColor !== 0) {
+    fetch('/update-car-color', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ colorId: actualColor }), // Make sure to use actualColor here
+    })
+      .then((response) => {
+        if (response.ok) {
+          console.log('Zaktualizowano kolor auta na serwerze.');
+        } else {
+          console.error('Błąd przy aktualizacji koloru auta na serwerze.');
+        }
+      })
+      .catch((error) => {
+        console.error('Wystąpił błąd podczas wykonywania zapytania AJAX:', error);
+      });
+  }
+};
   }
 
   // Call the updateMoney function to initially fetch and display user's money

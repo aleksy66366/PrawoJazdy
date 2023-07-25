@@ -23,18 +23,22 @@
         <div id="ramka">
         <div id="screen">
             <div id="oknaWybor">
-                <input class="checkboxZnaki" type="checkbox" name="sign" value="ZnakiOstrzegawcze"> Znaki Ostrzegawcze<br>
-                <input class="checkboxZnaki" type="checkbox" name="sign" value="ZnakiZakazu"> Znaki Zakazu<br>
-                <input class="checkboxZnaki" type="checkbox" name="sign" value="ZnakiNakazu"> Znaki Nakazu<br>
-                <input class="checkboxZnaki" type="checkbox" name="sign" value="ZnakiInformacyjne"> Znaki Informacyjne<br>
-                <input class="checkboxZnaki" type="checkbox" name="sign" value="ZnakiUzupelniajace"> Znaki Uzupełniające<br>
-                <input class="checkboxZnaki" type="checkbox" name="sign" value="ZnakiPoziome"> Znaki Poziome<br>
-                <input class="checkboxZnaki" type="checkbox" name="sign" value="ZnakiSwietlne"> Znaki Świetlne<br>
+                <input class = "checkboxZnaki" type="checkbox" name="sign" value="1"> Znaki Ostrzegawcze<br>
+                <input class = "checkboxZnaki" type="checkbox" name="sign" value="2"> Znaki Zakazu<br>
+                <input class = "checkboxZnaki" type="checkbox" name="sign" value="3"> Znaki Nakazu<br>
+                <input class = "checkboxZnaki" type="checkbox" name="sign" value="4"> Znaki Informacyjne<br>
+                <input class = "checkboxZnaki" type="checkbox" name="sign" value="5"> Znaki Uzupełniające<br>
+                <input class = "checkboxZnaki" type="checkbox" name="sign" value="6"> Znaki Poziome<br>
+                <input class = "checkboxZnaki" type="checkbox" name="sign" value="7"> Znaki Świetlne<br>
             </div>
             <div id="empty"></div>
             <div id="znaki">
+<<<<<<< HEAD
                 <img src="./assets/sign/quizy.png">
                 <div class="kodeks">Quiz</div>
+=======
+                <div class="znaki">Quiz</div>
+>>>>>>> bfd85f9626a4b7bdff10d6d36ee53439061ec0af
             </div>
             <div id="kodeksNauka">
                 <img src="./assets/sign/kodeks.png">
@@ -43,6 +47,7 @@
         </div>
         <div id="quiz">
             <div id="boxQuiz">
+                <div id="dane" hidden></div>
                 <div id="poprawneSymbol"></div><div id="poprawne"></div>
                 <div id="niepoprawneSymbol"></div><div id="niepoprawne"></div>
                 <div id="pytanie"></div>
@@ -70,50 +75,6 @@
         </div>
     </div>
 
-    <script>
-        var backDiv = document.getElementById("back");
-        backDiv.onclick = function() {
-            window.location.href = '/city';
-        };
-        var zoomInButton = document.getElementById("zoomIn");
-        zoomInButton.onclick = function() {
-            document.body.style.zoom = parseFloat(window.getComputedStyle(document.body).zoom) + 0.1;
-        };
-        var zoomOutButton = document.getElementById("zoomOut");
-        zoomOutButton.onclick = function() {
-            document.body.style.zoom = parseFloat(window.getComputedStyle(document.body).zoom) - 0.1;
-        };
-
-        var screen = document.getElementById("screen");
-        var quiz = document.getElementById("quiz");
-        var znaki = document.getElementById("znaki");
-        
-        znaki.onclick = function() {
-            quiz.style.display = "flex";
-            screen.style.display = "none";
-        };
-
-        function updateMoney() {
-    fetch('/money', { method: 'GET' })
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error('Błąd podczas pobierania danych.');
-        }
-      })
-      .then(data => {
-        const moneyValue = data.userLevel; // Assuming the response JSON has a 'userLevel' field for money
-        const valDiv = document.getElementById('val');
-        valDiv.textContent = `${moneyValue}`; // Update the 'val' div with the user's money
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }
-
-  // Call the updateMoney function to initially fetch and display user's money
-  updateMoney();
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
