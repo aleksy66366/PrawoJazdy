@@ -50,6 +50,7 @@ function getObjectById(objectId, callback) {
 }
 
 
+//kodeks biblioteka
 
 function getKodeksById(objectId, callback) {
   db.get('SELECT * FROM roadCode WHERE id = ?', objectId, function (err, row) {
