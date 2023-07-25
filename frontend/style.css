@@ -660,25 +660,39 @@ h1 {
 }
 
 #photoInfo {
-    width: 300px;
+    width: 27%;
     height: 250px;
     box-sizing: border-box;
     background-color: #fff1e8;
+    border-radius: 5px;
     margin: 50px 0 0 50px;
+    display: flex;
+    justify-content: center;
+}
+
+#photoInfo img {
+    max-width: 100%; /* Obrazek nie będzie szerszy niż szerokość diva */
+    max-height: 100%; /* Obrazek nie będzie wyższy niż wysokość diva */
+    height: auto; /* Zachowaj proporcje obrazka */
+    display: block;
+    border-radius: 5px;
 }
 
 #titleInfo {
-    width: 500px;
+    width: 50%;
     height: 200px;
     box-sizing: border-box;
     background-color: #ab5236;
     margin: 70px 73px 30px 73px;
+    border-radius: 60%;
+    display: flex;
+    justify-content: center;
+    overflow: auto;
 }
 
 #titleInfo h1 {
-    text-align: center;
     font-size: 30px;
-    padding: 30px 30px 0 30px;
+    padding: 10px 40px;
 }
 
 #aboutInfo {
@@ -687,6 +701,7 @@ h1 {
     height: 229px;
     margin: 50px;
     background-color: #ab5236;
+    font-family: "Roboto Regular 400";
 }
 
 #aboutInfo p {

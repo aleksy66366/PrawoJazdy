@@ -6,6 +6,11 @@
     <link rel="stylesheet" href="style.css" type="text/css">
     <link rel="icon" href="assets/icon.png" type="image/png">
     <title>Biblioteka</title>
+    <style>
+        #screen {
+            background-image: url("./assets/background/background3.png");
+        }
+    </style>
 </head>
 <body>
     <div class="body">
@@ -15,6 +20,7 @@
                 <div id="val"></div>
             </div>
         </div>
+        <div id="ramka">
         <div id="screen">
             <div class="bookbutton" id="ostrzegawcze" onclick="setObjectIdAndFetch(1, 1)"></div>
             <div class="bookbutton" id="zakazu" onclick="setObjectIdAndFetch(2, 43)"></div>
@@ -44,6 +50,7 @@
                 <div id="backToScreen" onclick="backToScreenClick()"></div>
             </div>
             <div id="rightArrow" onclick="showNext()"></div>
+        </div>
         </div>
         <div id="settings">
             <div class="settingsButton" id="back"></div>
