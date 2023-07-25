@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Canvas Car</title>
+</head>
+<body>
+    <style>
+        body {
+            background-color: darkblue;
+        }
+
+        canvas {
+            background-color: aliceblue;
+        }
+    </style>
+    <canvas id="myCanvas" width="1296" height="729"></canvas>
+    <script>
+        const canvas = document.getElementById('myCanvas');
+        const ctx = canvas.getContext('2d');
+
+        const backgroundImage = new Image();
+        backgroundImage.src = 'mapa.png';
+
+        let noro = 1;
+
+        const pointview = {
+            x: [100,240,550,845,1000,1140,1130,840],
+            y: [590,210,570,275,170,280,370,600],
+            rotation: ['L','P','L','P','L','P','P','L']
+        }
+
+        const point = {
+            x: pointview.x[0], // Początkowe współrzędne punktu w środku canvasa
+            y: pointview.y[0],
+            size: 4, // Wielkość punktu
+            rotation: pointview.rotation[0], // Początkowy obrót - 'L' (lewo)
+        };
+
+        const car = {
+            x: point.x, // Początkowe współrzędne samochodu przesunięte o 100px w kierunku x
+            y: point.y, // Samochód zaczyna na tym samym y co punkt
+            width: 60, // Szerokość samochodu
+            height: 80, // Wysokość samochodu
+            rotation: Math.PI / 2, // Aktualny obrót samochodu (początkowo skierowany przodem)
+            speed: 0.02, // Prędkość kątowa samochodu
+        };
+
+        let length = 100; // Odległość globalna
+
+        let isMoving = true; // Flaga informująca, czy samochód powinien jechać
+
+        // Obrazek samochodu
+        const carImage = new Image();
+        carImage.src = 'car.png';
+
+        // Funkcja rysująca obrazek samochodu
+        function drawCar() {
+            ctx.save();
+            ctx.translate(car.x, car.y);
+            if ((point.rotation === 'P' && isMoving==true)||(point.rotation === 'L' && isMoving==false)) ctx.rotate(car.rotation - Math.PI);
+            else ctx.rotate(car.rotation ) 
+            ctx.drawImage(carImage, -car.width / 2, -car.height / 2, car.width, car.height); // Przeskalowanie obrazka
+            ctx.restore();
+        }
+
+        function rotatePoint(clockwise) {
+            if (clockwise) {
+                point.rotation = 'L'; // Obrót przeciwnie do wskazówek zegara
+            } else {
+                point.rotation = 'P'; // Obrót zgodnie z wskazówkami zegara
+            }
+        }
+
+        let lastb={
+            x:0,
+            y:0
+        }
+
+        function update() {
+            if (point.rotation === 'L') {
+                // Punkt obraca się przeciwnie do wskazówek zegara
+                car.rotation -= car.speed;
+            } else {
+                // Punkt obraca się zgodnie z wskazówkami zegara
+                car.rotation += car.speed;
+            }
+        }
+        var wektorKierunku;
+
+        function moveCar() {
+            if (isMoving) {
+                update();
+                wektorKierunku = obliczWektorKierunku();
+                
+                car.x = point.x + length * Math.cos(car.rotation);
+                car.y = point.y + length * Math.sin(car.rotation);
+
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                drawPoint();
+                drawCar();
+            }else{
+
+                car.x += wektorKierunku.x *2;
+                car.y += wektorKierunku.y *2;
+
+                lastb.x=car.x;
+                lastb.y=car.y;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                drawPoint();
+                drawCar();
+            }
+            requestAnimationFrame(moveCar);
+        }
+
+        function obliczWektorKierunku() {
+            const dx = car.x - point.x;
+            const dy = car.y - point.y;
+            const odleglosc = Math.sqrt(dx * dx + dy * dy);
+
+            let wektorKierunku = {
+                x: dx / odleglosc,
+                y: dy / odleglosc
+            };
+        
+            if (point.rotation === 'L') {
+        // Obróć wektor kierunku o 90 stopni w prawo ('P')
+        const tempX = wektorKierunku.x;
+        wektorKierunku.x = wektorKierunku.y;
+        wektorKierunku.y = -tempX;
+    } else {
+        // Obróć wektor kierunku o 90 stopni w lewo ('L')
+        const tempX = wektorKierunku.x;
+        wektorKierunku.x = -wektorKierunku.y;
+        wektorKierunku.y = tempX;
+        
+    }
+        
+    return wektorKierunku;
+}
+
+
+        document.addEventListener('keydown', function (event) {
+        if (event.key === ' ') {
+            if(isMoving==true){
+                point.x=pointview.x[noro];
+                point.y=pointview.y[noro];
+                point.rotation=pointview.rotation[noro];
+                noro++;
+            }
+            
+            length = Math.sqrt((car.x - point.x) * (car.x - point.x) + (car.y - point.y) * (car.y - point.y)); // Obliczenie odległości między samochodem a punktem
+            isMoving = !isMoving; // Ustawienie flagi na true po naciśnięciu spacji
+        }
+    });
+
+        function drawPoint() {
+            ctx.fillStyle = 'red';
+            ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+            ctx.fillRect(point.x - point.size / 2, point.y - point.size / 2, point.size, point.size);
+
+        }
+
+        // Ładowanie obrazka samochodu przed rozpoczęciem rysowania
+        carImage.onload = function () {
+            drawPoint();
+            drawCar();
+        };  
+
+        moveCar();
+
+
+
+    </script>
+</body>
+</html>

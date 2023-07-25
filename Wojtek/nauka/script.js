@@ -298,7 +298,10 @@ function konamiCode() {
       currentCodeIndex++;
 
       if (currentCodeIndex === codeSequence.length) {
-        alert("Oliwia ma racje");
+		  var div = document.getElementById('screen');
+		  var imgTag = '<img src="suprise.png">';
+		  div.innerHTML = imgTag;
+        //alert("Oliwia ma racje");
         currentCodeIndex = 0;
       }
     } else {
