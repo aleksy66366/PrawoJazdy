@@ -85,7 +85,7 @@ var isRoadCodeQuiz = false;
 function getCategoryById(categoryId) {
 return new Promise(function(resolve, reject) {
 var xhr = new XMLHttpRequest();
-xhr.open('GET', 'http://localhost:3000/categoryById/' + categoryId, true);
+xhr.open('GET', '/categoryById/' + categoryId, true);
 xhr.onload = function() {
 if (xhr.status === 200) {
 var category = JSON.parse(xhr.responseText);
@@ -120,10 +120,10 @@ gameDiv.style.display = 'none';
 }
 
 async function displayQuestionAndAnswers(selectedCategories, isRoadCodeQuiz) {
-var url = 'http://localhost:3000/randomObjects';
+var url = '/randomObjects';
 
 if (isRoadCodeQuiz) {
-url = 'http://localhost:3000/randomRoadCode';
+url = '/randomRoadCode';
 canAnswer = true;
 } else if (selectedCategories.length > 0) {
 url += '?categoryIds=' + selectedCategories.join(',');

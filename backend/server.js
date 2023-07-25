@@ -161,6 +161,8 @@ db.run(insertCarQuery, [userId], function (err) {
 });
 
 
+
+
 app.get('/city', checkAuth, (req, res) => {
   const cityPath = path.join(staticDir, '../frontend/city.html');
   res.sendFile(cityPath);
