@@ -600,7 +600,7 @@ h1 {
 .bookbutton{
     width: 12.5%;
     height: 725px;
-    border-radius: 20px;
+    border-radius: 10px;
     margin-top: 1px;
     box-sizing: border-box;
 
@@ -611,8 +611,6 @@ h1 {
     height: 729px;
     position: relative;
     background-image: url("./assets/background/background3.png");
-    /*background-size: cover;*/
-    /*background-color: red;*/
     display:none;
     box-sizing: border-box;
 }
@@ -638,10 +636,12 @@ h1 {
     height: 619px;
     position: relative;
     box-sizing: border-box;
-    background-color: blue;
+    background-color: #742f29;
     display: flex;
     flex-wrap: wrap;
     margin: 30px 0 80px 0;
+    border-radius: 10px;
+    border: 5px solid #ab5236;
 }
 
 #rightArrow {
@@ -663,7 +663,7 @@ h1 {
     width: 300px;
     height: 250px;
     box-sizing: border-box;
-    background-color: aqua;
+    background-color: #fff1e8;
     margin: 50px 0 0 50px;
 }
 
@@ -671,7 +671,7 @@ h1 {
     width: 500px;
     height: 200px;
     box-sizing: border-box;
-    background-color: blueviolet;
+    background-color: #ab5236;
     margin: 70px 73px 30px 73px;
 }
 
@@ -686,7 +686,7 @@ h1 {
     width: 896px;
     height: 229px;
     margin: 50px;
-    background-color: chartreuse;
+    background-color: #ab5236;
 }
 
 #aboutInfo p {
@@ -917,12 +917,12 @@ h1 {
     width: 41.5%;
     height: 264px;
     box-sizing: border-box;
-    border: 7px solid #8D18F2;
+    border: 7px solid #fff1e8;
 }
 
 #babolotStats {
     margin: 100px 0 0 100px;
-    background-color: #fff1e8;
+    background-color: #008751;
     border-top-left-radius: 20px;
 }
 
@@ -937,14 +937,14 @@ h1 {
 .Stats:hover {
     transform: scale(0.95);
     cursor: grab;
-    border: 9px solid red;
+    border: 9px solid #00e436;
     opacity:0.95;
-    box-shadow: 0 0 8px 8px white;
+    box-shadow: 0 0 20px 20px white;
 }
 
 #holeraceStats {
     margin: 100px 100px 0 0;
-    background-color: #ffccaa;
+    background-color: #a8e72e;
     border-top-right-radius: 20px;
 }
 
@@ -958,7 +958,7 @@ h1 {
 
 #quizyStats {
     margin: 0 0 101px 100px;
-    background-color: #ffec27;
+    background-color: #a8e72e;
     border-bottom-left-radius: 20px;
 }
 
@@ -972,7 +972,7 @@ h1 {
 
 #XP {
     margin: 0 100px 101px 0;
-    background-color: #ff6e59;
+    background-color: #008751;
     border-bottom-right-radius: 20px;
 }
 
@@ -991,7 +991,7 @@ h1 {
     box-sizing: border-box;
     background-color: #FFFC9C;
     margin: 232px 489px 233px 486px;
-    box-shadow: 0 0 8px 8px rgb(24,198,242);
+    box-shadow: 0 0 10px 10px #fff1e8;
     border-radius: 50%;
     font-size: 130px;
     display: flex;
@@ -1035,6 +1035,7 @@ h1 {
 }
 
 table {
+    width: 100%;
     border-collapse: separate;
     border-spacing: 0 10px;
     border-radius: 20px;
