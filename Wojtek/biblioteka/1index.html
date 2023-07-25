@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Wyświetlanie danych obiektu</title>
+  <style>
+    #objectContainer {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    #objectData {
+      flex: 1;
+    }
+
+    #objectImage {
+      width: 200px;
+      height: auto;
+      margin-right: 20px;
+    }
+
+    .category {
+      display: inline-block;
+      margin: 5px;
+      padding: 5px 10px;
+      background-color: lightblue;
+      cursor: pointer;
+    }
+
+    .category:hover {
+      background-color: deepskyblue;
+    }
+  </style>
+</head>
+<body>
+  <div id="objectContainer">
+    <img id="objectImage" src="" alt="Zdjęcie obiektu">
+    <div id="objectData">
+      <p class="title"></p>
+      <p class="about"></p>
+    </div>
+  </div>
+  <button onclick="showPrevious()">Poprzedni</button>
+  <button onclick="showNext()">Następny</button>
+  <div>
+    <!-- Przyciski do wybierania wartości od 1 do 7 -->
+    <div class="category" onclick="setObjectIdAndFetch(1, 1)">1</div>
+    <div class="category" onclick="setObjectIdAndFetch(2, 43)">2</div>
+    <div class="category" onclick="setObjectIdAndFetch(3, 89)">3</div>
+    <div class="category" onclick="setObjectIdAndFetch(4, 110)">4</div>
+    <div class="category" onclick="setObjectIdAndFetch(5, 135)">5</div>
+    <div class="category" onclick="setObjectIdAndFetch(6, 160)">6</div>
+    <div class="category" onclick="setObjectIdAndFetch(7, 189)">7</div>
+  </div>
+
+  <script>
+    let currentObjectId = 1;
+
+    // Funkcja, która wyświetla dane obiektu na stronie
+    function displayObjectData(objectData, categoryName) {
+      const objectDataDiv = document.getElementById('objectData');
+      const objectImage = document.getElementById('objectImage');
+
+      const imagePath = `/assets/sign/${categoryName}/${objectData.linkPhoto}`;
+      objectImage.src = imagePath;
+
+      const titleDiv = objectDataDiv.querySelector('.title');
+      const aboutDiv = objectDataDiv.querySelector('.about');
+
+      titleDiv.innerText = objectData.title;
+      aboutDiv.innerText = objectData.about;
+    }
+
+    // Funkcja, która pobiera dane obiektu na podstawie ID obiektu
+    function fetchObjectDataById(objectId) {
+      fetch(`/getObjectById/${objectId}`)
+        .then(response => response.json())
+        .then(data => {
+          // Pobierz nazwę kategorii po uzyskaniu danych obiektu
+          getCategoryName(data.signCategoryId, categoryName => {
+            displayObjectData(data, categoryName);
+          });
+        })
+        .catch(error => {
+          console.error('Wystąpił błąd przy pobieraniu danych:', error);
+          displayErrorMessage('Wystąpił błąd podczas pobierania danych.');
+        });
+    }
+
+    // Funkcja do obsługi przycisku "Poprzedni"
+    function showPrevious() {
+      currentObjectId--;
+      if (currentObjectId < 1) {
+        currentObjectId = 1;
+      }
+      fetchObjectDataById(currentObjectId);
+    }
+
+    // Funkcja do obsługi przycisku "Następny"
+    function showNext() {
+      currentObjectId++;
+      if (currentObjectId > 203) {
+        currentObjectId = 203;
+      }
+      fetchObjectDataById(currentObjectId);
+    }
+
+    // Wywołanie funkcji na stronie dla pierwszego obiektu
+    fetchObjectDataById(currentObjectId);
+
+    // Funkcja, która pobiera i przekazuje nazwę kategorii dla danego ID
+    function getCategoryName(categoryId, callback) {
+      fetch(`/categoryName/${categoryId}`)
+        .then(response => response.json())
+        .then(data => {
+          callback(data.name);
+        })
+        .catch(error => {
+          console.error('Wystąpił błąd przy pobieraniu nazwy kategorii:', error);
+          callback('Nieznana kategoria');
+        });
+    }
+
+    // Funkcja wyświetlająca komunikat o błędzie
+    function displayErrorMessage(message) {
+      const objectDataDiv = document.getElementById('objectData');
+      objectDataDiv.innerHTML = `<p style="color: red;">${message}</p>`;
+    }
+
+    // Funkcja do obsługi przycisku - ustawia currentObjectId i wywołuje fetchObjectDataById
+    function setObjectIdAndFetch(categoryId, objectId) {
+      currentObjectId = objectId;
+      fetchObjectDataById(currentObjectId, categoryId);
+    }
+  </script>
+</body>
+</html>
