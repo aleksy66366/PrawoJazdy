@@ -735,18 +735,16 @@ h1 {
 #znaki {
     width: 35.83%;
     height: 264px;
-    background-color: chartreuse;
     margin: 0 50px 100px 150px;
     box-sizing: border-box;
     display:flex;
+    box-shadow: 0 5px 9px 0 rgba(0, 0, 0, 0.5), 0 7px 21px 0 rgba(0, 0, 0, 0.29);
 }
-/*
+
 #znaki img {
     width: 43.5%;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 5px;
-}*/
+    margin: auto 0;
+}
 
 #kodeksNauka {
     width: 35.83%;
@@ -757,7 +755,7 @@ h1 {
     box-shadow: 0 5px 9px 0 rgba(0, 0, 0, 0.5), 0 7px 21px 0 rgba(0, 0, 0, 0.29);
 }
 
-#kodeksNauka:hover {
+#kodeksNauka:hover, #znaki:hover {
     position: relative;
     animation-name: kodeks;
     animation-duration: 0.5s;
@@ -784,7 +782,9 @@ h1 {
     justify-content: center;
     align-items: center;
     opacity: 0.8;
-    font-size: 35px;
+    font-size: 40px;
+    color: black;
+    font-weight: bold;
 }
 
 #kodeksNauka img {
