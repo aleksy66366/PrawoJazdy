@@ -118,37 +118,47 @@ app.post('/register', (req, res) => {
           console.log(`Użytkownik ${username} został zarejestrowany.`);
 
           // Po dodaniu użytkownika, teraz dodajemy dla niego auto o kolorze o id równym 1
-          const userId = this.lastID; // Pobieramy ID ostatnio dodanego użytkownika
-          const insertCarQuery = 'INSERT INTO car (userId, colorId) VALUES (?, 1)';
-          db.run(insertCarQuery, [userId], (err) => {
-            if (err) {
-              console.error('Błąd przy dodawaniu auta dla użytkownika:', err.message);
-              res.status(500).send('Internal Server Error');
-            } else {
-              console.log(`Dodano auto dla użytkownika o id ${userId} o kolorze o id 1.`);
-              // Po dodaniu auta, teraz dodajemy trzy wpisy do tabeli carEnchant dla tego samochodu
-              const carId = this.lastID; // Pobieramy ID ostatnio dodanego auta
-              const insertCarEnchantQuery = 'INSERT INTO carEnchant (carId, enchantId) VALUES (?, ?), (?, ?), (?, ?)';
-              db.run(insertCarEnchantQuery, [carId, 1, carId, 8, carId, 15], (err) => {
-                if (err) {
-                  console.error('Błąd przy dodawaniu wpisów do tabeli carEnchant:', err.message);
-                  res.status(500).send('Internal Server Error');
-                } else {
-                  console.log(`Dodano wpisy do tabeli carEnchant dla samochodu o id ${carId}.`);
-                  res.redirect('/login'); // Możesz przekierować użytkownika na stronę logowania po zarejestrowaniu
-                }
-              });
-            }
-          });
-         
+const userId = this.lastID; // Pobieramy ID ostatnio dodanego użytkownika
+const insertCarQuery = 'INSERT INTO car (userId, colorId) VALUES (?, 1)';
+db.run(insertCarQuery, [userId], function (err) {
+  if (err) {
+    console.error('Błąd przy dodawaniu auta dla użytkownika:', err.message);
+    res.status(500).send('Internal Server Error');
+  } else {
+    console.log(`Dodano auto dla użytkownika o id ${userId} o kolorze o id 1.`);
+
+    // Pobieramy ID ostatnio dodanego auta dla danego użytkownika
+    const carIdQuery = 'SELECT id FROM car WHERE userId = ?';
+    db.get(carIdQuery, [userId], function (err, row) {
+      if (err) {
+        console.error('Błąd przy pobieraniu ID samochodu dla użytkownika:', err.message);
+        res.status(500).send('Internal Server Error');
+      } else if (row) {
+        const carId = row.id; // Pobieramy ID samochodu
+
+        // Teraz możemy wykonać wpisy do tabeli carEnchant dla tego samochodu
+        const insertCarEnchantQuery = 'INSERT INTO carEnchant (carId, enchantId) VALUES (?, ?), (?, ?), (?, ?)';
+        db.run(insertCarEnchantQuery, [carId, 1, carId, 8, carId, 15], function (err) {
+          if (err) {
+            console.error('Błąd przy dodawaniu wpisów do tabeli carEnchant:', err.message);
+            res.status(500).send('Internal Server Error');
+          } else {
+            console.log(`Dodano wpisy do tabeli carEnchant dla samochodu o id ${carId}.`);
+            res.redirect('/login'); // Możesz przekierować użytkownika na stronę logowania po zarejestrowaniu
+          }
+        });
+      } else {
+        console.error('Nie znaleziono samochodu dla użytkownika o podanym id.');
+        res.status(404).send('Nie znaleziono samochodu dla użytkownika o podanym id.');
+      }
+    });
+  }
+});   
         }
       });
     }
   });
 });
-
-
-
 
 
 app.get('/city', checkAuth, (req, res) => {
@@ -314,6 +324,78 @@ app.get('/garage', checkAuth, (req, res) => {
   const Path = path.join(staticDir, '../frontend/garage.html');
   res.sendFile(Path);
 });
+app.get('/garage-updates', checkAuth, (req, res) => {
+  const userId = req.session.loggedUserId;
+  const getUpdatesQuery = `
+    SELECT 
+      enchant.lvl AS "Aktualny poziom", 
+      enchant.cena AS "Cena kolejnego ulepszenia",
+      typeUpdate.name AS "Typ ulepszenia"
+    FROM car
+    LEFT JOIN carEnchant ON car.id = carEnchant.carId
+    LEFT JOIN enchant ON carEnchant.enchantId = enchant.id
+    LEFT JOIN typeUpdate ON enchant.typeId = typeUpdate.id
+    WHERE car.userId = ?
+  `;
+  db.all(getUpdatesQuery, [userId], (err, rows) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      if (rows.length > 0) {
+        res.json(rows); // Wysyłamy dane w formacie JSON
+      } else {
+        // Jeśli nie znaleziono statystyk
+        res.status(404).send('Nie znaleziono statystyk');
+      }
+    }
+  });
+});
+// Endpointy dla ulepszeń "amortyzator", "zderzak" i "silnik"
+app.post('/upgrade-amortyzator', checkAuth, (req, res) => {
+  const userId = req.session.loggedUserId;
+  const cenaKolejnegoUlepszenia = 200; // Cena kolejnego ulepszenia amortyzatora (dla przykładu)
+
+  // Sprawdź, czy użytkownik ma wystarczająco pieniędzy na ulepszenie
+  const getStatsQuery = 'SELECT money FROM user WHERE id = ?';
+  db.get(getStatsQuery, [userId], (err, row) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      if (row) {
+        const userMoney = row.money;
+        if (userMoney >= cenaKolejnegoUlepszenia) {
+          // Uaktualnij poziom amortyzatora dla użytkownika w bazie danych
+          const updateAmortyzatorQuery = 'UPDATE user SET amortyzator = amortyzator + 1 WHERE id = ?';
+          db.run(updateAmortyzatorQuery, [userId], (err) => {
+            if (err) {
+              console.error('Błąd przy aktualizacji amortyzatora dla użytkownika:', err.message);
+              res.status(500).send('Internal Server Error');
+            } else {
+              // Obniż odpowiednią ilość pieniędzy z konta użytkownika w bazie danych
+              const reduceMoneyQuery = 'UPDATE user SET money = money - ? WHERE id = ?';
+              db.run(reduceMoneyQuery, [cenaKolejnegoUlepszenia, userId], (err) => {
+                if (err) {
+                  console.error('Błąd przy obniżaniu pieniędzy dla użytkownika:', err.message);
+                  res.status(500).send('Internal Server Error');
+                } else {
+                  console.log(`Użytkownik o id ${userId} ulepszył amortyzator.`);
+                  res.sendStatus(200);
+                }
+              });
+            }
+          });
+        } else {
+          res.status(400).send('Brak wystarczającej ilości pieniędzy na ulepszenie.');
+        }
+      } else {
+        res.status(404).send('Nie znaleziono użytkownika o podanym id.');
+      }
+    }
+  });
+});
+
 
 app.get('/nauka', checkAuth, (req, res) => {
   const Path = path.join(staticDir, '../frontend/nauka.html');
