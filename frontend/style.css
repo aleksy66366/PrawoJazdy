@@ -719,8 +719,9 @@ h1 {
     height: 265px;
     margin: 100px 50px 50px 150px;
     background-color: greenyellow;
-    padding: 20px 20px 20px 10px;
+    padding: 24px 24px 24px 90px;
     font-size: 26px;
+    /*color: ;*/
 
 }
 
@@ -737,19 +738,62 @@ h1 {
     background-color: chartreuse;
     margin: 0 50px 100px 150px;
     box-sizing: border-box;
+    display:flex;
 }
+/*
+#znaki img {
+    width: 43.5%;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+}*/
 
 #kodeksNauka {
     width: 35.83%;
     height: 264px;
-    background-color: aqua;
-    margin: 0 150px 100px 0;
+    margin: 0 100px 50px 50px;
     box-sizing: border-box;
+    display:flex;
+    box-shadow: 0 5px 9px 0 rgba(0, 0, 0, 0.5), 0 7px 21px 0 rgba(0, 0, 0, 0.29);
+}
+
+#kodeksNauka:hover {
+    position: relative;
+    animation-name: kodeks;
+    animation-duration: 0.5s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-timing-function: linear;
+}
+
+@keyframes kodeks {
+    0% {
+        left: 0;
+        top: 0;
+    }
+    100% {
+        left: 0;
+        top: 15px;
+    }
+}
+
+.kodeks {
+    width: 56.5%;
+    display: flex;
+    background-color: white;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.8;
+    font-size: 35px;
+}
+
+#kodeksNauka img {
+    width: 43.5%;
 }
 
 .checkboxZnaki {
-    width: 21px;
-    height: 21px;
+    width: 22px;
+    height: 22px;
 }
 
 /*  quiz   */
@@ -869,14 +913,17 @@ h1 {
 
 /* KIOSK.HTML */
 
-#babolotStats {
+.Stats {
     width: 41.5%;
     height: 264px;
-    margin: 100px 0 0 100px;
     box-sizing: border-box;
-    background-color: crimson;
+    border: 7px solid #8D18F2;
+}
+
+#babolotStats {
+    margin: 100px 0 0 100px;
+    background-color: #fff1e8;
     border-top-left-radius: 20px;
-    border: 5px solid white;
 }
 
 #imagebabolotStats {
@@ -890,14 +937,14 @@ h1 {
 .Stats:hover {
     transform: scale(0.95);
     cursor: grab;
+    border: 9px solid red;
+    opacity:0.95;
+    box-shadow: 0 0 8px 8px white;
 }
 
 #holeraceStats {
-    width: 41.5%;
-    height: 264px;
     margin: 100px 100px 0 0;
-    box-sizing: border-box;
-    background-color: #1d2b53;
+    background-color: #ffccaa;
     border-top-right-radius: 20px;
 }
 
@@ -910,11 +957,8 @@ h1 {
 }
 
 #quizyStats {
-    width: 41.5%;
-    height: 264px;
     margin: 0 0 101px 100px;
-    box-sizing: border-box;
-    background-color: #ffa300;
+    background-color: #ffec27;
     border-bottom-left-radius: 20px;
 }
 
@@ -927,11 +971,8 @@ h1 {
 }
 
 #XP {
-    width: 41.5%;
-    height: 264px;
     margin: 0 100px 101px 0;
-    box-sizing: border-box;
-    background-color: crimson;
+    background-color: #ff6e59;
     border-bottom-right-radius: 20px;
 }
 
@@ -948,16 +989,18 @@ h1 {
     width: 264px;
     height: 264px;
     box-sizing: border-box;
-    background-color: aqua;
-    margin: 232px 487px 233px 488px;
+    background-color: #FFFC9C;
+    margin: 232px 489px 233px 486px;
+    box-shadow: 0 0 8px 8px rgb(24,198,242);
     border-radius: 50%;
-    font-size: 80px;
+    font-size: 130px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color:green;
+    color:#000000;
+    font-family: "Courier New";
+    font-weight: bold;
 }
-
 
 #AllStatsInfo {
     width: 100%;
