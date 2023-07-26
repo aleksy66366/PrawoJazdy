@@ -17,7 +17,6 @@
     <script>
         const canvas = document.getElementById('myCanvas');
         const ctx = canvas.getContext('2d');
-
         const backgroundImage = new Image();
         backgroundImage.src = 'mapa.png';
 
@@ -37,12 +36,15 @@
         };
 
         const car = {
-            x: point.x, // Początkowe współrzędne samochodu przesunięte o 100px w kierunku x
-            y: point.y, // Samochód zaczyna na tym samym y co punkt
+            x: 25, // Początkowe współrzędne samochodu przesunięte o 100px w kierunku x
+            y: 686, // Samochód zaczyna na tym samym y co punkt
             width: 60, // Szerokość samochodu
             height: 80, // Wysokość samochodu
             rotation: Math.PI / 2, // Aktualny obrót samochodu (początkowo skierowany przodem)
-            speed: 0.02, // Prędkość kątowa samochodu
+            speed: 0.022, // Prędkość kątowa samochodu
+			acceleration:5,
+			spawnPointX:188,
+			spawnPointY:628			
         };
 
         const rectangle = [{
@@ -68,18 +70,18 @@
             cdx: -1,
             cdy: 1
         },{
-            x: 235, // Początkowe współrzędne prostokąta 4
+            x: 275, // Początkowe współrzędne prostokąta 4
             y: 425,
 			color: 'red',
-            width: 380, // Szerokość prostokąta
-            height: 60, // Wysokość prostokąta
+            width: 440, // Szerokość prostokąta
+            height: 150, // Wysokość prostokąta
             rotation: 1.4, // Początkowy obrót prostokąta (kąt w radianach)
             cx: -16,
             cy: 0,
             cdx: -1,
             cdy: 1
         },{
-            x: 120, // Początkowe współrzędne prostokąta 5
+            x: 90, // Początkowe współrzędne prostokąta 5
             y: 110,
 			color: 'red',
             width: 200, // Szerokość prostokąta
@@ -100,7 +102,7 @@
             cy: 5,
             cdx: -1,
             cdy: 1
-        },{
+        },/**{
             x: 210, // Początkowe współrzędne prostokąta 11
             y: 210,
 			color: 'red',
@@ -111,7 +113,7 @@
             cy: 0,
             cdx: -1,
             cdy: 1
-        },{
+        },*/{
             x: 230, // Początkowe współrzędne prostokąta 10
             y: 180,
 			color: 'red',
@@ -133,7 +135,7 @@
             cy: 8,
             cdx: 1,
             cdy: -1
-        },{
+        },/**{
             x: 330, // Początkowe współrzędne prostokąta 9
             y: 440,
 			color: 'red',
@@ -144,7 +146,7 @@
             cy: 0,
             cdx: -1,
             cdy: 1
-        },{
+        },*/{
             x: 450, // Początkowe współrzędne prostokąta 8
             y: 340,
 			color: 'red',
@@ -155,7 +157,7 @@
             cy: 0,
             cdx: -1,
             cdy: 1
-        },{
+        },/**{
             x: 350, // Początkowe współrzędne prostokąta 7
             y: 100,
 			color: 'red',
@@ -163,29 +165,29 @@
             height: 60, // Wysokość prostokąta
             rotation: 0.8, // Początkowy obrót prostokąta (kąt w radianach)
             cx: -10,
-            cy: 20,
-            cdx: 1,
-            cdy: -1
+            cy: 30,
+            cdx: -0.8,
+            cdy: -2
 			
-        },{
-            x: 459, // Początkowe współrzędne prostokąta 8
+        },*/{
+            x: 435, // Początkowe współrzędne prostokąta 8
             y: 714,
 			color: 'red',
-            width: 100, // Szerokość prostokąta
+            width: 300, // Szerokość prostokąta
             height: 60, // Wysokość prostokąta
-            rotation: 0.8, // Początkowy obrót prostokąta (kąt w radianach)
+            rotation: 1, // Początkowy obrót prostokąta (kąt w radianach)
             cx: 20,
             cy: -5,
             cdx: 1,
             cdy: -1
 			
         },{
-            x: 639, // Początkowe współrzędne prostokąta 8
-            y: 363,
+            x: 650, // Początkowe współrzędne prostokąta 8
+            y: 340,
 			color: 'red',
             width: 600, // Szerokość prostokąta
             height: 60, // Wysokość prostokąta
-            rotation: 1.9, // Początkowy obrót prostokąta (kąt w radianach)
+            rotation: 1.93, // Początkowy obrót prostokąta (kąt w radianach)
             cx: 50,
             cy: -20,
             cdx: -1,
@@ -215,8 +217,8 @@
             cdx: 1,
             cdy: -1
 			
-        },{
-            x: 750, // Początkowe współrzędne prostokąta 8
+        },/**{
+            x:750, // Początkowe współrzędne prostokąta 8
             y: 135,
 			color: 'red',
             width: 120, // Szerokość prostokąta
@@ -227,11 +229,11 @@
             cdx: -1,
             cdy: -1
 			
-        },{
-            x: 836, // Początkowe współrzędne prostokąta 8
+        },*/{
+            x: 1000, // Początkowe współrzędne prostokąta 8
             y: 101,
 			color: 'red',
-            width: 120, // Szerokość prostokąta
+            width: 500, // Szerokość prostokąta
             height: 40, // Wysokość prostokąta
             rotation: 0, // Początkowy obrót prostokąta (kąt w radianach)
             cx: 5,
@@ -263,7 +265,7 @@
             cdx: 1,
             cdy: -1
 			
-        },{
+        },/**{
             x: 835, // Początkowe współrzędne prostokąta 8
             y:	230,
 			color: 'red',
@@ -275,11 +277,11 @@
             cdx: 1,
             cdy: -1
 			
-        },{
+        },*/{
             x: 890, // Początkowe współrzędne prostokąta 8
             y:	291,
 			color: 'red',
-            width: 120, // Szerokość prostokąta
+            width: 200, // Szerokość prostokąta
             height: 50, // Wysokość prostokąta
             rotation: 1, // Początkowy obrót prostokąta (kąt w radianach)
             cx: 30,
@@ -311,9 +313,9 @@
             cdx: 1,
             cdy: -1
 			
-        },{
+        },/**{
             x: 996, // Początkowe współrzędne prostokąta 8
-            y:	230,
+            y:	220,
 			color: 'red',
             width: 60, // Szerokość prostokąta
             height: 45, // Wysokość prostokąta
@@ -323,7 +325,7 @@
             cdx: 1,
             cdy: -1
 			
-        },{
+        },*/{
             x: 1110, // Początkowe współrzędne prostokąta 8
             y:	290,
 			color: 'red',
@@ -332,8 +334,8 @@
             rotation: 2.4, // Początkowy obrót prostokąta (kąt w radianach)
             cx: -25,
             cy: -10,
-            cdx: 0,
-            cdy: -5
+            cdx: 0.1,
+            cdy: -1
 			
         },{
             x: 1070, // Początkowe współrzędne prostokąta 8
@@ -347,6 +349,90 @@
             cdx: 1,
             cdy: -1
 			
+        },/*{
+            x: 1166, // Początkowe współrzędne prostokąta 8
+            y:	120,
+			color: 'red',
+            width: 180, // Szerokość prostokąta
+            height: 40, // Wysokość prostokąta
+            rotation: 0, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: 30,
+            cy: 10,
+            cdx: 1,
+            cdy: -1
+			
+        },{
+            x: 1158, // Początkowe współrzędne prostokąta 8
+            y:	239,
+			color: 'red',
+            width: 45, // Szerokość prostokąta
+            height: 40, // Wysokość prostokąta
+            rotation: 0, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: 30,
+            cy: 10,
+            cdx: 1,             
+            cdy: 1
+			
+        },*/{
+            x: 1280, // Początkowe współrzędne prostokąta 8
+            y:	308,
+			color: 'red',
+            width: 400, // Szerokość prostokąta
+            height: 40, // Wysokość prostokąta
+            rotation: 1.5, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: -30,
+            cy: 10,
+            cdx: -1,
+            cdy: 1
+			
+        },{
+            x: 1160, // Początkowe współrzędne prostokąta 8
+            y:	315,
+			color: 'red',
+            width: 200, // Szerokość prostokąta
+            height: 40, // Wysokość prostokąta
+            rotation: 1.5, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: 30,
+            cy: 10,
+            cdx: -1,
+            cdy: 1
+			
+        },{
+            x: 1030, // Początkowe współrzędne prostokąta 8
+            y:	540,
+			color: 'red',
+            width: 500, // Szerokość prostokąta
+            height: 40, // Wysokość prostokąta
+            rotation: 3, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: -50,
+            cy: -20,
+            cdx: 1,
+            cdy: -1
+			
+        },{
+            x: 960, // Początkowe współrzędne prostokąta 8
+            y:	443,
+			color: 'red',
+            width: 450, // Szerokość prostokąta
+            height: 40, // Wysokość prostokąta
+            rotation: 3, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: -50,
+            cy: -20,
+            cdx: 1,
+            cdy: -1
+			
+        },{
+            x: 1030, // Początkowe współrzędne prostokąta 8
+            y:	600,
+			color: 'red',
+            width: 500, // Szerokość prostokąta
+            height: 90, // Wysokość prostokąta
+            rotation: 0, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: -50,
+            cy: -20,
+            cdx: 1,
+            cdy: -1
+			
         },
 		
 		
@@ -354,74 +440,74 @@
 		
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		{
-    x: 175, // Początkowe współrzędne prostokąta 1
-    y: 500,
-    width: 50, // Szerokość prostokąta
-    height: 50, // Wysokość prostokąta
+    x: 170, // Początkowe współrzędne prostokąta 1
+    y: 440,
+    width: 100, // Szerokość prostokąta
+    height: 2, // Wysokość prostokąta
     rotation: 0, // Początkowy obrót prostokąta (kąt w radianach)
     color: 'blue', // Kolor prostokąta (nowe)
-    cx: -8, // Wartości do odbicia samochodu (nowe)
-    cy: -4, // Wartości do odbicia samochodu (nowe)
+    cx: 1, // Wartości do odbicia samochodu (nowe)
+    cy: 0, // Wartości do odbicia samochodu (nowe)
     cdx: 148, // Wartości do zmiany kierunku samochodu (nowe)
     cdy: 174, // Wartości do zmiany kierunku samochodu (nowe)
 },
 
 {
-    x: 356, // Początkowe współrzędne prostokąta 2
-    y: 248,
-    width: 75, // Szerokość prostokąta
-    height: 75, // Wysokość prostokąta
+    x: 384, // Początkowe współrzędne prostokąta 2
+    y: 331,
+    width: 100, // Szerokość prostokąta
+    height: 2, // Wysokość prostokąta
     rotation: 0, // Początkowy obrót prostokąta (kąt w radianach)
     color: 'blue', // Kolor prostokąta (nowe)
-    cx: -8, // Wartości do odbicia samochodu (nowe)
-    cy: -4, // Wartości do odbicia samochodu (nowe)
+    cx: 2, // Wartości do odbicia samochodu (nowe)
+    cy: 0, // Wartości do odbicia samochodu (nowe)
     cdx: 479, // Wartości do zmiany kierunku samochodu (nowe)
     cdy: 650, // Wartości do zmiany kierunku samochodu (nowe)
 },
 {
-    x: 621, // Początkowe współrzędne prostokąta 3
-    y: 634,
-    width: 50, // Szerokość prostokąta
-    height: 50, // Wysokość prostokąta
+    x: 671, // Początkowe współrzędne prostokąta 3
+    y: 508,
+    width: 100, // Szerokość prostokąta
+    height: 2, // Wysokość prostokąta
     rotation: 0, // Początkowy obrót prostokąta (kąt w radianach)
     color: 'blue', // Kolor prostokąta (nowe)
-    cx: -8, // Wartości do odbicia samochodu (nowe)
-    cy: -4, // Wartości do odbicia samochodu (nowe)
+    cx: 3, // Wartości do odbicia samochodu (nowe)
+    cy: 0, // Wartości do odbicia samochodu (nowe)
     cdx: 781, // Wartości do zmiany kierunku samochodu (nowe)
     cdy: 205, // Wartości do zmiany kierunku samochodu (nowe)
 },
+//{
+//    x: 1229, // Początkowe współrzędne prostokąta 4
+//    y: 348,
+//    width: 100, // Szerokość prostokąta
+//    height: 2, // Wysokość prostokąta
+//    rotation: 0, // Początkowy obrót prostokąta (kąt w radianach)
+//    color: 'blue', // Kolor prostokąta (nowe)
+//    cx: 6, // Wartości do odbicia samochodu (nowe)
+//    cy: 0, // Wartości do odbicia samochodu (nowe)
+//    cdx: 1244, // Wartości do zmiany kierunku samochodu (nowe)
+//    cdy: 386, // Wartości do zmiany kierunku samochodu (nowe)
+//},
 {
-    x: 1214, // Początkowe współrzędne prostokąta 4
-    y: 188,
-    width: 50, // Szerokość prostokąta
-    height: 50, // Wysokość prostokąta
-    rotation: 0, // Początkowy obrót prostokąta (kąt w radianach)
-    color: 'blue', // Kolor prostokąta (nowe)
-    cx: -8, // Wartości do odbicia samochodu (nowe)
-    cy: -4, // Wartości do odbicia samochodu (nowe)
-    cdx: 1244, // Wartości do zmiany kierunku samochodu (nowe)
-    cdy: 386, // Wartości do zmiany kierunku samochodu (nowe)
-},
-{
-    x: 1151, // Początkowe współrzędne prostokąta 5
+    x: 1050, // Początkowe współrzędne prostokąta 5
     y: 479,
-    width: 50, // Szerokość prostokąta
-    height: 50, // Wysokość prostokąta
+    width: 2, // Szerokość prostokąta
+    height: 100, // Wysokość prostokąta
     rotation: 0, // Początkowy obrót prostokąta (kąt w radianach)
     color: 'blue', // Kolor prostokąta (nowe)
-    cx: -8, // Wartości do odbicia samochodu (nowe)
-    cy: -4, // Wartości do odbicia samochodu (nowe)
+    cx: 7, // Wartości do odbicia samochodu (nowe)
+    cy: 0, // Wartości do odbicia samochodu (nowe)
     cdx: 462, // Wartości do zmiany kierunku samochodu (nowe)
     cdy: 520, // Wartości do zmiany kierunku samochodu (nowe)
 },{
-    x: 811, // Początkowe współrzędne prostokąta 6
-    y: 701,
-    width: 50, // Szerokość prostokąta
-    height: 50, // Wysokość prostokąta
+   x: 1245, // Początkowe współrzędne prostokąta 6
+    y: 694,
+    width: 190, // Szerokość prostokąta
+    height: 100, // Wysokość prostokąta
     rotation: 0, // Początkowy obrót prostokąta (kąt w radianach)
-    color: 'blue', // Kolor prostokąta (nowe)
-    cx: -8, // Wartości do odbicia samochodu (nowe)
-    cy: -4, // Wartości do odbicia samochodu (nowe)
+    color: 'green', // Kolor prostokąta (nowe)
+    cx: 1, // Wartości do odbicia samochodu (nowe)
+    cy: 0, // Wartości do odbicia samochodu (nowe)
     cdx: 1226, // Wartości do zmiany kierunku samochodu (nowe)
     cdy: 705, // Wartości do zmiany kierunku samochodu (nowe)
 },
@@ -450,6 +536,7 @@
             else ctx.rotate(car.rotation ) 
             ctx.drawImage(carImage, -car.width / 2, -car.height / 2, car.width, car.height); // Przeskalowanie obrazka
             ctx.restore();
+
         }
 
         function rotatePoint(clockwise) {
@@ -478,6 +565,7 @@
 
         function moveCar() {
     if (isMoving) {
+		//car.speed+=car.acceleration;
         update();
         wektorKierunku = obliczWektorKierunku();
 
@@ -493,34 +581,111 @@
         // Sprawdź kolizję z prostokątami
         for (let i = 0; i < rectangle.length; i++) {
             if (isCollidingWithRectangle(car, rectangle[i])) {
-                //alert("Przegrałeś! Kolidujesz z prostokątem.");
+				isMoving=false;
+				car.x=car.spawnPointX;	
+				car.y=car.spawnPointY;
+				
+				if(rectangle[i].color=="blue")
+				{
+				noro=rectangle[i].cx;
+				car.spawnPointX=rectangle[i].x;
+				car.spawnPointY=rectangle[i].y;
+				point.x=pointview.x[noro];
+                point.y=pointview.y[noro];
+                point.rotation=pointview.rotation[noro];
+				noro++;
+				
+				
+				
+				if(rectangle[i].cy!=0)
+				{
+				
+				const deltaX = rectangle[i].cdx - car.x; // Oblicz różnicę między pozycją samochodu a punktem cdx niebieskiego prostokąta w osi x
+				const deltaY = rectangle[i].cdy - car.y; // Oblicz różnicę między pozycją samochodu a punktem cdy niebieskiego prostokąta w osi y
+				const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+				 
+				wektorKierunku.x = (deltaX / distance);
+				wektorKierunku.y = (deltaY / distance);
+				}
+				rectangle[i].cy+=1;
+				}
+				else
+				{
+				car.x=car.spawnPointX;	
+				car.y=car.spawnPointY;		
+				if(car.spawnPointX==188)
+				{
+				const deltaX = 153 - car.x; // Oblicz różnicę między pozycją samochodu a punktem cdx niebieskiego prostokąta w osi x
+				const deltaY = 175 - car.y; // Oblicz różnicę między pozycją samochodu a punktem cdy niebieskiego prostokąta w osi y
+				const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+				 
+				wektorKierunku.x = (deltaX / distance);
+				wektorKierunku.y = (deltaY / distance);
+				}
+                //car.x+=rectangle[i].cx;
+                //car.y+=rectangle[i].cy;
+                //wektorKierunku.x*=rectangle[i].cdx;
+                //wektorKierunku.y*=rectangle[i].cdy;
+				}
+			
             }
         }
 
     } else {
+	
         car.x += wektorKierunku.x * 2;
         car.y += wektorKierunku.y * 2;
-
         // Sprawdź kolizję z prostokątami
         for (let i = 0; i < rectangle.length; i++) {
+
             if (isCollidingWithRectangle(car, rectangle[i])) {
+				
+				if(rectangle[i].color=="green")
+				{
+				alert("BABA POLECIAŁA NA MARSA!!!");
+				location.reload();
+				}
 				
 				if(rectangle[i].color=="blue")
 				{
+				noro=rectangle[i].cx;
+				car.spawnPointX=rectangle[i].x;
+				car.spawnPointY=rectangle[i].y;
+				point.x=pointview.x[noro];
+                point.y=pointview.y[noro];
+                point.rotation=pointview.rotation[noro];
+				noro++;
+
+				
+				if(rectangle[i].cy!=0)
+				{
+				
 				const deltaX = rectangle[i].cdx - car.x; // Oblicz różnicę między pozycją samochodu a punktem cdx niebieskiego prostokąta w osi x
 				const deltaY = rectangle[i].cdy - car.y; // Oblicz różnicę między pozycją samochodu a punktem cdy niebieskiego prostokąta w osi y
 				const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-            
-				wektorKierunku.x = deltaX / distance;
-				wektorKierunku.y = deltaY / distance;
+				 
+				wektorKierunku.x = (deltaX / distance);
+				wektorKierunku.y = (deltaY / distance);
+				}
+				rectangle[i].cy+=1;
 				}
 				else
 				{
-				
-                car.x+=rectangle[i].cx;
-                car.y+=rectangle[i].cy;
-                wektorKierunku.x*=rectangle[i].cdx;
-                wektorKierunku.y*=rectangle[i].cdy;
+				car.x=car.spawnPointX;	
+				car.y=car.spawnPointY;		
+				if(car.spawnPointX==188)
+				{
+				const deltaX = 153 - car.x; // Oblicz różnicę między pozycją samochodu a punktem cdx niebieskiego prostokąta w osi x
+				const deltaY = 175 - car.y; // Oblicz różnicę między pozycją samochodu a punktem cdy niebieskiego prostokąta w osi y
+				const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+				 
+				wektorKierunku.x = (deltaX / distance);
+				wektorKierunku.y = (deltaY / distance);
+				}
+                //car.x+=rectangle[i].cx;
+                //car.y+=rectangle[i].cy;
+                //wektorKierunku.x*=rectangle[i].cdx;
+                //wektorKierunku.y*=rectangle[i].cdy;
 				}
             }
         }
@@ -611,7 +776,7 @@ function isCollidingWithRectangle(car, rectangle) {
       ctx.save();
       ctx.translate(rectangle[i].x, rectangle[i].y);
       ctx.rotate(rectangle[i].rotation);
-      ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
+      ctx.fillStyle = 'rgba(255, 0, 0, 0	  )';
       ctx.fillRect(-rectangle[i].width / 2, -rectangle[i].height / 2, rectangle[i].width, rectangle[i].height);
       ctx.restore();
     }
