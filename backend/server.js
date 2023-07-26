@@ -354,49 +354,376 @@ app.get('/garage-updates', checkAuth, (req, res) => {
   });
 });
 // Endpointy dla ulepszeń "amortyzator", "zderzak" i "silnik"
-app.post('/upgrade-amortyzator', checkAuth, (req, res) => {
+app.get('/upgrade-silnik', checkAuth, (req, res) => {
   const userId = req.session.loggedUserId;
-  const cenaKolejnegoUlepszenia = 200; // Cena kolejnego ulepszenia amortyzatora (dla przykładu)
+  const getTypeUpdateQuery = `
+    SELECT id, lvl, cena 
+    FROM enchant
+    WHERE id IN (
+      SELECT enchantId
+      FROM carEnchant
+      WHERE carId IN (
+        SELECT id
+        FROM car
+        WHERE userId = ?
+      )
+      AND typeId = 1
+    )`;
 
-  // Sprawdź, czy użytkownik ma wystarczająco pieniędzy na ulepszenie
-  const getStatsQuery = 'SELECT money FROM user WHERE id = ?';
-  db.get(getStatsQuery, [userId], (err, row) => {
+  db.all(getTypeUpdateQuery, [userId], (err, rows) => {
     if (err) {
       console.error(err);
-      res.status(500).send('Internal Server Error');
+      return res.status(500).send('Błąd serwera');
     } else {
-      if (row) {
-        const userMoney = row.money;
-        if (userMoney >= cenaKolejnegoUlepszenia) {
-          // Uaktualnij poziom amortyzatora dla użytkownika w bazie danych
-          const updateAmortyzatorQuery = 'UPDATE user SET amortyzator = amortyzator + 1 WHERE id = ?';
-          db.run(updateAmortyzatorQuery, [userId], (err) => {
-            if (err) {
-              console.error('Błąd przy aktualizacji amortyzatora dla użytkownika:', err.message);
-              res.status(500).send('Internal Server Error');
+      if (rows.length === 0) {
+        return res.status(404).send('Nie znaleziono poprawnych ulepszeń tego typu dla tego użytkownika.');
+      } else {
+        const update = rows[0];
+        
+        const getUserMoneyQuery = `
+          SELECT money
+          FROM user
+          WHERE id = ?`;
+
+        db.all(getUserMoneyQuery, [userId], (err, rows) => {
+          if (err) {
+            console.error(err);
+            return res.status(500).send('Błąd serwera');
+          } else {
+            if (rows.length === 0) {
+              return res.status(404).send('Nie znaleziono użytkownika.');
             } else {
-              // Obniż odpowiednią ilość pieniędzy z konta użytkownika w bazie danych
-              const reduceMoneyQuery = 'UPDATE user SET money = money - ? WHERE id = ?';
-              db.run(reduceMoneyQuery, [cenaKolejnegoUlepszenia, userId], (err) => {
+              const userMoney = rows[0].money;
+              console.log(userMoney);
+              
+              const getCarIdQuery = `
+                SELECT id
+                FROM car
+                WHERE userId = ?`;
+
+              db.all(getCarIdQuery, [userId], (err, rows) => {
                 if (err) {
-                  console.error('Błąd przy obniżaniu pieniędzy dla użytkownika:', err.message);
-                  res.status(500).send('Internal Server Error');
+                  console.error(err);
+                  return res.status(500).send('Błąd serwera');
                 } else {
-                  console.log(`Użytkownik o id ${userId} ulepszył amortyzator.`);
-                  res.sendStatus(200);
+                  if (rows.length === 0) {
+                    return res.status(404).send('Nie znaleziono samochodu dla tego użytkownika.');
+                  } else {
+                    const carId = rows[0].id;
+
+                    if (userMoney >= update.cena && update.lvl < 7) {
+                      const updateMoneyQuery = `
+                        UPDATE user
+                        SET money = money - (
+                            SELECT cena
+                            FROM enchant
+                            WHERE id IN (
+                                SELECT enchantId
+                                FROM carEnchant
+                                WHERE carId IN (
+                                    SELECT id
+                                    FROM car
+                                    WHERE userId = ${userId}
+                                )
+                                AND typeId = 1
+                            )
+                        )
+                        WHERE id = ${userId}`;
+                    
+                      db.run(updateMoneyQuery, (err) => {
+                        if (err) {
+                          console.error(err);
+                          return res.status(500).send('Błąd serwera');
+                        } else {
+                          const updateCarEnchantQuery = `
+                            UPDATE carEnchant
+                            SET enchantId = enchantId + 1
+                            WHERE enchantId IN (
+                              SELECT id
+                              FROM enchant
+                              WHERE id IN (
+                                SELECT enchantId
+                                FROM carEnchant
+                                WHERE carId IN (
+                                  SELECT id
+                                  FROM car
+                                  WHERE userId = ${userId}
+                                )
+                                AND typeId = 1
+                              )
+                            ) AND carId = ${carId}`;
+                    
+                          db.run(updateCarEnchantQuery, (err) => {
+                            if (err) {
+                              console.error(err);
+                              return res.status(500).send('Błąd serwera');
+                            } else {
+                              return res.send('Upgrade został zastosowany pomyślnie.');
+                            }
+                          });
+                        }
+                      });
+                    } else {
+                      return res.send('Za mało złota, upgrade nie jest dostępny.');
+                    }
+                    
+                  }
                 }
               });
             }
-          });
-        } else {
-          res.status(400).send('Brak wystarczającej ilości pieniędzy na ulepszenie.');
-        }
-      } else {
-        res.status(404).send('Nie znaleziono użytkownika o podanym id.');
+          }
+        });
       }
     }
   });
 });
+app.get('/upgrade-amortyzator', checkAuth, (req, res) => {
+  const userId = req.session.loggedUserId;
+  const getTypeUpdateQuery = `
+    SELECT id, lvl, cena 
+    FROM enchant
+    WHERE id IN (
+      SELECT enchantId
+      FROM carEnchant
+      WHERE carId IN (
+        SELECT id
+        FROM car
+        WHERE userId = ?
+      )
+      AND typeId = 2
+    )`;
+
+  db.all(getTypeUpdateQuery, [userId], (err, rows) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Błąd serwera');
+    } else {
+      if (rows.length === 0) {
+        return res.status(404).send('Nie znaleziono poprawnych ulepszeń tego typu dla tego użytkownika.');
+      } else {
+        const update = rows[0];
+        
+        const getUserMoneyQuery = `
+          SELECT money
+          FROM user
+          WHERE id = ?`;
+
+        db.all(getUserMoneyQuery, [userId], (err, rows) => {
+          if (err) {
+            console.error(err);
+            return res.status(500).send('Błąd serwera');
+          } else {
+            if (rows.length === 0) {
+              return res.status(404).send('Nie znaleziono użytkownika.');
+            } else {
+              const userMoney = rows[0].money;
+              console.log(userMoney);
+              
+              const getCarIdQuery = `
+                SELECT id
+                FROM car
+                WHERE userId = ?`;
+
+              db.all(getCarIdQuery, [userId], (err, rows) => {
+                if (err) {
+                  console.error(err);
+                  return res.status(500).send('Błąd serwera');
+                } else {
+                  if (rows.length === 0) {
+                    return res.status(404).send('Nie znaleziono samochodu dla tego użytkownika.');
+                  } else {
+                    const carId = rows[0].id;
+
+                    if (userMoney >= update.cena && update.lvl < 7) {
+                      const updateMoneyQuery = `
+                        UPDATE user
+                        SET money = money - (
+                            SELECT cena
+                            FROM enchant
+                            WHERE id IN (
+                                SELECT enchantId
+                                FROM carEnchant
+                                WHERE carId IN (
+                                    SELECT id
+                                    FROM car
+                                    WHERE userId = ${userId}
+                                )
+                                AND typeId = 2
+                            )
+                        )
+                        WHERE id = ${userId}`;
+                    
+                      db.run(updateMoneyQuery, (err) => {
+                        if (err) {
+                          console.error(err);
+                          return res.status(500).send('Błąd serwera');
+                        } else {
+                          const updateCarEnchantQuery = `
+                            UPDATE carEnchant
+                            SET enchantId = enchantId + 1
+                            WHERE enchantId IN (
+                              SELECT id
+                              FROM enchant
+                              WHERE id IN (
+                                SELECT enchantId
+                                FROM carEnchant
+                                WHERE carId IN (
+                                  SELECT id
+                                  FROM car
+                                  WHERE userId = ${userId}
+                                )
+                                AND typeId = 2
+                              )
+                            ) AND carId = ${carId}`;
+                    
+                          db.run(updateCarEnchantQuery, (err) => {
+                            if (err) {
+                              console.error(err);
+                              return res.status(500).send('Błąd serwera');
+                            } else {
+                              return res.send('Upgrade został zastosowany pomyślnie.');
+                            }
+                          });
+                        }
+                      });
+                    } else {
+                      return res.send('Za mało złota, upgrade nie jest dostępny.');
+                    }
+                    
+                  }
+                }
+              });
+            }
+          }
+        });
+      }
+    }
+  });
+});
+app.get('/upgrade-zderzak', checkAuth, (req, res) => {
+  const userId = req.session.loggedUserId;
+  const getTypeUpdateQuery = `
+    SELECT id, lvl, cena 
+    FROM enchant
+    WHERE id IN (
+      SELECT enchantId
+      FROM carEnchant
+      WHERE carId IN (
+        SELECT id
+        FROM car
+        WHERE userId = ?
+      )
+      AND typeId = 3
+    )`;
+
+  db.all(getTypeUpdateQuery, [userId], (err, rows) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Błąd serwera');
+    } else {
+      if (rows.length === 0) {
+        return res.status(404).send('Nie znaleziono poprawnych ulepszeń tego typu dla tego użytkownika.');
+      } else {
+        const update = rows[0];
+        
+        const getUserMoneyQuery = `
+          SELECT money
+          FROM user
+          WHERE id = ?`;
+
+        db.all(getUserMoneyQuery, [userId], (err, rows) => {
+          if (err) {
+            console.error(err);
+            return res.status(500).send('Błąd serwera');
+          } else {
+            if (rows.length === 0) {
+              return res.status(404).send('Nie znaleziono użytkownika.');
+            } else {
+              const userMoney = rows[0].money;
+              console.log(userMoney);
+              
+              const getCarIdQuery = `
+                SELECT id
+                FROM car
+                WHERE userId = ?`;
+
+              db.all(getCarIdQuery, [userId], (err, rows) => {
+                if (err) {
+                  console.error(err);
+                  return res.status(500).send('Błąd serwera');
+                } else {
+                  if (rows.length === 0) {
+                    return res.status(404).send('Nie znaleziono samochodu dla tego użytkownika.');
+                  } else {
+                    const carId = rows[0].id;
+
+                    if (userMoney >= update.cena && update.lvl < 7) {
+                      const updateMoneyQuery = `
+                        UPDATE user
+                        SET money = money - (
+                            SELECT cena
+                            FROM enchant
+                            WHERE id IN (
+                                SELECT enchantId
+                                FROM carEnchant
+                                WHERE carId IN (
+                                    SELECT id
+                                    FROM car
+                                    WHERE userId = ${userId}
+                                )
+                                AND typeId = 3
+                            )
+                        )
+                        WHERE id = ${userId}`;
+                    
+                      db.run(updateMoneyQuery, (err) => {
+                        if (err) {
+                          console.error(err);
+                          return res.status(500).send('Błąd serwera');
+                        } else {
+                          const updateCarEnchantQuery = `
+                            UPDATE carEnchant
+                            SET enchantId = enchantId + 1
+                            WHERE enchantId IN (
+                              SELECT id
+                              FROM enchant
+                              WHERE id IN (
+                                SELECT enchantId
+                                FROM carEnchant
+                                WHERE carId IN (
+                                  SELECT id
+                                  FROM car
+                                  WHERE userId = ${userId}
+                                )
+                                AND typeId = 3
+                              )
+                            ) AND carId = ${carId}`;
+                    
+                          db.run(updateCarEnchantQuery, (err) => {
+                            if (err) {
+                              console.error(err);
+                              return res.status(500).send('Błąd serwera');
+                            } else {
+                              return res.send('Upgrade został zastosowany pomyślnie.');
+                            }
+                          });
+                        }
+                      });
+                    } else {
+                      return res.send('Za mało złota, upgrade nie jest dostępny.');
+                    }
+                    
+                  }
+                }
+              });
+            }
+          }
+        });
+      }
+    }
+  });
+});
+
 
 
 app.get('/nauka', checkAuth, (req, res) => {

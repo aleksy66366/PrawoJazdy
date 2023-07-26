@@ -150,33 +150,29 @@
   silnik.onclick = function () {
     handleUpgrade('silnik');
   };
+
   function handleUpgrade(element) {
-  // Pobieramy wartość aktualnego poziomu i ceny kolejnego ulepszenia dla wybranego elementu
-  const aktualnyPoziom = parseFloat(document.getElementById(`${element}lvl`).textContent);
-  const cenaKolejnegoUlepszenia = parseFloat(document.getElementById(`${element}cena`).textContent);
-
-  // Pobieramy wartość pieniędzy użytkownika
-  const moneyValue = parseFloat(document.getElementById('val').textContent);
-
-  // Sprawdzamy, czy użytkownik ma wystarczająco pieniędzy na ulepszenie
-  if (moneyValue >= cenaKolejnegoUlepszenia) {
-    fetch(`/upgrade-${element}`, { method: 'POST' })
-      .then((response) => {
-        if (response.ok) {
-          // Po udanym ulepszeniu odświeżamy dane w garażu
-          fetchGarageUpdates();
-          // Aktualizujemy także ilość pieniędzy użytkownika na stronie
-          updateMoney();
-        } else {
-          throw new Error('Błąd podczas ulepszania.');
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  } else {
-    alert('Brak wystarczającej ilości pieniędzy na ulepszenie.');
-  }
+  fetch(`/upgrade-${element}`, { method: 'GET' })
+    .then((response) => {
+      // Handle the response from the backend
+      if (response.status === 200) {
+        // Successful upgrade
+        return response.text().then((message) => {
+          alert(message); // Display a success message
+          location.reload();
+        });
+      } else if (response.status === 404) {
+        return response.text().then((message) => {
+          alert(message); // Display a not found message
+        });
+      } else {
+        alert('Error: Upgrade failed.'); // Display a generic error message
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      alert('Error: Upgrade failed.');
+    });
 }
 
     
