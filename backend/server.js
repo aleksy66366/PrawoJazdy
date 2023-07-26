@@ -315,10 +315,43 @@ app.get('/stats-lvl', checkAuth, (req, res) => {
     }
   });
 });
+app.get('/car-lvl', checkAuth, (req, res) => {
+  const userId = req.session.loggedUserId;
+  const getUpdatesQuery = `
+  SELECT lvl, TypeId
+  FROM enchant
+  WHERE id IN(
+    SELECT enchantId
+    FROM carEnchant
+    WHERE carId IN (
+      SELECT id
+      FROM car
+      WHERE userId = ?
+    )
+  )
+  `;
+  db.all(getUpdatesQuery, [userId], (err, rows) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      if (rows.length > 0) {
+        res.json(rows); // Wysyłamy dane w formacie JSON
+      } else {
+        // Jeśli nie znaleziono statystyk
+        res.status(404).send('Nie znaleziono statystyk');
+      }
+    }
+  });
+});
 
 
 app.get('/race', checkAuth, (req, res) => {
   const Path = path.join(staticDir, '../frontend/race.html');
+  res.sendFile(Path);
+});
+app.get('/racehole', checkAuth, (req, res) => {
+  const Path = path.join(staticDir, '../frontend/racehole.html');
   res.sendFile(Path);
 });
 
