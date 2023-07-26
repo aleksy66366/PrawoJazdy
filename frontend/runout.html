@@ -217,8 +217,24 @@
                 requestAnimationFrame(animate);
             } else{
                 alert(`Twój czas to ${seconds}`);
+                fetch('/addStat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ seconds: seconds })
+                }).then(response => {
+                    if (response.ok) {
+                        console.log('Wpis do tabeli allStat został dodany.');
+                    } else {
+                        console.error('Błąd podczas dodawania wpisu do tabeli allStat.');
+                    }
+                }).catch(error => {
+                    console.error('Błąd podczas wykonywania zapytania:', error);
+                });
                 window.location.href = '/race';
             }
+            
         }
 
         

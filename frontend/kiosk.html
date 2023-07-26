@@ -58,6 +58,7 @@
             <div class="Stats" id="XP">
                 <div id="imageXP"></div>
             </div>
+            <div class="Stats" id="runout"></div>
             <div id="lvl"></div>
         </div>
         <div id="AllStatsInfo">
@@ -233,6 +234,34 @@
               statsContainer.innerHTML = "Wystąpił błąd podczas pobierania statystyk.";
             });
         };
+        var babolotStats = document.getElementById("runout");
+        babolotStats.onclick = function() {
+          AllStatsInfo.style.display = "flex";
+          document.getElementById("screen").style.display = "none";
+          fetch('/stats-runout')
+            .then(response => response.json())
+            .then(data => {
+              var statsContainer = document.getElementById("statsContainer");
+              statsContainer.innerHTML = ""; // Czyszczenie kontenera na statystyki przed wyświetleniem nowych danych
+            
+              if (data.length > 0) {
+                var tableHTML = "<tr><th>Miejsce</th><th>Login użytkownika</th><th>Nazwa statystyki</th><th>Punkty</th></tr>";
+                data.forEach(stat => {
+                  tableHTML += `<tr><td>${stat.miejsce}</td><td>${stat.loginUzytkownika}</td><td>${stat.statName}</td><td>${stat.iloscPunktow}</td></tr>`;
+                });
+                statsContainer.innerHTML = tableHTML;
+              } else {
+                var noStatsMsg = document.createElement("p");
+                noStatsMsg.textContent = "Nie znaleziono statystyk.";
+                statsContainer.appendChild(noStatsMsg);
+              }
+            })
+            .catch(error => {
+              console.error(error);
+              var statsContainer = document.getElementById("statsContainer");
+              statsContainer.innerHTML = "Wystąpił błąd podczas pobierania statystyk.";
+            });
+        };
           fetch('/stats-lvl')
             .then(response => response.json())
             .then(data => {
@@ -246,6 +275,7 @@
               var statsContainer = document.getElementById("statsContainer");
               statsContainer.innerHTML = "Wystąpił błąd podczas pobierania statystyk.";
             });
+            
         
         
 

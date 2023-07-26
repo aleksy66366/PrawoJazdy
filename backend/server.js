@@ -293,6 +293,23 @@ app.get('/stats-xp', checkAuth, (req, res) => {
     }
   });
 });
+// Endpoint do pobrania linku xp
+app.get('/stats-runout', checkAuth, (req, res) => {
+  const getStatsQuery = 'SELECT (SELECT COUNT(DISTINCT as2.score) FROM allStat as2 WHERE as2.statId = 5 AND as2.score > as1.score) + 1 AS miejsce, u.login AS loginUzytkownika, s.name AS statName, as1.score AS iloscPunktow FROM allStat AS as1 JOIN user AS u ON as1.userId = u.id JOIN stat AS s ON as1.statId = s.id WHERE as1.statId = 5 ORDER BY as1.score DESC;';
+  db.all(getStatsQuery, (err, rows) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      if (rows.length > 0) {
+        res.json(rows); // Wysyłamy dane w formacie JSON
+      } else {
+        // Jeśli nie znaleziono statystyk
+        res.status(404).send('Nie znaleziono statystyk');
+      }
+    }
+  });
+});
 // Endpoint do pobrania linku lvl
 app.get('/stats-lvl', checkAuth, (req, res) => {
   const userId = req.session.loggedUserId; // Corrected variable name
@@ -782,6 +799,24 @@ app.get('/runout', checkAuth, (req, res) => {
   const Path = path.join(staticDir, '../frontend/runout.html');
   res.sendFile(Path);
 });
+// Endpoint do dodawania wpisu do tabeli allStat
+app.post('/addStat', checkAuth, (req, res) => {
+  const userId = req.session.loggedUserId;
+  const seconds = req.body.seconds; // Otrzymujemy dane "seconds" od klienta
+
+  // Wykonaj zapytanie INSERT INTO, aby dodać nowy wpis do tabeli allStat
+  const insertStatQuery = 'INSERT INTO allStat (statId, userId, score) VALUES (?, ?, ?)';
+  db.run(insertStatQuery, [5, userId, seconds], function (err) {
+    if (err) {
+      console.error('Błąd przy dodawaniu wpisu do tabeli allStat:', err.message);
+      res.status(500).send('Internal Server Error');
+    } else {
+      console.log(`Dodano wpis do tabeli allStat o id ${this.lastID}.`);
+      res.sendStatus(200); // Odpowiedź dla klienta, że dodanie wpisu zakończyło się sukcesem
+    }
+  });
+});
+
 //-----_____-----______-----_____-----_____-----_____-----_____-----
 //Kod wojtek
 

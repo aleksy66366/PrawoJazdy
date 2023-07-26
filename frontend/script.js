@@ -103,7 +103,7 @@ xhr.send();
 
 function showSummary() {
 const incorrectAnswers = score.totalQuestions - score.correctAnswers;
-summaryTotalQuestionsDiv.textContent = 'Liczba pytań: ' + score.totalQuestions + '\nLiczba poprawnych odpowiedzi: ' + score.correctAnswers + '\nLiczba złych odpowiedzi: ' + incorrectAnswers;
+summaryTotalQuestionsDiv.textContent = "Liczba pytań: " + score.totalQuestions + "\nLiczba poprawnych odpowiedzi: " + score.correctAnswers + "\nLiczba złych odpowiedzi: " + incorrectAnswers;
 score.totalQuestions = 0;
 score.correctAnswers = 0;
 updateScore();
@@ -262,9 +262,9 @@ return array;
 }
 
 function updateScore() {
-summaryCorrectAnswersDiv.textContent = 'Poprawne odpowiedzi: ' + score.correctAnswers;
+summaryCorrectAnswersDiv.textContent =  score.correctAnswers;
 const incorrectAnswers = score.totalQuestions - score.correctAnswers;
-summaryIncorrectAnswersDiv.textContent = 'Niepoprawne odpowiedzi: ' + incorrectAnswers;
+summaryIncorrectAnswersDiv.textContent =  incorrectAnswers;
 scoreDiv.textContent = 'Pytania: ' + score.totalQuestions + ' | Poprawne odpowiedzi: ' + score.correctAnswers;
 }
 

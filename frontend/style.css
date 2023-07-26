@@ -322,7 +322,6 @@ h1 {
 
 #kiosk:hover {
     transform: scale(1.01);
-
 }
 
 #race {
@@ -641,7 +640,7 @@ h1 {
     flex-wrap: wrap;
     margin: 30px 0 80px 0;
     border-radius: 10px;
-    border: 5px solid #ab5236;
+    border: 5px solid #d6785a;
 }
 
 #rightArrow {
@@ -685,6 +684,7 @@ h1 {
     background-color: #d6785a;
     margin: 70px 73px 30px 73px;
     border-radius: 60%;
+    border: 5px solid #f29a61;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -708,24 +708,26 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 5px solid #f29a61;
+    border-radius: 10px;
 }
 
 #aboutInfo p {
     max-width: 80%;
     max-height: 70%;
     text-align: center;
-    font-size: 25px;
+    font-size: 27px;
     margin: 0;
     overflow: hidden; /* Obcinanie tekstu, który nie zmieści się w divie */
     position: relative;
 }
 
-#aboutInfo p:hover {
+#aboutInfo p:hover, #pytanie p:hover {
     overflow: auto;
 }
 
 /* Ukrywamy pasek przewijania, gdy nie jest potrzebny */
-#aboutInfo p::-webkit-scrollbar {
+#aboutInfo p::-webkit-scrollbar, #pytanie p::-webkit-scrollbar, .answer p::-webkit-scrollbar {
     width: 0;
     height: 0;
     background: transparent;
@@ -754,11 +756,10 @@ h1 {
     width: 35.83%;
     height: 265px;
     margin: 100px 50px 50px 150px;
-    background-color: greenyellow;
+    background-color: rgba(4, 199, 76, 0.9);
     padding: 24px 24px 24px 90px;
     font-size: 26px;
-
-
+    box-shadow: 0 5px 9px 0 rgba(0, 0, 0, 0.5), 0 7px 21px 0 rgba(0, 0, 0, 0.29);
 }
 
 #empty {
@@ -848,64 +849,122 @@ h1 {
     box-sizing: border-box;
     display: flex;
     flex-wrap:wrap;
-    background-color: darkorange;
     margin: 20px 100px 50px 100px;
 }
 
 #poprawneSymbol {
-    width: 40%;
-    height: 40px;
-    background-color: bisque;
+    width: 44%;
+    height: 50px;
+    /*background-color: bisque;*/
     box-sizing: border-box;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: 27px;
+    font-weight: bold;
+    padding-right: 10px;
+    border-radius: 25px;
 }
 
 #poprawne {
-    width: 10%;
-    height: 40px;
-    background-color: #1d2b53;
+    width: 5%;
+    height: 50px;
     box-sizing: border-box;
+    background-image: url("./assets/menu/yes.png");
+    background-size: cover;
 }
 
 #niepoprawneSymbol {
-    width: 10%;
-    height: 40px;
-    background-color: darkkhaki;
+    width: 5%;
+    height: 50px;
     box-sizing: border-box;
+    background-image: url("./assets/menu/no.png");
+    background-size: cover;
+    margin-left: 5%;
 }
 
 #niepoprawne {
     width: 40%;
-    height: 40px;
-    background-color: #1d2b53;
+    height: 50px;
     box-sizing: border-box;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 27px;
+    padding-left: 10px;
+    border-radius: 25px;
+    font-weight: bold;
 }
 
 #pytanie {
     width: 46.13%;
     height: 549px;
-    margin: 50px 40px 0 0;
-    background-color: crimson;
+    margin: 40px 40px 0 0;
+    background-color: white;
     box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 10px inset #00e436;
+}
+
+#pytanie p {
+    max-width: 70%;
+    max-height: 70%;
+    font-size: 30px;
+    padding: 10px 40px;
+    margin: 0;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
 }
 
 #ans {
     width: 46.13%;
     height: 549px;
-    background-color: blue;
     box-sizing: border-box;
     display: flex;
     flex-wrap: wrap;
     align-content: space-around;
-    margin: 50px 0 0 40px;
+    margin: 40px 0 0 40px;
 }
 
 .answer {
     width: 100%;
-    height: 130px;
-    background-color: brown;
+    height: 160px;
+    border: 5px solid #008751;
+    background-color: white;
     box-sizing: border-box;
     display: flex;
     justify-content: center;
+    text-align: center;
+    font-size: 30px;
+}
+
+.answer:hover {
+    box-shadow: 0 0 8px 8px rgba(255, 255, 255, 0.5);
+    border: 5px solid #00e436;
+    transform: scale(1.01);
+}
+
+.answer p{
+    max-width: 80%;
+    max-height: 70%;
+    margin: 0;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 20px 0 10px 0;
+}
+
+.answer img {
+    max-width: 100%;
+    max-height: 100%;
+    height: auto;
+    display: block;
+    border-radius: 5px;
+    margin: 5px 0;
 }
  /* qiuzEnd  */
 
@@ -914,9 +973,10 @@ h1 {
     height: 619px;
     box-sizing: border-box;
     display: flex;
-    background-color: bisque;
+    background-color: white;
     margin: 55px auto;
     flex-flow: column wrap;
+    border: 8px outset #00e436;
 }
 
 #gratulacjeNapis {
@@ -924,8 +984,9 @@ h1 {
     height: 200px;
     box-sizing: border-box;
     display: flex;
-    background-color: crimson;
+    /*background-color: crimson;*/
     margin: 50px 45px 0 45px;
+    border-bottom: 8px solid #008751;
 }
 
 #podsumowanie {
@@ -933,24 +994,38 @@ h1 {
     height: 150px;
     box-sizing: border-box;
     display: flex;
-    background-color: crimson;
+    justify-content: center;
+    align-items: center;
+    font-size: 27px;
     margin: 43px 45px 0 45px;
+    border-top: 8px solid #008751;
+}
+
+#podsumowanie p {
+    width: 80%;
 }
 
 #jeszczeRaz {
-    width: 503px;
-    height: 75px;
+    width: 12%;
+    height: 64px;
     box-sizing: border-box;
     display: flex;
-    background-color: crimson;
-    margin: 50px 45px;
+    background-image: url("./assets/menu/powrot1.png");
+    background-size: cover;
+    margin: 45px 44%;
 }
 
+#jeszczeRaz:hover {
+    background-image: url("./assets/menu/powrot.png");
+    background-size: cover;
+}
 
 /* KIOSK.HTML */
 
+
+
 .Stats {
-    width: 41.5%;
+    width: 27.9%;
     height: 264px;
     box-sizing: border-box;
     border: 7px solid #fff1e8;
@@ -960,11 +1035,12 @@ h1 {
     margin: 100px 0 0 100px;
     background-color: #008751;
     border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
 }
 
 #imagebabolotStats {
     margin: 0 auto;
-    width:50%;
+    width:80%;
     height: 100%;
     background-image: url("./assets/garage/kioskbabolot.png");
     background-size: cover;
@@ -979,45 +1055,52 @@ h1 {
 }
 
 #holeraceStats {
-    margin: 100px 100px 0 0;
+    margin: 100px 0 0 0;
     background-color: #a8e72e;
-    border-top-right-radius: 20px;
 }
 
 #imageholeStats {
-    margin: 0 auto;
-    width:50%;
-    height: 100%;
-    background-image: url("./assets/garage/kioskholerace.png");
+    margin: 8px auto;
+    width:80%;
+    height: 94%;
+    background-image: url("./assets/garage/cone.png");
     background-size: cover;
 }
 
 #quizyStats {
-    margin: 0 0 101px 100px;
+    margin: 100px 0 0 0;
     background-color: #a8e72e;
-    border-bottom-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
 }
 
 #imagequizyStats {
     margin: 0 auto;
-    width:50%;
+    width:80%;
     height: 100%;
     background-image: url("./assets/garage/kioskquizy.png");
     background-size: cover;
+    background-position: 0% 20%;
 }
 
 #XP {
-    margin: 0 100px 101px 0;
+    margin: 0 0 101px 22%;
     background-color: #008751;
-    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
 }
 
 #imageXP {
     margin: 0 auto;
-    width:50%;
+    width:80%;
     height: 100%;
-    background-image: url("./assets/garage/xp (2).png");
+    background-image: url("./assets/garage/kioskxp.png");
     background-size: cover;
+}
+
+#runout {
+    margin: 0 22% 101px 0;
+    background-color: #a8e72e;
+    border-bottom-right-radius: 20px;
 }
 
 #lvl {
@@ -1037,6 +1120,7 @@ h1 {
     font-family: "Courier New";
     font-weight: bold;
 }
+
 
 #AllStatsInfo {
     width: 100%;
@@ -1060,18 +1144,6 @@ h1 {
     overflow-x: hidden;
     text-align: center;
 }
-/*
-#statsContainer{
-   box-sizing: border-box;
-    width: 1000px;
-    height: 483px;
-    display: flex;
-    justify-content: center;
-    overflow-y: scroll;
-    margin-right: 20px;
-    width: calc(100% - 20px);
-    overflow-y: scroll;
-}*/
 
 table {
     width: 70%;
@@ -1109,7 +1181,8 @@ td {
     width: 70%;
     height: 729px;
     box-sizing: border-box;
-    background-color: chartreuse;
+    background-size: cover;
+    background-position: 0 65.6%;
 }
 
 #koloryOpcje {
@@ -1230,15 +1303,22 @@ td {
 /* RACE.HTML */
 
 #babolot {
-    width:50%;
+    width:33.3%;
     display: flex;
     box-sizing: border-box;
     background-color: #ffa300;
 }
 
 #racehole {
-    width: 50%;
+    width: 33.3%;
     display: flex;
     box-sizing: border-box;
     background-color: #8D18F2;
+}
+
+#runOut {
+    width: 33.3%;
+    display: flex;
+    box-sizing: border-box;
+    background-color: #065ab5;
 }

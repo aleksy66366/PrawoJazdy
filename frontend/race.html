@@ -20,6 +20,7 @@
         <div id="screen">
             <div id="babolot"></div>
             <div id="racehole"></div>
+            <div id="runOut"></div>
         </div>
         </div>
         <div id="settings">
@@ -45,12 +46,15 @@
             document.body.style.zoom = parseFloat(window.getComputedStyle(document.body).zoom) - 0.1;
         };
 
-        var zbabolot = document.getElementById("babolot");
+        var babolot = document.getElementById("babolot");
+        babolot.onclick = function() {
+            window.location.href = '/babolot';        };
+        var runOut = document.getElementById("runOut");
+        runOut.onclick = function() {
+            window.location.href = '/runout';        };
+        var racehole = document.getElementById("racehole");
         racehole.onclick = function() {
-            window.location.href = 'babolot.html';        };
-        var zoomOutButton = document.getElementById("racehole");
-        racehole.onclick = function() {
-            window.location.href = 'racehole.html';        };
+            window.location.href = '/racehole';        };
 
             function updateMoney() {
     fetch('/money', { method: 'GET' })
