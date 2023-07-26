@@ -1022,8 +1022,10 @@ h1 {
 
 /* KIOSK.HTML */
 
+
+
 .Stats {
-    width: 41.5%;
+    width: 27.9%;
     height: 264px;
     box-sizing: border-box;
     border: 7px solid #fff1e8;
@@ -1033,11 +1035,12 @@ h1 {
     margin: 100px 0 0 100px;
     background-color: #008751;
     border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
 }
 
 #imagebabolotStats {
     margin: 0 auto;
-    width:50%;
+    width:80%;
     height: 100%;
     background-image: url("./assets/garage/kioskbabolot.png");
     background-size: cover;
@@ -1052,45 +1055,52 @@ h1 {
 }
 
 #holeraceStats {
-    margin: 100px 100px 0 0;
+    margin: 100px 0 0 0;
     background-color: #a8e72e;
-    border-top-right-radius: 20px;
 }
 
 #imageholeStats {
     margin: 8px auto;
-    width:50%;
+    width:80%;
     height: 94%;
     background-image: url("./assets/garage/cone.png");
     background-size: cover;
 }
 
 #quizyStats {
-    margin: 0 0 101px 100px;
+    margin: 100px 0 0 0;
     background-color: #a8e72e;
-    border-bottom-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
 }
 
 #imagequizyStats {
     margin: 0 auto;
-    width:50%;
+    width:80%;
     height: 100%;
     background-image: url("./assets/garage/kioskquizy.png");
     background-size: cover;
+    background-position: 0% 20%;
 }
 
 #XP {
-    margin: 0 100px 101px 0;
+    margin: 0 0 101px 22%;
     background-color: #008751;
-    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
 }
 
 #imageXP {
     margin: 0 auto;
-    width:50%;
+    width:80%;
     height: 100%;
     background-image: url("./assets/garage/kioskxp.png");
     background-size: cover;
+}
+
+#runout {
+    margin: 0 22% 101px 0;
+    background-color: #a8e72e;
+    border-bottom-right-radius: 20px;
 }
 
 #lvl {
@@ -1110,6 +1120,7 @@ h1 {
     font-family: "Courier New";
     font-weight: bold;
 }
+
 
 #AllStatsInfo {
     width: 100%;
@@ -1292,15 +1303,22 @@ td {
 /* RACE.HTML */
 
 #babolot {
-    width:50%;
+    width:33.3%;
     display: flex;
     box-sizing: border-box;
     background-color: #ffa300;
 }
 
 #racehole {
-    width: 50%;
+    width: 33.3%;
     display: flex;
     box-sizing: border-box;
     background-color: #8D18F2;
+}
+
+#runOut {
+    width: 33.3%;
+    display: flex;
+    box-sizing: border-box;
+    background-color: #065ab5;
 }
