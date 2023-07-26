@@ -617,9 +617,9 @@ h1 {
 
 
 #leftArrow{
-    width: 4%;
-    height: 46px;
-    margin: 341px 22px 342px 52px;
+    width: 6%;
+    height: 64px;
+    margin: 341px 22px 342px 42px;
     position: relative;
     box-sizing: border-box;
     background-image: url("./assets/menu/buttonarrowleft1.png");
@@ -632,11 +632,11 @@ h1 {
 }
 
 #info {
-    width: 996px;
+    width: 80%;
     height: 619px;
     position: relative;
     box-sizing: border-box;
-    background-color: #742f29;
+    background-color: rgba(116,47,41, 0.7);
     display: flex;
     flex-wrap: wrap;
     margin: 30px 0 80px 0;
@@ -645,9 +645,9 @@ h1 {
 }
 
 #rightArrow {
-    width: 4%;
-    height: 46px;
-    margin: 341px 52px 342px 22px;
+    width: 6%;
+    height: 64px;
+    margin: 341px 42px 342px 22px;
     position: relative;
     box-sizing: border-box;
     background-image: url("./assets/menu/buttonarrow1.png");
@@ -682,37 +682,58 @@ h1 {
     width: 50%;
     height: 200px;
     box-sizing: border-box;
-    background-color: #ab5236;
+    background-color: #d6785a;
     margin: 70px 73px 30px 73px;
     border-radius: 60%;
     display: flex;
     justify-content: center;
+    align-items: center;
     overflow: auto;
 }
 
 #titleInfo h1 {
+    width: 70%;
     font-size: 30px;
     padding: 10px 40px;
+    margin: 0;
 }
 
 #aboutInfo {
     box-sizing: border-box;
     width: 896px;
     height: 229px;
-    margin: 50px;
-    background-color: #ab5236;
+    margin: 50px 50px 30px 50px;
+    background-color: #d6785a;
     font-family: "Roboto Regular 400";
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #aboutInfo p {
+    max-width: 80%;
+    max-height: 70%;
     text-align: center;
     font-size: 25px;
-    padding: 20px 30px 0 30px;
+    margin: 0;
+    overflow: hidden; /* Obcinanie tekstu, który nie zmieści się w divie */
+    position: relative;
+}
+
+#aboutInfo p:hover {
+    overflow: auto;
+}
+
+/* Ukrywamy pasek przewijania, gdy nie jest potrzebny */
+#aboutInfo p::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    background: transparent;
 }
 
 #backToScreen {
-    width: 46px;
-    height: 46px;
+    width: 60px;
+    height: 64px;
     background-image: url("./assets/menu/powrot1.png");
     background-size: cover;
     box-sizing: border-box;
@@ -1030,29 +1051,33 @@ h1 {
 #statsDiv {
     box-sizing: border-box;
     width:1096px;
-    height: 629px;
+    height: 483px;
     display: flex;
-    position: relative;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     margin: 50px auto;
-    /*overflow: auto;*/
+    overflow-x: hidden;
+    text-align: center;
 }
-
+/*
 #statsContainer{
-    box-sizing: border-box;
+   box-sizing: border-box;
     width: 1000px;
     height: 483px;
-    overflow: auto;
     display: flex;
     justify-content: center;
-}
+    overflow-y: scroll;
+    margin-right: 20px;
+    width: calc(100% - 20px);
+    overflow-y: scroll;
+}*/
 
 table {
-    width: 100%;
+    width: 70%;
     border-collapse: separate;
     border-spacing: 0 10px;
+    margin-top: 20px;
     border-radius: 20px;
     empty-cells: hide;
 }
