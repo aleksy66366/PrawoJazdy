@@ -778,6 +778,10 @@ app.get('/racehole', checkAuth, (req, res) => {
   const Path = path.join(staticDir, '../frontend/racehole.html');
   res.sendFile(Path);
 });
+app.get('/runout', checkAuth, (req, res) => {
+  const Path = path.join(staticDir, '../frontend/runout.html');
+  res.sendFile(Path);
+});
 //-----_____-----______-----_____-----_____-----_____-----_____-----
 //Kod wojtek
 

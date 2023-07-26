@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <link rel="icon" href="assets/icon.png" type="image/png">
+    <title>RunOut</title>
+</head>
+<body>
+    <div class="body">
+        <div id="money">
+            <div id="moneyValue">
+                <div id="mon"></div>
+                <div id="val"></div>
+            </div>
+        </div>
+        <div id="screen">
+            <canvas id="myCanvas" width="1296" height="729"></canvas>
+        </div>
+        <div id="settings">
+            <div class="settingsButton" id="back"></div>
+            <div class="settingsButton" id="zoomIn"></div>
+            <div class="settingsButton" id="zoomOut"></div>
+            <div class="settingsButton" id="music"></div>
+            <div class="settingsButton" id="volume"></div>
+        </div>
+    </div>
+
+    <script>
+        var backDiv = document.getElementById("back");
+        backDiv.onclick = function() {
+            window.location.href = '/city';
+        };
+        var zoomInButton = document.getElementById("zoomIn");
+        zoomInButton.onclick = function() {
+            document.body.style.zoom = parseFloat(window.getComputedStyle(document.body).zoom) + 0.1;
+        };
+        var zoomOutButton = document.getElementById("zoomOut");
+        zoomOutButton.onclick = function() {
+            document.body.style.zoom = parseFloat(window.getComputedStyle(document.body).zoom) - 0.1;
+        };
+        function updateMoney() {
+            fetch('/money', { method: 'GET' })
+            .then(response => {
+                if (response.ok) {
+                return response.json();
+                } else {
+                throw new Error('Błąd podczas pobierania danych.');
+                }
+            })
+            .then(data => {
+                const moneyValue = data.userLevel; // Assuming the response JSON has a 'userLevel' field for money
+                const valDiv = document.getElementById('val');
+                valDiv.textContent = `${moneyValue}`; // Update the 'val' div with the user's money
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        }
+
+        // Call the updateMoney function to initially fetch and display user's money
+        updateMoney();
+
+        let dane;
+        let lives;
+        fetch('/car-lvl')
+      .then(response => response.json())
+      .then(data => {
+        dane = data;
+        player.speed*=dane[0].lvl;
+        lives=dane[2].lvl;
+        animate();
+      })
+      .catch(error => {
+        console.error(error);
+      });
+
+      
+
+
+        const canvas = document.getElementById('myCanvas');
+        const ctx = canvas.getContext('2d');
+
+        var carIm = new Image();
+        carIm.src = './assets/car/car.png';
+        var carImage = new Image();
+        carImage.src = './assets/car/baba.png';
+
+        var player = {
+            pos: { x: canvas.width / 2, y: canvas.height / 2 },
+            size: { x: 21, y: 21 },
+            image: carImage,
+            vel: { x: 0, y: 0 },
+            speed: 1
+        };
+
+        var rectangles = [];
+
+        // Tworzenie 10 obiektów o losowych wektorach
+        for (let i = 0; i < 20; i++) {
+            rectangles.push({
+                pos: { x: Math.random() * canvas.width, y: Math.random() * canvas.height },
+                vec: { x: Math.random() * 2 - 1, y: Math.random() * 2 - 1 },
+                size: { x: 18, y: 32 },
+                rotation: Math.PI / 2,
+                vel: 2,
+                speed: 1,
+                maxSpeed: 6,
+                image: carIm,
+                draw() {
+                    ctx.save();
+                    ctx.translate(this.pos.x, this.pos.y);
+                    ctx.rotate(this.rotation + Math.PI / 2);
+                    ctx.drawImage(this.image, -this.size.x / 2, -this.size.y / 2, this.size.x, this.size.y);
+                    ctx.restore();
+                },
+                update() {
+                    this.speed += this.vel;
+                    this.speed = Math.min(this.speed, this.maxSpeed);
+                    this.pos.x += this.vec.x * this.speed;
+                    this.pos.y += this.vec.y * this.speed;
+
+                    this.rotation = Math.atan2(this.vec.y, this.vec.x) + Math.PI;
+
+                    // Odbijanie od krawędzi płótna
+                    if (this.pos.x - this.size.x / 2 < 0 || this.pos.x + this.size.x / 2 > canvas.width) {
+                        this.vec.x *= -1;
+                    }
+                    if (this.pos.y - this.size.y / 2 < 0 || this.pos.y + this.size.y / 2 > canvas.height) {
+                        this.vec.y *= -1;
+                    }
+                }
+            });
+        }
+
+        function drawPlayer() {
+            ctx.drawImage(player.image, player.pos.x - player.size.x / 2, player.pos.y - player.size.y / 2, player.size.x, player.size.y);
+        }
+
+        function updatePlayer() {
+            if (player.pos.x + player.vel.x - player.size.x / 2 >= 0 && player.pos.x + player.vel.x + player.size.x / 2 <= canvas.width) {
+                player.pos.x += player.vel.x;
+            }
+            if (player.pos.y + player.vel.y - player.size.y / 2 >= 0 && player.pos.y + player.vel.y + player.size.y / 2 <= canvas.height) {
+                player.pos.y += player.vel.y;
+            }
+        }
+
+        document.addEventListener('keydown', event => {
+            if (event.key === 'w') {
+                player.vel.y = -player.speed;
+            } else if (event.key === 's') {
+                player.vel.y = player.speed;
+            } else if (event.key === 'a') {
+                player.vel.x = -player.speed;
+            } else if (event.key === 'd') {
+                player.vel.x = player.speed;
+            }
+        });
+
+        document.addEventListener('keyup', event => {
+            if (event.key === 'w' || event.key === 's') {
+                player.vel.y = 0;
+            } else if (event.key === 'a' || event.key === 'd') {
+                player.vel.x = 0;
+            }
+        });
+
+        let startTime = Date.now();
+        let seconds;
+        function updateTimer() {
+            const currentTime = Date.now();
+            const elapsedTime = currentTime - startTime;
+            seconds = Math.floor(elapsedTime / 1000);
+            ctx.font = '20px Arial';
+            ctx.fillStyle = 'black';
+            ctx.fillText(`Time: ${seconds} seconds, lives: ${lives}`, 10, 30);
+        }
+
+        let collisionDisabled = false;
+        const collisionDuration = 1000; // 5 sekund w milisekundach
+
+        function checkCollision() {
+            if (collisionDisabled) return; // Wyjście z funkcji, jeśli kolizje są wyłączone
+
+            rectangles.forEach(rectangle => {
+                if (
+                    player.pos.x - player.size.x / 2 < rectangle.pos.x + rectangle.size.x / 2 &&
+                    player.pos.x + player.size.x / 2 > rectangle.pos.x - rectangle.size.x / 2 &&
+                    player.pos.y - player.size.y / 2 < rectangle.pos.y + rectangle.size.y / 2 &&
+                    player.pos.y + player.size.y / 2 > rectangle.pos.y - rectangle.size.y / 2
+                ) {
+                    // Resetuj stronę po zderzeniu
+                    lives--;
+
+                    // Wyłącz kolizje na określony czas
+                    collisionDisabled = true;
+                    setTimeout(() => {
+                        collisionDisabled = false;
+                    }, collisionDuration);
+                }
+            });
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            rectangles.forEach(rectangle => {
+                rectangle.update();
+                rectangle.draw();
+            });
+            drawPlayer();
+            updatePlayer();
+            checkCollision();
+            updateTimer();
+            if(lives>0){
+                requestAnimationFrame(animate);
+            } else{
+                alert(`Twój czas to ${seconds}`);
+                window.location.href = '/race';
+            }
+        }
+
+        
+    </script>
+</body>
+</html>
