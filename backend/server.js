@@ -1017,6 +1017,30 @@ app.get('/categoryName/:id', function (req, res) {
 
 );
 
+app.get('/updatemoney', checkAuth, (req, res) => {
+  const userId = req.session.loggedUserId;
+  const updateMoneyQuery = `
+    UPDATE user
+    SET money = money + 50
+    WHERE id = ?
+  `;
+  db.run(updateMoneyQuery, [userId], function (err) {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      if (this.changes > 0) {
+        // The query updated at least one row, meaning the user with the given ID was found and money was updated.
+        res.json({ message: 'Money updated successfully' });
+        console.log("Dodano złoto Sir");
+      } else {
+        // The query didn't update any row, meaning the user with the given ID was not found.
+        res.status(404).send('Nie');
+      }
+    }
+  });
+});
+
 //-----_____-----______-----_____-----_____-----_____-----_____-----
 // Uruchomienie serwera
 app.listen(port, () => {

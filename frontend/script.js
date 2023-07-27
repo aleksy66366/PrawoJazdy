@@ -35,6 +35,7 @@ testButton.addEventListener('click', function() {
     screen.style.display = "flex";
     znaki.style.display = "flex";
     kodeks.style.display = "flex";
+    location.reload();
 });
 function updateMoney() {
   fetch('/money', { method: 'GET' })
@@ -108,8 +109,6 @@ const incorrectAnswers = score.totalQuestions - score.correctAnswers;
 summaryTotalQuestionsDiv1.textContent = "Liczba pytań: " + score.totalQuestions ;
 summaryTotalQuestionsDiv2.textContent = "\nLiczba poprawnych odpowiedzi: " + score.correctAnswers;
 summaryTotalQuestionsDiv3.textContent ="\nLiczba złych odpowiedzi: " + incorrectAnswers;
-score.totalQuestions = 0;
-score.correctAnswers = 0;
 updateScore();
 gameDiv.style.display = 'none';
 summaryDiv.style.display = 'flex';
@@ -186,8 +185,30 @@ shuffledTitles.forEach(function(title, index) {
       score.totalQuestions++;
       updateScore();
 
-      if (score.totalQuestions === 5) {
+      if (score.totalQuestions === 8) {
         showSummary();
+        if(score.correctAnswers>6){
+          fetch('/updatemoney', {
+            method: 'GET',
+            credentials: 'same-origin' // Include this line to send cookies along with the request (assuming the session cookie is needed for authentication)
+          })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(data => {
+            // Handle the JSON response from the server (e.g., display a success message)
+            console.log(data);
+          })
+          .catch(error => {
+            // Handle any errors that occurred during the fetch request
+            console.error('Error:', error);
+          });
+          score.totalQuestions = 0;
+          score.correctAnswers = 0;
+        }
       } else {
         setTimeout(function() {
           displayQuestionAndAnswers([], true);
@@ -233,8 +254,31 @@ shuffledNames.forEach(function(name, index) {
       score.totalQuestions++;
       updateScore();
 
-      if (score.totalQuestions === 5) {
+      if (score.totalQuestions === 10) {
         showSummary();
+        alert(score.correctAnswers);
+        if(score.correctAnswers>7){
+          fetch('/updatemoney', {
+            method: 'GET',
+            credentials: 'same-origin' // Include this line to send cookies along with the request (assuming the session cookie is needed for authentication)
+          })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(data => {
+            // Handle the JSON response from the server (e.g., display a success message)
+            console.log(data);
+          })
+          .catch(error => {
+            // Handle any errors that occurred during the fetch request
+            console.error('Error:', error);
+          });
+          score.totalQuestions = 0;
+          score.correctAnswers = 0;
+        }
       } else {
         setTimeout(function() {
           displayQuestionAndAnswers(selectedCategories, false);
