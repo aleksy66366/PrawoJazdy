@@ -1342,9 +1342,13 @@ td {
     width: 30%;
     height: 80%;
     box-sizing: border-box;
-    background-color: #fff1e8;
-    border-radius: 50px;
-    border: 5px solid #808080;
+    background-color: rgb(243,239,125);
+    /*background-color: #fff1e8;
+    border-radius: 50px;*/
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+    border: 5px solid rgb(159,76,51);
+    /*border: 5px solid #808080;*/
     margin: 0 10px 0 10px;
     display: flex;
     flex-wrap: wrap;
@@ -1359,14 +1363,17 @@ td {
     align-items: center;
     justify-content: center;
     background-color: #ffa300;
-    border-radius: 50px;
-    border: 5px solid green;
+    border-top: 3px solid #008751;
+    border-bottom: 3px solid #008751;
+    border-left: 3px solid #008751;
     font-size: 30px;
     font-weight: bold;
+    /*border-top-left-radius: 40px;
+    border-bottom-left-radius: 20px;*/
 }
 
 .cena {
-    width:40%;
+    width: 40%;
     height: 25%;
     box-sizing: border-box;
     display: flex;
@@ -1377,8 +1384,9 @@ td {
     text-align: center;
     color: #00008B;
     background-color: #a8e72e;
-    border: 5px solid #008751;
-    border-top-right-radius: 5px;
+    border: 3px solid #008751;
+    /*border-top-right-radius: 40px;
+    border-bottom-right-radius: 20px;*/
 }
 
 .zdjGarage {
@@ -1388,6 +1396,15 @@ td {
     background-size: 100%;
     background-repeat: no-repeat;
     background-position: center;
+    border-width: 5px;
+    border-radius: 40%;
+    border-style: dotted dashed solid;
+    border-color: /*#5f574f*/ black;
+}
+
+.zdjGarage:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 8px 8px #FFFF33;
 }
 
 #amorzdj {
@@ -1405,22 +1422,28 @@ td {
 /* RACE.HTML */
 
 #babolot {
-    width:33.3%;
+    width:30.3%;
+    height: 50%;
     display: flex;
     box-sizing: border-box;
     background-color: #ffa300;
+    margin: 15% 1.5%;
 }
 
 #racehole {
-    width: 33.3%;
+    width: 30.3%;
+    height: 50%;
     display: flex;
     box-sizing: border-box;
     background-color: #8D18F2;
+    margin: 15% 1.5%;
 }
 
 #runOut {
-    width: 33.3%;
+    width: 30.3%;
+    height: 50%;
     display: flex;
     box-sizing: border-box;
     background-color: #065ab5;
+    margin: 15% 1.5%;
 }
