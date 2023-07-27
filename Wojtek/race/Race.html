@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Poruszanie grafikami w Canvasie</title>
+</head>
+<body>
+    <canvas id="myCanvas" width="1296" height="728" style="border: 1px solid black;"></canvas>
+
+    <script>
+        // Pobierz element Canvas
+        const canvas = document.getElementById("myCanvas");
+        const ctx = canvas.getContext("2d");
+
+        const animationFrames = [
+            "babathrow1.png",
+            "babathrow2.png",
+            "babathrow3.png",
+            "babathrow4.png",
+            "babathrow5.png",
+            "babathrow6.png",
+            "babathrow7.png",
+            "babathrow8.png",
+        ]; // Tutaj przechowamy klatki animacji
+
+        const spriteWidth = 200; // Szerokość pojedynczej klatki animacji w pikselach (zmień na odpowiednią wartość)
+        const spriteHeight = 100; // Wysokość pojedynczej klatki animacji w pikselach (zmień na odpowiednią wartość)
+
+        const numFrames = 8; // Całkowita liczba klatek animacji (zmień na odpowiednią wartość)
+
+        // Grafiki
+        const backgroundImage = new Image();
+        backgroundImage.src = "street.png";
+
+        const playerImage = new Image();
+        playerImage.src = "Ourcar.png";
+
+        const randomImage = new Image();
+        randomImage.src = animationFrames[0];
+		let currentFrameIndex=0;
+		
+        const coneImage = new Image();
+        coneImage.src = "cone.png";
+
+        // Wymiary i położenie kwadratu gracza
+        const squareSize = 100;
+        const cornSize = 50;
+		
+        let playerX = canvas.width / 2 - squareSize / 2;
+        const playerY = 600;
+
+        // Wymiary i położenie kwadratu losowego
+        let randomSquareX = canvas.width / 2 - squareSize / 2;
+        const randomSquareY = 20; // Kwadrat będzie na górze ekranu
+
+        // Zmienna do określania kierunku ruchu kwadratu losowego (-1 dla lewo, 1 dla prawo)
+        let randomSquareDirection = Math.random() < 0.5 ? -1 : 1;
+
+        // Tablica przechowująca obiekty spadające
+        const fallingObjects = [];
+
+        // Zmienna do liczenia wylosowanych liczb 5
+        let countOfFives = 0;
+
+        // Zmienna do przechowywania aktualnego y pozycji tła
+        let backgroundY = 0;
+
+        // Szybkość przewijania tła
+        const backgroundSpeed = 5;
+
+        // Punkty
+        let points = 0;
+
+let moves=false;
+function animate()
+{
+return moves=true;
+}
+
+
+        // Funkcja do aktualizacji ruchu kwadratu losowego
+        function updateRandomSquare() {
+            // Rzuć kostką K100
+		    setTimeout(() => {
+        animate();
+    }, 1000);			
+			if(moves==true)
+			{
+			
+            currentFrameIndex+=1;
+			if(currentFrameIndex==2)
+			{
+			currentFrameIndex=0;
+			}
+			moves=false
+			}
+			
+			
+            randomImage.src = animationFrames[currentFrameIndex];
+
+            const rollResult = Math.floor(Math.random() * 50) + 1;
+
+            // Jeśli wypadnie 1, zmień kierunek ruchu
+            if (rollResult === 1) {
+                randomSquareDirection *= -1;
+            }
+
+            // Ogranicz ruch kwadratu losowego do 350px w lewo/prawo od centrum ekranu
+            if (
+                randomSquareX + squareSize / 2 + 5 * randomSquareDirection <= canvas.width / 2 + 200 &&
+                randomSquareX + squareSize / 2 + 5 * randomSquareDirection >= canvas.width / 2 - 200 - squareSize
+            ) {
+                randomSquareX += 5 * randomSquareDirection;
+				
+            }
+			else{
+			randomSquareDirection*=-1;
+			}
+
+            // Sprawdź, czy wylosowano liczbę 5
+            if (rollResult === 5) {
+                countOfFives++;
+            }
+
+            // Wyświetl kwadrat spadający w dół po wylosowaniu 5
+            if (countOfFives > 0) {
+                // Dodaj nowy obiekt spadający do tablicy
+                fallingObjects.push({
+                    x: randomSquareX,
+                    y: randomSquareY,
+                });
+                // Zresetuj licznik wylosowanych piątek
+                countOfFives = 0;
+            }
+
+            // Aktualizuj pozycję wszystkich obiektów spadających
+            for (const fallingObject of fallingObjects) {
+                fallingObject.y += 10;
+
+                // Sprawdź kolizję z graczem
+                if (
+                    fallingObject.y + cornSize >= playerY &&
+                    fallingObject.y <= playerY + cornSize &&
+                    fallingObject.x + squareSize >= playerX &&
+                    fallingObject.x <= playerX + squareSize
+                ) {
+                    alert("BOOM!");
+                    resetGame();
+                    return;
+                }
+
+                // Sprawdź, czy spadający obiekt wypadł poza ekran
+                if (fallingObject.y > canvas.height) {
+                    // Jeśli tak, dodaj punkt i usuń go z tablicy
+                    points++;
+                    fallingObjects.splice(fallingObjects.indexOf(fallingObject), 1);
+                }
+            }
+
+            // Przesuń tło w dół
+            backgroundY += backgroundSpeed;
+            if (backgroundY >= canvas.height) {
+                backgroundY = 0;
+            }
+
+            // Wyczyść Canvas i narysuj tło
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(backgroundImage, 0, backgroundY, canvas.width, canvas.height);
+            ctx.drawImage(backgroundImage, 0, backgroundY - canvas.height, canvas.width, canvas.height);
+
+            // Narysuj gracza i obrazy spadające na nowych pozycjach
+            ctx.drawImage(randomImage, randomSquareX, randomSquareY - 25, 200, 100);
+            ctx.drawImage(playerImage, playerX, playerY, squareSize, squareSize);
+
+            // Narysuj wszystkie obiekty spadające
+            for (const fallingObject of fallingObjects) {
+                ctx.drawImage(coneImage, fallingObject.x + 60, fallingObject.y, cornSize, cornSize);
+            }
+
+            // Wyświetl punkty na ekranie
+            ctx.fillStyle = "black";
+            ctx.font = "20px Arial";
+            ctx.fillText("Punkty: " + points, 20, 30);
+
+            // Wywołaj funkcję ponownie przy następnej animacji
+            requestAnimationFrame(updateRandomSquare);
+        }
+
+        // Funkcja resetująca grę
+        function resetGame() {
+            location.reload();
+        }
+
+        // Obsługa naciśnięcia klawiszy strzałek dla gracza
+        window.addEventListener("keydown", (event) => {
+            switch (event.key) {
+                case "ArrowLeft":
+                    if (playerX - 10 >= canvas.width / 2 - 200 - squareSize) {
+                        playerX -= 10;
+                    }
+                    break;
+                case "ArrowRight":
+                    if (playerX + 10 + squareSize <= canvas.width / 2 + 250) {
+                        playerX += 10;
+                    }
+                    break;
+                case "ArrowUp":
+                    if (playerY - 10 >= 0) {
+                        playerY -= 10;
+                    }
+                    break;
+                case "ArrowDown":
+                    if (playerY + 10 + squareSize <= canvas.height) {
+                        playerY += 10;
+                    }
+                    break;
+            }
+
+            // Wyczyść Canvas i narysuj tło
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(backgroundImage, 0, backgroundY, canvas.width, canvas.height);
+            ctx.drawImage(backgroundImage, 0, backgroundY - canvas.height, canvas.width, canvas.height);
+
+            // Narysuj gracza i obrazy spadające na nowych pozycjach
+            ctx.drawImage(randomImage, randomSquareX, randomSquareY, squareSize, squareSize);
+            ctx.drawImage(playerImage, playerX, playerY, squareSize, squareSize);
+
+            // Narysuj wszystkie obiekty spadające
+            for (const fallingObject of fallingObjects) {
+                ctx.drawImage(coneImage, fallingObject.x, fallingObject.y, cornSize, cornSize);
+            }
+        });
+
+        // Wywołaj funkcję aktualizującą ruch kwadratu losowego
+        requestAnimationFrame(updateRandomSquare);
+
+        // Narysuj początkowe położenie obu obrazów
+        ctx.drawImage(backgroundImage, 0, backgroundY, canvas.width, canvas.height);
+        ctx.drawImage(backgroundImage, 0, backgroundY - canvas.height, canvas.width, canvas.height);
+        ctx.drawImage(playerImage, playerX, playerY, squareSize, squareSize);
+        ctx.drawImage(randomImage, randomSquareX, randomSquareY, squareSize, squareSize);
+		
+
+		
+    </script>
+</body>
+</html>
