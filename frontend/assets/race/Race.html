@@ -1,65 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css" type="text/css">
-    <link rel="icon" href="assets/icon.png" type="image/png">
-    <title>Racehole</title>
+    <title>Poruszanie grafikami w Canvasie</title>
 </head>
 <body>
-    <div class="body">
-        <div id="money">
-            <div id="moneyValue">
-                <div id="mon"></div>
-                <div id="val"></div>
-            </div>
-        </div>
-        <div id="screen">
-            <canvas id="myCanvas" width="1296" height="728" style="border: 1px solid black;"></canvas>
-        </div>
-        <div id="settings">
-            <div class="settingsButton" id="back"></div>
-            <div class="settingsButton" id="zoomIn"></div>
-            <div class="settingsButton" id="zoomOut"></div>
-            <div class="settingsButton" id="music"></div>
-            <div class="settingsButton" id="volume"></div>
-        </div>
-    </div>
+    <canvas id="myCanvas" width="1296" height="728" style="border: 1px solid black;"></canvas>
 
     <script>
-        var backDiv = document.getElementById("back");
-        backDiv.onclick = function() {
-            window.location.href = '/city';
-        };
-        var zoomInButton = document.getElementById("zoomIn");
-        zoomInButton.onclick = function() {
-            document.body.style.zoom = parseFloat(window.getComputedStyle(document.body).zoom) + 0.1;
-        };
-        var zoomOutButton = document.getElementById("zoomOut");
-        zoomOutButton.onclick = function() {
-            document.body.style.zoom = parseFloat(window.getComputedStyle(document.body).zoom) - 0.1;
-        };
-    </script>
-	<script>
         // Pobierz element Canvas
-		let speed=10 //poruszanie na boki
-		let life=3   //życie
-		let agresive=20 // im mniejsza wartość tym baba częściej coś robi (min k20)
-		let stopAnimation=false;
         const canvas = document.getElementById("myCanvas");
         const ctx = canvas.getContext("2d");
-		let ud=1;
+
         const animationFrames = [
-            "assets/race/babathrow1.png",
-            "assets/race/babathrow2.png",
-            "assets/race/babathrow3.png",
-            "assets/race/babathrow5.png",
-            "assets/race/babathrow4.png",
-            "assets/race/babathrow6.png",
-            "assets/race/babathrow7.png",
-            "assets/race/babathrow8.png",
-			"assets/race/babolot.gif"
+            "babathrow1.png",
+            "babathrow2.png",
+            "babathrow3.png",
+            "babathrow4.png",
+            "babathrow5.png",
+            "babathrow6.png",
+            "babathrow7.png",
+            "babathrow8.png",
         ]; // Tutaj przechowamy klatki animacji
 
         const spriteWidth = 200; // Szerokość pojedynczej klatki animacji w pikselach (zmień na odpowiednią wartość)
@@ -69,25 +29,18 @@
 
         // Grafiki
         const backgroundImage = new Image();
-        backgroundImage.src = "assets/race/street.png";
+        backgroundImage.src = "street.png";
 
         const playerImage = new Image();
-        playerImage.src = "assets/race/Ourcar.png";
+        playerImage.src = "Ourcar.png";
 
         const randomImage = new Image();
         randomImage.src = animationFrames[0];
 		let currentFrameIndex=0;
 		
         const coneImage = new Image();
-        coneImage.src = "assets/race/cone.png";
-		
-		let babolotImage = new Image();
-		babolotImage.src = "assets/race/babolot.gif";
-		let babaX=200;
-		let babaY=100;
-		
-		
-		
+        coneImage.src = "cone.png";
+
         // Wymiary i położenie kwadratu gracza
         const squareSize = 100;
         const cornSize = 50;
@@ -97,7 +50,7 @@
 
         // Wymiary i położenie kwadratu losowego
         let randomSquareX = canvas.width / 2 - squareSize / 2;
-        let randomSquareY = 20; // Kwadrat będzie na górze ekranu
+        const randomSquareY = 20; // Kwadrat będzie na górze ekranu
 
         // Zmienna do określania kierunku ruchu kwadratu losowego (-1 dla lewo, 1 dla prawo)
         let randomSquareDirection = Math.random() < 0.5 ? -1 : 1;
@@ -116,7 +69,6 @@
 
         // Punkty
         let points = 0;
-		
 
 let moves=false;
 function animate()
@@ -142,19 +94,17 @@ return moves=true;
 			moves=false
 			}
 			
-if(stopAnimation==false)
-{			
+			
             randomImage.src = animationFrames[currentFrameIndex];
 
-            const rollResult = Math.floor(Math.random() * agresive) + 1;
+            const rollResult = Math.floor(Math.random() * 50) + 1;
 
             // Jeśli wypadnie 1, zmień kierunek ruchu
             if (rollResult === 1) {
                 randomSquareDirection *= -1;
             }
 
-
-            // Ogranicz ruch kwadratu losowego do 350px w lewo/prawo od centrum ekranu			
+            // Ogranicz ruch kwadratu losowego do 350px w lewo/prawo od centrum ekranu
             if (
                 randomSquareX + squareSize / 2 + 5 * randomSquareDirection <= canvas.width / 2 + 200 &&
                 randomSquareX + squareSize / 2 + 5 * randomSquareDirection >= canvas.width / 2 - 200 - squareSize
@@ -181,21 +131,7 @@ if(stopAnimation==false)
                 // Zresetuj licznik wylosowanych piątek
                 countOfFives = 0;
             }
-}
-else
-{
-randomSquareY=randomSquareY-5*ud;
 
-if(randomSquareY<-95)
-{
- randomImage.src = babolotImage.src;
-ud*=-1;
-babaX/=2
-babaY/=2
-}
-
-
-}
             // Aktualizuj pozycję wszystkich obiektów spadających
             for (const fallingObject of fallingObjects) {
                 fallingObject.y += 10;
@@ -207,19 +143,9 @@ babaY/=2
                     fallingObject.x + squareSize >= playerX &&
                     fallingObject.x <= playerX + squareSize
                 ) {
-				if(life==1)
-				{
                     alert("BOOM!");
                     resetGame();
-					return;
-				}
-				else
-				{
-				alert(life)
-				fallingObjects.splice(fallingObjects.indexOf(fallingObject), 1);
-				life--;
-				}
-                    
+                    return;
                 }
 
                 // Sprawdź, czy spadający obiekt wypadł poza ekran
@@ -242,7 +168,7 @@ babaY/=2
             ctx.drawImage(backgroundImage, 0, backgroundY - canvas.height, canvas.width, canvas.height);
 
             // Narysuj gracza i obrazy spadające na nowych pozycjach
-            ctx.drawImage(randomImage, randomSquareX, randomSquareY - 25, babaX, babaY);
+            ctx.drawImage(randomImage, randomSquareX, randomSquareY - 25, 200, 100);
             ctx.drawImage(playerImage, playerX, playerY, squareSize, squareSize);
 
             // Narysuj wszystkie obiekty spadające
@@ -256,51 +182,25 @@ babaY/=2
             ctx.fillText("Punkty: " + points, 20, 30);
 
             // Wywołaj funkcję ponownie przy następnej animacji
-			
             requestAnimationFrame(updateRandomSquare);
-			
-			
         }
 
         // Funkcja resetująca grę
         function resetGame() {
-		fallingObjects.length = 0;
-		stopAnimation=true;
-		clearCanvas();
-		updateRandomSquare();
-		
-            //location.reload();
+            location.reload();
         }
-		
-				        function clearCanvas() {
-            // Wyczyść Canvas i narysuj tło
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.drawImage(backgroundImage, 0, backgroundY, canvas.width, canvas.height);
-            ctx.drawImage(backgroundImage, 0, backgroundY - canvas.height, canvas.width, canvas.height);
-
-            // Narysuj gracza i animację "babathrow" na nowych pozycjach
-            if (stopAnimation == true) {
-                ctx.drawImage(randomImage, randomSquareX, randomSquareY - 25, babaX,babaY);
-            }
-            ctx.drawImage(playerImage, playerX, playerY, squareSize, squareSize);
-        }
-		
-		
 
         // Obsługa naciśnięcia klawiszy strzałek dla gracza
         window.addEventListener("keydown", (event) => {
-		
-		if(stopAnimation==false)
-		{
             switch (event.key) {
                 case "ArrowLeft":
-                    if (playerX - speed >= canvas.width / 2 - 200 - squareSize) {
-                        playerX -= speed;
+                    if (playerX - 10 >= canvas.width / 2 - 200 - squareSize) {
+                        playerX -= 10;
                     }
                     break;
                 case "ArrowRight":
-                    if (playerX + speed + squareSize <= canvas.width / 2 + 250) {
-                        playerX += speed;
+                    if (playerX + 10 + squareSize <= canvas.width / 2 + 250) {
+                        playerX += 10;
                     }
                     break;
                 case "ArrowUp":
@@ -314,7 +214,7 @@ babaY/=2
                     }
                     break;
             }
-		
+
             // Wyczyść Canvas i narysuj tło
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.drawImage(backgroundImage, 0, backgroundY, canvas.width, canvas.height);
@@ -325,23 +225,14 @@ babaY/=2
             ctx.drawImage(playerImage, playerX, playerY, squareSize, squareSize);
 
             // Narysuj wszystkie obiekty spadające
-			}
-
-		
             for (const fallingObject of fallingObjects) {
                 ctx.drawImage(coneImage, fallingObject.x, fallingObject.y, cornSize, cornSize);
             }
-			
         });
 
-		
         // Wywołaj funkcję aktualizującą ruch kwadratu losowego
         requestAnimationFrame(updateRandomSquare);
-		
-	
-		
-		
-		
+
         // Narysuj początkowe położenie obu obrazów
         ctx.drawImage(backgroundImage, 0, backgroundY, canvas.width, canvas.height);
         ctx.drawImage(backgroundImage, 0, backgroundY - canvas.height, canvas.width, canvas.height);

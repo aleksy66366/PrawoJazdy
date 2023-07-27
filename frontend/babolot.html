@@ -16,7 +16,7 @@
             </div>
         </div>
         <div id="screen">
-            <canvas></canvas>
+            <canvas id="myCanvas" width="1296" height="728" style="border: 1px solid black;"></canvas>
         </div>
         <div id="settings">
             <div class="settingsButton" id="back"></div>
@@ -40,6 +40,858 @@
         zoomOutButton.onclick = function() {
             document.body.style.zoom = parseFloat(window.getComputedStyle(document.body).zoom) - 0.1;
         };
+    </script>
+	<script>
+		const start= new Date();
+        const canvas = document.getElementById('myCanvas');
+        const ctx = canvas.getContext('2d');
+        const backgroundImage = new Image();
+        backgroundImage.src = 'assets/race/mapa.png';
+
+        let noro = 1;
+
+        const pointview = {
+            x: [100,240,550,845,1000,1140,1130,840],
+            y: [590,210,570,275,170,280,370,600],
+            rotation: ['L','P','L','P','L','P','P','L']
+        }
+
+        const point = {
+            x: pointview.x[0], // Początkowe współrzędne punktu w środku canvasa
+            y: pointview.y[0],
+            size: 4, // Wielkość punktu
+            rotation: pointview.rotation[0], // Początkowy obrót - 'L' (lewo)
+        };
+
+        const car = {
+            x: 25, // Początkowe współrzędne samochodu przesunięte o 100px w kierunku x
+            y: 686, // Samochód zaczyna na tym samym y co punkt
+            width: 30, // Szerokość samochodu
+            height: 40, // Wysokość samochodu
+            rotation: Math.PI / 2, // Aktualny obrót samochodu (początkowo skierowany przodem)
+            speed: 0.022, // Prędkość kątowa samochodu
+			acceleration:5,
+			spawnPointX:188,
+			spawnPointY:628,
+			spin:0.5
+        };
+
+        const rectangle = [{
+            x: 80, // Początkowe współrzędne prostokąta 1
+            y: 610,
+			color: 'red',
+            width: 150, // Szerokość prostokąta
+            height: 60, // Wysokość prostokąta
+            rotation: 0, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: 4,
+            cy: 0,
+            cdx: -1,
+            cdy: 1
+        },{
+            x: 95, // Początkowe współrzędne prostokąta 3
+            y: 400,
+			color: 'red',
+            width: 400, // Szerokość prostokąta
+            height: 60, // Wysokość prostokąta
+            rotation: 1.4, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: 4,
+            cy: 0,
+            cdx: -1,
+            cdy: 1
+        },{
+            x: 275, // Początkowe współrzędne prostokąta 4
+            y: 425,
+			color: 'red',
+            width: 440, // Szerokość prostokąta
+            height: 150, // Wysokość prostokąta
+            rotation: 1.4, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: -16,
+            cy: 0,
+            cdx: -1,
+            cdy: 1
+        },{
+            x: 90, // Początkowe współrzędne prostokąta 5
+            y: 110,
+			color: 'red',
+            width: 200, // Szerokość prostokąta
+            height: 60, // Wysokość prostokąta
+            rotation: 2.1, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: 10, 
+            cy: -10,
+            cdx: -10,
+            cdy: 0
+        },{
+            x: 250, // Początkowe współrzędne prostokąta 2
+            y: 680,
+			color: 'red',
+            width: 200, // Szerokość prostokąta
+            height: 60, // Wysokość prostokąta
+            rotation: 1.9, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: -10,
+            cy: 5,
+            cdx: -1,
+            cdy: 1
+        },/**{
+            x: 210, // Początkowe współrzędne prostokąta 11
+            y: 210,
+			color: 'red',
+            width: 80, // Szerokość prostokąta
+            height: 60, // Wysokość prostokąta
+            rotation: 1.7, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: -10,
+            cy: 0,
+            cdx: -1,
+            cdy: 1
+        },*/{
+            x: 230, // Początkowe współrzędne prostokąta 10
+            y: 180,
+			color: 'red',
+            width: 80, // Szerokość prostokąta
+            height: 60, // Wysokość prostokąta
+            rotation: 3.14, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: 0,
+            cy: -8,
+            cdx: 1,
+            cdy: -1
+        },{
+            x: 230, // Początkowe współrzędne prostokąta 6
+            y: 50,
+			color: 'red',
+            width: 200, // Szerokość prostokąta
+            height: 60, // Wysokość prostokąta
+            rotation: 3.14, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: 0,
+            cy: 8,
+            cdx: 1,
+            cdy: -1
+        },/**{
+            x: 330, // Początkowe współrzędne prostokąta 9
+            y: 440,
+			color: 'red',
+            width: 600, // Szerokość prostokąta
+            height: 60, // Wysokość prostokąta
+            rotation: 1.3, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: 10,
+            cy: 0,
+            cdx: -1,
+            cdy: 1
+        },*/{
+            x: 450, // Początkowe współrzędne prostokąta 8
+            y: 340,
+			color: 'red',
+            width: 600, // Szerokość prostokąta
+            height: 60, // Wysokość prostokąta
+            rotation: 1.28, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: -10,
+            cy: 0,
+            cdx: -1,
+            cdy: 1
+        },/**{
+            x: 350, // Początkowe współrzędne prostokąta 7
+            y: 100,
+			color: 'red',
+            width: 100, // Szerokość prostokąta
+            height: 60, // Wysokość prostokąta
+            rotation: 0.8, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: -10,
+            cy: 30,
+            cdx: -0.8,
+            cdy: -2
+			
+        },*/{
+            x: 435, // Początkowe współrzędne prostokąta 8
+            y: 714,
+			color: 'red',
+            width: 300, // Szerokość prostokąta
+            height: 60, // Wysokość prostokąta
+            rotation: 1, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: 20,
+            cy: -5,
+            cdx: 1,
+            cdy: -1
+			
+        },{
+            x: 650, // Początkowe współrzędne prostokąta 8
+            y: 340,
+			color: 'red',
+            width: 600, // Szerokość prostokąta
+            height: 60, // Wysokość prostokąta
+            rotation: 1.93, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: 50,
+            cy: -20,
+            cdx: -1,
+            cdy: 1
+			
+        },{
+            x: 720, // Początkowe współrzędne prostokąta 8
+            y: 470,
+			color: 'red',
+            width: 550, // Szerokość prostokąta
+            height: 20, // Wysokość prostokąta
+            rotation: 1.95, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: -5,
+            cy: -20,
+            cdx: -1,
+            cdy: 1
+			
+        },{
+            x: 559, // Początkowe współrzędne prostokąta 8
+            y: 745,
+			color: 'red',
+            width: 120, // Szerokość prostokąta
+            height: 40, // Wysokość prostokąta
+            rotation: 0, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: 10,
+            cy: -20,
+            cdx: 1,
+            cdy: -1
+			
+        },/**{
+            x:750, // Początkowe współrzędne prostokąta 8
+            y: 135,
+			color: 'red',
+            width: 120, // Szerokość prostokąta
+            height: 40, // Wysokość prostokąta
+            rotation: -1, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: -10,
+            cy: 20,
+            cdx: -1,
+            cdy: -1
+			
+        },*/{
+            x: 1000, // Początkowe współrzędne prostokąta 8
+            y: 101,
+			color: 'red',
+            width: 500, // Szerokość prostokąta
+            height: 40, // Wysokość prostokąta
+            rotation: 0, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: 5,
+            cy: 50,
+            cdx: 1,
+            cdy: -1
+			
+        },{
+            x: 690, // Początkowe współrzędne prostokąta 8
+            y: 663,
+			color: 'red',
+            width: 150, // Szerokość prostokąta
+            height: 30, // Wysokość prostokąta
+            rotation: 1.3, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: 20,
+            cy: 20,
+            cdx: -1,
+            cdy: 1
+			
+        },{
+            x: 1030, // Początkowe współrzędne prostokąta 8
+            y: 750,
+			color: 'red',
+            width: 600, // Szerokość prostokąta
+            height: 50, // Wysokość prostokąta
+            rotation: 0, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: 30,
+            cy: -20,
+            cdx: 1,
+            cdy: -1
+			
+        },/**{
+            x: 835, // Początkowe współrzędne prostokąta 8
+            y:	230,
+			color: 'red',
+            width: 60, // Szerokość prostokąta
+            height: 50, // Wysokość prostokąta
+            rotation: 0, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: 30,
+            cy: -20,
+            cdx: 1,
+            cdy: -1
+			
+        },*/{
+            x: 890, // Początkowe współrzędne prostokąta 8
+            y:	291,
+			color: 'red',
+            width: 200, // Szerokość prostokąta
+            height: 50, // Wysokość prostokąta
+            rotation: 1, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: 30,
+            cy: -20,
+            cdx: -1,
+            cdy: 1
+			
+        },{
+            x: 950, // Początkowe współrzędne prostokąta 8
+            y:	171,
+			color: 'red',
+            width: 150, // Szerokość prostokąta
+            height: 50, // Wysokość prostokąta
+            rotation: 1, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: -50,
+            cy: 50,
+            cdx: -1,
+            cdy: -1
+			
+        },{
+            x: 1005, // Początkowe współrzędne prostokąta 8
+            y:	344,
+			color: 'red',
+            width: 150, // Szerokość prostokąta
+            height: 50, // Wysokość prostokąta
+            rotation: 0, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: 5,
+            cy: -4,
+            cdx: 1,
+            cdy: -1
+			
+        },/**{
+            x: 996, // Początkowe współrzędne prostokąta 8
+            y:	220,
+			color: 'red',
+            width: 60, // Szerokość prostokąta
+            height: 45, // Wysokość prostokąta
+            rotation: 0, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: 5,
+            cy: 4,
+            cdx: 1,
+            cdy: -1
+			
+        },*/{
+            x: 1110, // Początkowe współrzędne prostokąta 8
+            y:	290,
+			color: 'red',
+            width: 130, // Szerokość prostokąta
+            height: 45, // Wysokość prostokąta
+            rotation: 2.4, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: -25,
+            cy: -10,
+            cdx: 0.1,
+            cdy: -1
+			
+        },{
+            x: 1070, // Początkowe współrzędne prostokąta 8
+            y:	150,
+			color: 'red',
+            width: 180, // Szerokość prostokąta
+            height: 40, // Wysokość prostokąta
+            rotation: 2.3, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: 30,
+            cy: 10,
+            cdx: 1,
+            cdy: -1
+			
+        },/*{
+            x: 1166, // Początkowe współrzędne prostokąta 8
+            y:	120,
+			color: 'red',
+            width: 180, // Szerokość prostokąta
+            height: 40, // Wysokość prostokąta
+            rotation: 0, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: 30,
+            cy: 10,
+            cdx: 1,
+            cdy: -1
+			
+        },{
+            x: 1158, // Początkowe współrzędne prostokąta 8
+            y:	239,
+			color: 'red',
+            width: 45, // Szerokość prostokąta
+            height: 40, // Wysokość prostokąta
+            rotation: 0, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: 30,
+            cy: 10,
+            cdx: 1,             
+            cdy: 1
+			
+        },*/{
+            x: 1280, // Początkowe współrzędne prostokąta 8
+            y:	308,
+			color: 'red',
+            width: 400, // Szerokość prostokąta
+            height: 40, // Wysokość prostokąta
+            rotation: 1.5, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: -30,
+            cy: 10,
+            cdx: -1,
+            cdy: 1
+			
+        },{
+            x: 1160, // Początkowe współrzędne prostokąta 8
+            y:	315,
+			color: 'red',
+            width: 200, // Szerokość prostokąta
+            height: 40, // Wysokość prostokąta
+            rotation: 1.5, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: 30,
+            cy: 10,
+            cdx: -1,
+            cdy: 1
+			
+        },{
+            x: 1030, // Początkowe współrzędne prostokąta 8
+            y:	540,
+			color: 'red',
+            width: 500, // Szerokość prostokąta
+            height: 40, // Wysokość prostokąta
+            rotation: 3, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: -50,
+            cy: -20,
+            cdx: 1,
+            cdy: -1
+			
+        },{
+            x: 960, // Początkowe współrzędne prostokąta 8
+            y:	443,
+			color: 'red',
+            width: 450, // Szerokość prostokąta
+            height: 40, // Wysokość prostokąta
+            rotation: 3, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: -50,
+            cy: -20,
+            cdx: 1,
+            cdy: -1
+			
+        },{
+            x: 1030, // Początkowe współrzędne prostokąta 8
+            y:	600,
+			color: 'red',
+            width: 500, // Szerokość prostokąta
+            height: 90, // Wysokość prostokąta
+            rotation: 0, // Początkowy obrót prostokąta (kąt w radianach)
+            cx: -50,
+            cy: -20,
+            cdx: 1,
+            cdy: -1
+			
+        },
+		
+		
+		
+		
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		{
+    x: 170, // Początkowe współrzędne prostokąta 1
+    y: 440,
+    width: 100, // Szerokość prostokąta
+    height: 2, // Wysokość prostokąta
+    rotation: 0, // Początkowy obrót prostokąta (kąt w radianach)
+    color: 'blue', // Kolor prostokąta (nowe)
+    cx: 1, // Wartości do odbicia samochodu (nowe)
+    cy: 0, // Wartości do odbicia samochodu (nowe)
+    cdx: 148, // Wartości do zmiany kierunku samochodu (nowe)
+    cdy: 174, // Wartości do zmiany kierunku samochodu (nowe)
+	spin:0.5,
+},
+
+{
+    x: 384, // Początkowe współrzędne prostokąta 2
+    y: 331,
+    width: 100, // Szerokość prostokąta
+    height: 2, // Wysokość prostokąta
+    rotation: 0, // Początkowy obrót prostokąta (kąt w radianach)
+    color: 'blue', // Kolor prostokąta (nowe)
+    cx: 2, // Wartości do odbicia samochodu (nowe)
+    cy: 0, // Wartości do odbicia samochodu (nowe)
+    cdx: 479, // Wartości do zmiany kierunku samochodu (nowe)
+    cdy: 650, // Wartości do zmiany kierunku samochodu (nowe)
+	spin:2.7,
+},
+{
+    x: 671, // Początkowe współrzędne prostokąta 3
+    y: 508,
+    width: 100, // Szerokość prostokąta
+    height: 2, // Wysokość prostokąta
+    rotation: 0, // Początkowy obrót prostokąta (kąt w radianach)
+    color: 'blue', // Kolor prostokąta (nowe)
+    cx: 3, // Wartości do odbicia samochodu (nowe)
+    cy: 0, // Wartości do odbicia samochodu (nowe)
+    cdx: 781, // Wartości do zmiany kierunku samochodu (nowe)
+    cdy: 205, // Wartości do zmiany kierunku samochodu (nowe)
+	spin:4.5,
+},
+//{
+//    x: 1229, // Początkowe współrzędne prostokąta 4
+//    y: 348,
+//    width: 100, // Szerokość prostokąta
+//    height: 2, // Wysokość prostokąta
+//    rotation: 0, // Początkowy obrót prostokąta (kąt w radianach)
+//    color: 'blue', // Kolor prostokąta (nowe)
+//    cx: 6, // Wartości do odbicia samochodu (nowe)
+//    cy: 0, // Wartości do odbicia samochodu (nowe)
+//    cdx: 1244, // Wartości do zmiany kierunku samochodu (nowe)
+//    cdy: 386, // Wartości do zmiany kierunku samochodu (nowe)
+//},
+{
+    x: 1050, // Początkowe współrzędne prostokąta 5
+    y: 479,
+    width: 2, // Szerokość prostokąta
+    height: 100, // Wysokość prostokąta
+    rotation: 0, // Początkowy obrót prostokąta (kąt w radianach)
+    color: 'blue', // Kolor prostokąta (nowe)
+    cx: 7, // Wartości do odbicia samochodu (nowe)
+    cy: 0, // Wartości do odbicia samochodu (nowe)
+    cdx: 462, // Wartości do zmiany kierunku samochodu (nowe)
+    cdy: 520, // Wartości do zmiany kierunku samochodu (nowe)
+	spin:3.2,
+},{
+   x: 1245, // Początkowe współrzędne prostokąta 6
+    y: 694,
+    width: 190, // Szerokość prostokąta
+    height: 100, // Wysokość prostokąta
+    rotation: 0, // Początkowy obrót prostokąta (kąt w radianach)
+    color: 'green', // Kolor prostokąta (nowe)
+    cx: 1, // Wartości do odbicia samochodu (nowe)
+    cy: 0, // Wartości do odbicia samochodu (nowe)
+    cdx: 1226, // Wartości do zmiany kierunku samochodu (nowe)
+    cdy: 705, // Wartości do zmiany kierunku samochodu (nowe)
+	spin:0.1
+},
+
+		];
+
+
+
+
+
+
+
+        let length = 100; // Odległość globalna
+
+        let isMoving = true; // Flaga informująca, czy samochód powinien jechać
+
+        // Obrazek samochodu
+        const carImage = new Image();
+        carImage.src = 'assets/race/Ourcar.png';
+
+        // Funkcja rysująca obrazek samochodu
+        function drawCar() {
+            ctx.save();
+            ctx.translate(car.x, car.y);
+            if (((point.rotation === 'P' && isMoving==true)||(point.rotation === 'L' && isMoving==false))||noro==7) ctx.rotate(car.rotation - Math.PI);
+            else ctx.rotate(car.rotation ) 
+            ctx.drawImage(carImage, -car.width / 2, -car.height / 2, car.width, car.height); // Przeskalowanie obrazka
+            ctx.restore();
+
+        }
+
+        function rotatePoint(clockwise) {
+            if (clockwise) {
+                point.rotation = 'L'; // Obrót przeciwnie do wskazówek zegara
+            } else {
+                point.rotation = 'P'; // Obrót zgodnie z wskazówkami zegara
+            }
+        }
+
+        let lastb={
+            x:0,
+            y:0
+        }
+
+        function update() {
+            if (point.rotation === 'L') {
+                // Punkt obraca się przeciwnie do wskazówek zegara
+                car.rotation -= car.speed;
+            } else {
+                // Punkt obraca się zgodnie z wskazówkami zegara
+                car.rotation += car.speed ;
+            }
+        }
+        var wektorKierunku;
+
+        function moveCar() {
+    if (isMoving) {
+		//car.speed+=car.acceleration;
+        update();
+        wektorKierunku = obliczWektorKierunku();
+
+        car.x = point.x + length * Math.cos(car.rotation);
+        car.y = point.y + length * Math.sin(car.rotation);
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawPoint();
+        drawCar();
+        drawRectangle();
+        
+
+        // Sprawdź kolizję z prostokątami
+        for (let i = 0; i < rectangle.length; i++) {
+            if (isCollidingWithRectangle(car, rectangle[i])) {
+				isMoving=false;
+				car.x=car.spawnPointX;	
+				car.y=car.spawnPointY;
+				
+				if(rectangle[i].color=="blue")
+				{
+				
+				noro=rectangle[i].cx;
+				car.spawnPointX=rectangle[i].x;
+				car.spawnPointY=rectangle[i].y;
+				point.x=pointview.x[noro];
+                point.y=pointview.y[noro];
+                point.rotation=pointview.rotation[noro];
+				noro++;
+				
+				
+				
+				if(rectangle[i].cy!=0)
+				{
+				
+				const deltaX = rectangle[i].cdx - car.x; // Oblicz różnicę między pozycją samochodu a punktem cdx niebieskiego prostokąta w osi x
+				const deltaY = rectangle[i].cdy - car.y; // Oblicz różnicę między pozycją samochodu a punktem cdy niebieskiego prostokąta w osi y
+				const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+				 
+				wektorKierunku.x = (deltaX / distance);
+				wektorKierunku.y = (deltaY / distance);
+				let angle = Math.atan2(rectangle[i].cdy, rectangle[i].cdx);
+					    if (angle < 0) {
+							angle += 2 * Math.PI;
+							}
+							car.rotation=((angle * 180) / Math.PI)+car.spin;
+				}
+				rectangle[i].cy+=1;
+				}
+				else
+				{
+				car.x=car.spawnPointX;	
+				car.y=car.spawnPointY;		
+				if(car.spawnPointX==188)
+				{
+				const deltaX = 153 - car.x; // Oblicz różnicę między pozycją samochodu a punktem cdx niebieskiego prostokąta w osi x
+				const deltaY = 175 - car.y; // Oblicz różnicę między pozycją samochodu a punktem cdy niebieskiego prostokąta w osi y
+				const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+				 
+				wektorKierunku.x = (deltaX / distance);
+				wektorKierunku.y = (deltaY / distance);
+				
+				let angle = Math.atan2(rectangle[i].cdy, rectangle[i].cdx);
+					    if (angle < 0) {
+							angle += 2 * Math.PI;
+							}
+							car.rotation=((angle * 180) / Math.PI)+0.1;
+				
+				}
+                //car.x+=rectangle[i].cx;
+                //car.y+=rectangle[i].cy;
+                //wektorKierunku.x*=rectangle[i].cdx;
+                //wektorKierunku.y*=rectangle[i].cdy;
+				}
+			
+            }
+        }
+
+    } else {
+		//car.rotation=Math.Pi/2;
+        car.x += wektorKierunku.x * 2;
+        car.y += wektorKierunku.y * 2;
+        // Sprawdź kolizję z prostokątami
+        for (let i = 0; i < rectangle.length; i++) {
+
+            if (isCollidingWithRectangle(car, rectangle[i])) {
+				
+				if(rectangle[i].color=="green")
+				{
+				const end=new Date()
+				  const duration = end - start;
+
+  // Przeliczanie na minuty, sekundy i milisekundy
+				const minutes = Math.floor(duration / 60000); // 1 minuta = 60 000 ms
+				const seconds = Math.floor((duration % 60000) / 1000); // 1 sekunda = 1000 ms
+				const milliseconds = duration % 1000;
+
+				alert(`Czas trwania operacji: ${minutes}:${seconds}:${milliseconds}`);
+				location.reload();
+				}
+				if(rectangle[i].color=="blue")
+				{
+				
+				noro=rectangle[i].cx;
+				car.spawnPointX=rectangle[i].x;
+				car.spawnPointY=rectangle[i].y;
+				car.spin=rectangle[i].spin;
+				point.x=pointview.x[noro];
+                point.y=pointview.y[noro];
+                point.rotation=pointview.rotation[noro];
+				noro++;
+
+				
+				if(rectangle[i].cy!=0)
+				{
+				const deltaX = rectangle[i].cdx - car.x; // Oblicz różnicę między pozycją samochodu a punktem cdx niebieskiego prostokąta w osi x
+				const deltaY = rectangle[i].cdy - car.y; // Oblicz różnicę między pozycją samochodu a punktem cdy niebieskiego prostokąta w osi y
+				const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+				 
+				wektorKierunku.x = (deltaX / distance);
+				wektorKierunku.y = (deltaY / distance);
+				    let angle = Math.atan2(rectangle[i].cdy, rectangle[i].cdx);
+					    if (angle < 0) {
+							angle += 2 * Math.PI;
+							}
+							car.rotation=((angle * 180) / Math.PI)+car.spin;
+				}
+				rectangle[i].cy+=1;
+
+				}
+				else
+				{
+				
+				car.x=car.spawnPointX;	
+				car.y=car.spawnPointY;
+				if(car.spawnPointX==188)
+				{
+				const deltaX = 153 - car.x; // Oblicz różnicę między pozycją samochodu a punktem cdx niebieskiego prostokąta w osi x
+				const deltaY = 175 - car.y; // Oblicz różnicę między pozycją samochodu a punktem cdy niebieskiego prostokąta w osi y
+				const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+				 
+				wektorKierunku.x = (deltaX / distance);
+				wektorKierunku.y = (deltaY / distance);
+				
+				let angle = Math.atan2(rectangle[i].cdy, rectangle[i].cdx);
+					    if (angle < 0) {
+							angle += 2 * Math.PI;
+							}
+							car.rotation=((angle * 180) / Math.PI)+3.2;
+				
+				
+				}
+                //car.x+=rectangle[i].cx;
+                //car.y+=rectangle[i].cy;
+                //wektorKierunku.x*=rectangle[i].cdx;
+                //wektorKierunku.y*=rectangle[i].cdy;
+				}
+            }
+        }
+
+        lastb.x = car.x;
+        lastb.y = car.y;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawPoint();
+        drawCar();
+        drawRectangle();
+        
+    }
+
+    requestAnimationFrame(moveCar);
+}
+
+// Funkcja sprawdzająca kolizję z prostokątem
+function isCollidingWithRectangle(car, rectangle) {
+    const cosA = Math.cos(rectangle.rotation);
+    const sinA = Math.sin(rectangle.rotation);
+    const dx = car.x - rectangle.x;
+    const dy = car.y - rectangle.y;
+    const rotatedX = cosA * dx + sinA * dy;
+    const rotatedY = cosA * dy - sinA * dx;
+
+    // Sprawdzenie kolizji
+    if (rotatedX >= -rectangle.width / 2 && rotatedX <= rectangle.width / 2 &&
+        rotatedY >= -rectangle.height / 2 && rotatedY <= rectangle.height / 2) {
+        return true;
+    }
+
+    return false;
+}
+
+
+        function obliczWektorKierunku() {
+            const dx = car.x - point.x;
+            const dy = car.y - point.y;
+            const odleglosc = Math.sqrt(dx * dx + dy * dy);
+
+            let wektorKierunku = {
+                x: dx / odleglosc,
+                y: dy / odleglosc
+            };
+        
+            if (point.rotation === 'L') {
+        // Obróć wektor kierunku o 90 stopni w prawo ('P')
+        const tempX = wektorKierunku.x;
+        wektorKierunku.x = wektorKierunku.y;
+        wektorKierunku.y = -tempX;
+    } else {
+        // Obróć wektor kierunku o 90 stopni w lewo ('L')
+        const tempX = wektorKierunku.x;
+        wektorKierunku.x = -wektorKierunku.y;
+        wektorKierunku.y = tempX;
+        
+    }
+        
+    return wektorKierunku;
+}
+
+
+        document.addEventListener('keydown', function (event) {
+        if (event.key === ' ') {
+		if(Math.sqrt((car.x - point.x) * (car.x - point.x) + (car.y - point.y) * (car.y - point.y))<150){
+            if(isMoving==true){
+                point.x=pointview.x[noro];
+                point.y=pointview.y[noro];
+                point.rotation=pointview.rotation[noro];
+                noro++;
+            }
+            if(isMoving==false)car.rotation=Math.atan2(car.y - point.y, car.x - point.x);
+            
+            length = Math.sqrt((car.x - point.x) * (car.x - point.x) + (car.y - point.y) * (car.y - point.y)); // Obliczenie odległości między samochodem a punktem
+            isMoving = !isMoving; // Ustawienie flagi na true po naciśnięciu spacji
+        }
+		}
+    });
+
+        function drawPoint() {
+            ctx.fillStyle = 'red';
+            ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+            ctx.fillRect(point.x - point.size / 2, point.y - point.size / 2, point.size, point.size);
+
+        }
+        function drawRectangle() {
+    for (let i = 0; i < rectangle.length; i++) {
+      ctx.save();
+      ctx.translate(rectangle[i].x, rectangle[i].y);
+      ctx.rotate(rectangle[i].rotation);
+      ctx.fillStyle = 'rgba(255, 0, 0,0.5)';
+      ctx.fillRect(-rectangle[i].width / 2, -rectangle[i].height / 2, rectangle[i].width, rectangle[i].height);
+      ctx.restore();
+    }
+  }
+
+
+        // Ładowanie obrazka samochodu przed rozpoczęciem rysowania
+        carImage.onload = function () {
+            drawPoint();
+            drawCar();
+            drawRectangle();
+           
+        };  
+
+        moveCar();
+
+function handleMouseClick(event) {
+  const posX = event.clientX; // Pozycja kursora w osi X względem okna przeglądarki
+  const posY = event.clientY; // Pozycja kursora w osi Y w oknae przeglądarki
+
+  // Wyświetlenie alertu z pozycją kursora
+  alert(`Pozycja kursora X: ${posX}, Y: ${posY}`);
+}
+
+// Dodaj nasłuchiwanie na zdarzenie "click" na całym dokumencie
+document.addEventListener("click", handleMouseClick)
+
+function rotateVectorToMovementDirection(wektorKierunku) {
+    const velocityX = wektorKierunku[0];
+    const velocityY = wektorKierunku[1];
+
+    let angle = Math.atan2(velocityY, velocityX);
+
+    if (angle < 0) {
+        angle += 2 * Math.PI;
+    }
+
+    // Wynikowy kąt w stopniach
+    const angleDegrees = (angle * 180) / Math.PI;
+
+    return angleDegrees;
+}
+
+
+
     </script>
 </body>
 </html>
