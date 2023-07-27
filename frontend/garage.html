@@ -6,6 +6,12 @@
     <link rel="stylesheet" href="style.css" type="text/css">
     <link rel="icon" href="assets/icon.png" type="image/png">
     <title>Garaż</title>
+    <style>
+        #screen {
+            background-image: url("./assets/background/garage.png");
+            background-size: cover;
+        }
+    </style>
 </head>
 <body>
     <div class="body">
@@ -103,13 +109,13 @@
             const typUlepszenia = entry['Typ ulepszenia'];
 
             if (typUlepszenia === 'Zawieszenie') {
-                amorlvlDiv.textContent = `${aktualnyPoziom}`;
+                amorlvlDiv.textContent = `${aktualnyPoziom} lvl`;
                 amorcenaDiv.textContent = `${cenaKolejnegoUlepszenia} $`;
             } else if (typUlepszenia === 'Zderzaki') {
-                zdelvlDiv.textContent = `${aktualnyPoziom}`;
+                zdelvlDiv.textContent = `${aktualnyPoziom} lvl`;
                 zdecenaDiv.textContent = `${cenaKolejnegoUlepszenia} $`;
             } else if (typUlepszenia === 'Silnik') {
-                sillvlDiv.textContent = `${aktualnyPoziom}`;
+                sillvlDiv.textContent = `${aktualnyPoziom} lvl`;
                 silcenaDiv.textContent = `${cenaKolejnegoUlepszenia} $`;
             }
         });
@@ -135,9 +141,9 @@
     // Wywołujemy funkcję, aby zaktualizować dane w miejscach HTML na starcie strony
     fetchGarageUpdates();
 
-    var amortyzator=document.getElementById("amortyzator");
-    var zderzak=document.getElementById("zderzak");
-    var silnik=document.getElementById("silnik");
+    var amortyzator=document.getElementById("amorzdj");
+    var zderzak=document.getElementById("zdezdj");
+    var silnik=document.getElementById("silzdj");
 
   amortyzator.onclick = function () {
     handleUpgrade('amortyzator');

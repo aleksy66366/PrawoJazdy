@@ -207,8 +207,9 @@ h1 {
     height: 50px;
     float: left;
     background-image: url("./assets/menu/money.png");
-    background-size: contain;
+    background-size: 50%;
     background-repeat: no-repeat;
+    background-position: center;
 }
 
 #val {
@@ -984,7 +985,9 @@ h1 {
     height: 200px;
     box-sizing: border-box;
     display: flex;
-    /*background-color: crimson;*/
+    background-image: url("./assets/menu/gratulacje.png");
+    background-size: 130%;
+    background-position: center;
     margin: 50px 45px 0 45px;
     border-bottom: 8px solid #008751;
 }
@@ -994,11 +997,14 @@ h1 {
     height: 150px;
     box-sizing: border-box;
     display: flex;
+    flex-wrap: wrap;
+    align-content: center;
     justify-content: center;
     align-items: center;
-    font-size: 27px;
+    font-size: 30px;
     margin: 43px 45px 0 45px;
     border-top: 8px solid #008751;
+    padding-top: 5%;
 }
 
 #podsumowanie p {
@@ -1064,7 +1070,9 @@ h1 {
     width:80%;
     height: 94%;
     background-image: url("./assets/garage/cone.png");
-    background-size: cover;
+    background-size: 90%;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 #quizyStats {
@@ -1080,7 +1088,7 @@ h1 {
     height: 100%;
     background-image: url("./assets/garage/kioskquizy.png");
     background-size: cover;
-    background-position: 0% 20%;
+    background-position: 0 20%;
 }
 
 #XP {
@@ -1101,8 +1109,19 @@ h1 {
     margin: 0 22% 101px 0;
     background-color: #a8e72e;
     border-bottom-right-radius: 20px;
+    /*background-image: url("./assets/garage/race.png");*/
 }
 
+#imagerunout {
+    margin: 0 auto;
+    width: 90%;
+    height: 100%;
+    background-image: url(./assets/garage/race.png);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+/*
 #lvl {
     position: absolute;
     width: 264px;
@@ -1119,7 +1138,7 @@ h1 {
     color:#000000;
     font-family: "Courier New";
     font-weight: bold;
-}
+}*/
 
 
 #AllStatsInfo {
@@ -1190,14 +1209,14 @@ td {
     height: 729px;
     display:flex;
     flex-direction: column;
-    background-color: brown;
+    /*background-color: brown;*/
 }
 
 #kolory {
     width: 100%;
     height: 479px;
     box-sizing: border-box;
-    background-color: skyblue;
+    /*background-color: skyblue;*/
     display: flex;
     flex-wrap: wrap;
 }
@@ -1205,38 +1224,41 @@ td {
 .colors {
     width: 35%;
     height: 40%;
-    border: 5px solid #00ff00;
 }
 
 #color1 {
     background-color: red;
     margin: 10% 1% 0 11%;
     border-radius: 5px 50px;
+    border: 5px dashed #990000;
 }
 
 #color2 {
     background-color: orange;
     margin: 10% 11% 0 1%;
     border-radius: 50px 5px;
+    border: 5px dashed #FFFF33;
 }
 
 #color3 {
     background-color: green;
     margin: 0 1% 10% 11%;
     border-radius: 50px 5px;
-    border: 5px solid #00ff00;
-}
-
-#color3:hover {
-    border-radius: 50%;
-    transition: 0.3s;
-    transform: scale(0.95);
+    border: 5px dashed #00ff00;
 }
 
 #color4 {
     background-color: pink ;
     margin: 0 11% 10% 1%;
     border-radius: 5px 50px;
+    border: 5px dashed #FF33AA;
+}
+
+
+#color1:hover, #color2:hover, #color3:hover, #color4:hover {
+    border-radius: 50%;
+    transform: scale(0.95);
+    transition: border-radius 0.5s;
 }
 
 #resetUlepszen {
@@ -1246,27 +1268,43 @@ td {
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 10px groove #a8e72e;
 }
 
 #resetUlepszen h1 {
     margin: 0;
+    width: 90%;
+
 }
 
 #zapiszNowyKolor {
     width: 100%;
     height: 100px;
     box-sizing: border-box;
-    background-image: url("./assets/menu/save.png");
-    background-size: cover;
+    background-image: url("./assets/menu/save1.png");
+    background-size: 50%;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 15px auto;
 }
 
+#zapiszNowyKolor:hover {
+    background-image: url("./assets/menu/save.png");
+    background-size: 50%;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 15px auto;
+}
 
-/* GARAGE.HTML */
+    /* GARAGE.HTML */
 
 #samochod {
     width: 50%;
     height: 729px;
-    background-color: red;
+    background-image: url("./assets/garage/car.png");
+    background-size: 90%;
+    background-repeat: no-repeat;
+    background-position: bottom right;
     display: flex;
     box-sizing: border-box;
 }
@@ -1276,7 +1314,7 @@ td {
     height: 729px;
     display:flex;
     flex-direction: column;
-    background-color: #be1250;
+    /*background-color: #be1250;*/
     box-sizing: border-box;
 }
 
@@ -1285,7 +1323,7 @@ td {
     height: 40%;
     box-sizing: border-box;
     display: flex;
-    background-color: #065ab5;
+    /*background-color: #065ab5;*/
 }
 
 #updateGarage {
@@ -1297,7 +1335,7 @@ td {
     flex-direction: column-reverse;
     align-content: center;
     justify-content: center;
-    background-color: #f3ef7d;
+    /*background-color: #f3ef7d;*/
 }
 
 .updateGarage {
@@ -1305,6 +1343,8 @@ td {
     height: 80%;
     box-sizing: border-box;
     background-color: #fff1e8;
+    border-radius: 50px;
+    border: 5px solid #808080;
     margin: 0 10px 0 10px;
     display: flex;
     flex-wrap: wrap;
@@ -1315,35 +1355,51 @@ td {
     width:60%;
     height: 25%;
     box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: #ffa300;
+    border-radius: 50px;
+    border: 5px solid green;
+    font-size: 30px;
+    font-weight: bold;
 }
 
 .cena {
     width:40%;
     height: 25%;
     box-sizing: border-box;
-    background-color: skyblue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    color: #00008B;
+    background-color: #a8e72e;
+    border: 5px solid #008751;
+    border-top-right-radius: 5px;
 }
 
 .zdjGarage {
     width:90%;
-    height: 50%;
+    height: 65%;
     box-sizing: border-box;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 #amorzdj {
     background-image: url("./assets/garage/amortyzator.png");
-    background-size: cover;
 }
 
 #zdezdj {
     background-image: url("./assets/garage/zderzak.png");
-    background-size: cover;
 }
 
 #silzdj {
     background-image: url("./assets/garage/silnik.png");
-    background-size: cover;
 }
 
 /* RACE.HTML */
