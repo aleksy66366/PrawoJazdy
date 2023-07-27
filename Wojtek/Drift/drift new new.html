@@ -632,9 +632,10 @@
         }
 
     } else {
-	
+		//car.rotation=Math.Pi/2;
         car.x += wektorKierunku.x * 2;
         car.y += wektorKierunku.y * 2;
+		
         // Sprawdź kolizję z prostokątami
         for (let i = 0; i < rectangle.length; i++) {
 
@@ -666,6 +667,11 @@
 				 
 				wektorKierunku.x = (deltaX / distance);
 				wektorKierunku.y = (deltaY / distance);
+				    let angle = Math.atan2(rectangle[i].cdy, rectangle[i].cdx);
+					    if (angle < 0) {
+							angle += 2 * Math.PI;
+							}
+							car.rotation=((angle * 180) / Math.PI);
 				}
 				rectangle[i].cy+=1;
 				}
@@ -795,7 +801,7 @@ function isCollidingWithRectangle(car, rectangle) {
 
 function handleMouseClick(event) {
   const posX = event.clientX; // Pozycja kursora w osi X względem okna przeglądarki
-  const posY = event.clientY; // Pozycja kursora w osi Y względem okna przeglądarki
+  const posY = event.clientY; // Pozycja kursora w osi Y w oknae przeglądarki
 
   // Wyświetlenie alertu z pozycją kursora
   alert(`Pozycja kursora X: ${posX}, Y: ${posY}`);
@@ -803,6 +809,24 @@ function handleMouseClick(event) {
 
 // Dodaj nasłuchiwanie na zdarzenie "click" na całym dokumencie
 document.addEventListener("click", handleMouseClick)
+
+function rotateVectorToMovementDirection(wektorKierunku) {
+    const velocityX = wektorKierunku[0];
+    const velocityY = wektorKierunku[1];
+
+    let angle = Math.atan2(velocityY, velocityX);
+
+    if (angle < 0) {
+        angle += 2 * Math.PI;
+    }
+
+    // Wynikowy kąt w stopniach
+    const angleDegrees = (angle * 180) / Math.PI;
+
+    return angleDegrees;
+}
+
+
 
     </script>
 </body>

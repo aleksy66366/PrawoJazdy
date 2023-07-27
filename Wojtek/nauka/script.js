@@ -57,7 +57,9 @@ var odp2Div = document.getElementById('odp2');
 var odp3Div = document.getElementById('odp3');
 var scoreDiv = document.getElementById('dane');
 var summaryDiv = document.getElementById('quizEnd');
-var summaryTotalQuestionsDiv = document.getElementById('podsumowanie');
+var summaryTotalQuestionsDiv1 = document.getElementById('podsumowanie1');
+var summaryTotalQuestionsDiv2 = document.getElementById('podsumowanie2');
+var summaryTotalQuestionsDiv3 = document.getElementById('podsumowanie3');
 var summaryCorrectAnswersDiv = document.getElementById('poprawneSymbol');
 var summaryIncorrectAnswersDiv = document.getElementById('niepoprawne');
 var znakiDiv = document.getElementById('znaki');
@@ -86,7 +88,10 @@ function getCategoryById(categoryId) {
 
 function showSummary() {
   const incorrectAnswers = score.totalQuestions - score.correctAnswers;
-  summaryTotalQuestionsDiv.textContent = 'Liczba pytań: ' + score.totalQuestions + '\nLiczba poprawnych odpowiedzi: ' + score.correctAnswers + '\nLiczba złych odpowiedzi: ' + incorrectAnswers;
+  summaryTotalQuestionsDiv1.textContent = 'Liczba pytań: ' + score.totalQuestions;
+  summaryTotalQuestionsDiv2.textContent = 'Liczba poprawnych odpowiedzi: ' + score.correctAnswers;
+  summaryTotalQuestionsDiv3.textContent = 'Liczba złych odpowiedzi: ' + incorrectAnswers;
+  
   score.totalQuestions = 0;
   score.correctAnswers = 0;
   updateScore();
