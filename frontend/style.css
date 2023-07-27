@@ -1007,7 +1007,7 @@ h1 {
 
 #jeszczeRaz {
     width: 12%;
-    height: 64px;
+    height: 66px;
     box-sizing: border-box;
     display: flex;
     background-image: url("./assets/menu/powrot1.png");
@@ -1182,7 +1182,7 @@ td {
     height: 729px;
     box-sizing: border-box;
     background-size: cover;
-    background-position: 0 65.6%;
+    background-position: 0 65.7%;
 }
 
 #koloryOpcje {
@@ -1198,20 +1198,66 @@ td {
     height: 479px;
     box-sizing: border-box;
     background-color: skyblue;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.colors {
+    width: 35%;
+    height: 40%;
+    border: 5px solid #00ff00;
+}
+
+#color1 {
+    background-color: red;
+    margin: 10% 1% 0 11%;
+    border-radius: 5px 50px;
+}
+
+#color2 {
+    background-color: orange;
+    margin: 10% 11% 0 1%;
+    border-radius: 50px 5px;
+}
+
+#color3 {
+    background-color: green;
+    margin: 0 1% 10% 11%;
+    border-radius: 50px 5px;
+    border: 5px solid #00ff00;
+}
+
+#color3:hover {
+    border-radius: 50%;
+    transition: 0.3s;
+    transform: scale(0.95);
+}
+
+#color4 {
+    background-color: pink ;
+    margin: 0 11% 10% 1%;
+    border-radius: 5px 50px;
 }
 
 #resetUlepszen {
     width: 100%;
     height: 150px;
     box-sizing: border-box;
-    background-color: cornsilk;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#resetUlepszen h1 {
+    margin: 0;
 }
 
 #zapiszNowyKolor {
     width: 100%;
     height: 100px;
     box-sizing: border-box;
-    background-color: sandybrown;
+    background-image: url("./assets/menu/save.png");
+    background-size: cover;
 }
 
 
