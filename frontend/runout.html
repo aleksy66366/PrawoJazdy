@@ -8,6 +8,13 @@
     <title>RunOut</title>
 </head>
 <body>
+    <style>
+        canvas{
+            background-image: url('./assets/background/background.png');
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
     <div class="body">
         <div id="money">
             <div id="moneyValue">
@@ -89,7 +96,7 @@
 
         var player = {
             pos: { x: canvas.width / 2, y: canvas.height / 2 },
-            size: { x: 21, y: 21 },
+            size: { x: 26, y: 26 },
             image: carImage,
             vel: { x: 0, y: 0 },
             speed: 1
@@ -98,7 +105,7 @@
         var rectangles = [];
 
         // Tworzenie 10 obiektów o losowych wektorach
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < 25; i++) {
             rectangles.push({
                 pos: { x: Math.random() * canvas.width, y: Math.random() * canvas.height },
                 vec: { x: Math.random() * 2 - 1, y: Math.random() * 2 - 1 },
@@ -169,14 +176,34 @@
 
         let startTime = Date.now();
         let seconds;
-        function updateTimer() {
-            const currentTime = Date.now();
-            const elapsedTime = currentTime - startTime;
-            seconds = Math.floor(elapsedTime / 1000);
-            ctx.font = '20px Arial';
-            ctx.fillStyle = 'black';
-            ctx.fillText(`Time: ${seconds} seconds, lives: ${lives}`, 10, 30);
-        }
+        function drawHeart(x, y, size) {
+  var heartImage = new Image();
+  heartImage.src = './assets/car/heart.png';
+  ctx.drawImage(heartImage, x, y, size, size);
+  var heage = new Image();
+  heage.src = './assets/car/hat2.png';
+  ctx.drawImage(heage, 10, 10, 50, 50);
+}
+
+function updateTimer() {
+  const currentTime = Date.now();
+  const elapsedTime = currentTime - startTime;
+  seconds = Math.floor(elapsedTime / 1000);
+  ctx.font = '40px Arial';
+  ctx.fillStyle = 'black';
+  ctx.fillText(`${seconds} `, 70, 45);
+
+  // Draw hearts for lives
+  const heartSize = 50; // Adjust the size of the heart image as needed
+  const heartSpacing = 10; // Adjust the spacing between hearts as needed
+  const heartStartX = 140; // Starting X position for hearts
+  const heartStartY = 10; // Starting Y position for hearts
+
+  for (let i = 0; i < lives; i++) {
+    drawHeart(heartStartX + i * (heartSize + heartSpacing), heartStartY, heartSize);
+  }
+}
+
 
         let collisionDisabled = false;
         const collisionDuration = 1000; // 5 sekund w milisekundach
