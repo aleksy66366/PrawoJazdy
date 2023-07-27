@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phaser Game with Smooth Rotation and Movement</title>
+</head>
+<body>
+<div id="phaser-example"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.55.2/phaser.min.js"></script>
+<script>
+    class Example extends Phaser.Scene {
+        plane;
+        planeSpeed = 15; // Set the initial speed for forward movement
+        rotateSpeed = 100; // Speed of rotation
+        targetPointIndex = 0; // Index of the target point from pointview array
+
+        // Define the custom path for the plane to orbit around
+        pointview = {
+            x: [100, 240, 550, 845, 1000, 1140, 1130, 840],
+            y: [590, 210, 570, 275, 170, 280, 370, 600]
+        };
+
+        preload() {
+            this.load.image('clouds', 'mapa.png');
+            this.load.image('plane', 'car.png');
+        }
+
+        create() {
+            this.add.image(0, 0, 'clouds').setOrigin(0, 0);
+            this.plane = this.physics.add.image(60, 681, 'plane')
+                .setCircle(24, 0, 7.5)
+                .setVelocity(0, -200)
+                .setScale(0.1);
+
+            // Register the spacebar key to start or stop rotating the plane
+            this.input.keyboard.on('keydown-SPACE', () => {
+                if (!this.isRotating) {
+                    // If not currently rotating, start rotating towards the target point
+                    this.isRotating = true;
+                    this.rotateToTargetPoint();
+                } else {
+                    // If currently rotating, stop the rotation and adjust the direction of movement
+                    this.plane.setAngularVelocity(0);
+                    this.isRotating = false;
+                }
+            });
+        }
+
+        update() {
+            // If not rotating, move the plane forward
+            if (!this.isRotating) {
+                this.planeSpeed += 0.5;
+                if (this.planeSpeed > 60) {
+                    this.planeSpeed = 60;
+                }
+                this.physics.velocityFromAngle(this.plane.angle, this.planeSpeed, this.plane.body.velocity);
+            }
+
+            this.physics.world.wrap(this.plane, 32);
+        }
+
+        rotateToTargetPoint() {
+            if (!this.isRotating) {
+                return;
+            }
+
+            const targetX = this.pointview.x[this.targetPointIndex];
+            const targetY = this.pointview.y[this.targetPointIndex];
+
+            // Rotate the plane towards the current target point
+            const angleToTarget = Phaser.Math.Angle.Between(this.plane.x, this.plane.y, targetX, targetY);
+            const angleDifference = Phaser.Math.Angle.Wrap(angleToTarget - this.plane.rotation);
+
+            if (Math.abs(angleDifference) > 0.01) {
+                this.plane.setAngularVelocity(Math.sign(angleDifference) * this.rotateSpeed);
+                requestAnimationFrame(() => {
+                    this.rotateToTargetPoint();
+                });
+            } else {
+                this.plane.setAngularVelocity(0);
+                this.isRotating = false;
+            }
+        }
+    }
+
+    const config = {
+        type: Phaser.AUTO,
+        width: 1296,
+        height: 728,
+        parent: 'phaser-example',
+        physics: {
+            default: 'arcade',
+            arcade: { debug: false }
+        },
+        scene: Example
+    };
+
+    const game = new Phaser.Game(config);
+</script>
+</body>
+</html>
