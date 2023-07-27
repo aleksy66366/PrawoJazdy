@@ -71,12 +71,14 @@
 
         let dane;
         let lives;
+        let protect;
         fetch('/car-lvl')
       .then(response => response.json())
       .then(data => {
         dane = data;
         player.speed*=dane[0].lvl;
         lives=dane[2].lvl;
+        protect=1000*dane[1].lvl;
         animate();
       })
       .catch(error => {
@@ -206,11 +208,16 @@ function updateTimer() {
 
 
         let collisionDisabled = false;
-        const collisionDuration = 1000; // 5 sekund w milisekundach
 
         function checkCollision() {
-            if (collisionDisabled) return; // Wyjście z funkcji, jeśli kolizje są wyłączone
-
+            if (collisionDisabled) { 
+                ctx.fillStyle = "rgba(0, 233, 255, 0.2)"; // Set the fill style to semi-transparent blue (adjust the alpha value as needed)
+                ctx.fillRect(0, 0, canvas.width, canvas.height); // Draw a rectangle covering the entire canvas
+                var ange = new Image();
+                ange.src = './assets/car/ange.png';
+                ctx.drawImage(ange, 393, 104, 500, 500);
+                return;
+            } // Exit the function if collisions are disabled
             rectangles.forEach(rectangle => {
                 if (
                     player.pos.x - player.size.x / 2 < rectangle.pos.x + rectangle.size.x / 2 &&
@@ -225,7 +232,7 @@ function updateTimer() {
                     collisionDisabled = true;
                     setTimeout(() => {
                         collisionDisabled = false;
-                    }, collisionDuration);
+                    }, protect);
                 }
             });
         }
