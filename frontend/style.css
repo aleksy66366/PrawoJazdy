@@ -1422,28 +1422,48 @@ td {
 /* RACE.HTML */
 
 #babolot {
-    width:30.3%;
-    height: 50%;
+    width: 30.3%;
+    height: 35%;
     display: flex;
+    justify-content: center;
+    align-items: center;
     box-sizing: border-box;
-    background-color: #ffa300;
-    margin: 15% 1.5%;
+    background-image: url("./assets/background/babolot.png");
+    background-size: cover;
+    background-position: center;
+    filter: grayscale(60%);
+    margin: 19% 1.5%;
 }
 
 #racehole {
     width: 30.3%;
-    height: 50%;
+    height: 35%;
     display: flex;
+    justify-content: center;
+    align-items: center;
     box-sizing: border-box;
-    background-color: #8D18F2;
-    margin: 15% 1.5%;
+    background-image: url("./assets/background/racehole.png");
+    background-size: cover;
+    background-position: center;
+    filter: grayscale(60%);
+    margin: 19% 1.5%;
 }
 
 #runOut {
     width: 30.3%;
-    height: 50%;
+    height: 35%;
     display: flex;
+    justify-content: center;
+    align-items: center;
     box-sizing: border-box;
-    background-color: #065ab5;
-    margin: 15% 1.5%;
+    background-image: url("./assets/background/runout.png");
+    background-size: cover;
+    background-position: center;
+    filter: grayscale(60%);
+    margin: 19% 1.5%;
+}
+
+.imageLogo {
+    width:50%;
+    height:50%;
 }
