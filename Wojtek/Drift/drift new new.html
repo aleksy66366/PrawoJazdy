@@ -44,7 +44,8 @@
             speed: 0.022, // Prędkość kątowa samochodu
 			acceleration:5,
 			spawnPointX:188,
-			spawnPointY:628			
+			spawnPointY:628,
+			spin:0.5
         };
 
         const rectangle = [{
@@ -450,6 +451,7 @@
     cy: 0, // Wartości do odbicia samochodu (nowe)
     cdx: 148, // Wartości do zmiany kierunku samochodu (nowe)
     cdy: 174, // Wartości do zmiany kierunku samochodu (nowe)
+	spin:0.5,
 },
 
 {
@@ -463,6 +465,7 @@
     cy: 0, // Wartości do odbicia samochodu (nowe)
     cdx: 479, // Wartości do zmiany kierunku samochodu (nowe)
     cdy: 650, // Wartości do zmiany kierunku samochodu (nowe)
+	spin:2.7,
 },
 {
     x: 671, // Początkowe współrzędne prostokąta 3
@@ -475,6 +478,7 @@
     cy: 0, // Wartości do odbicia samochodu (nowe)
     cdx: 781, // Wartości do zmiany kierunku samochodu (nowe)
     cdy: 205, // Wartości do zmiany kierunku samochodu (nowe)
+	spin:4.5,
 },
 //{
 //    x: 1229, // Początkowe współrzędne prostokąta 4
@@ -499,6 +503,7 @@
     cy: 0, // Wartości do odbicia samochodu (nowe)
     cdx: 462, // Wartości do zmiany kierunku samochodu (nowe)
     cdy: 520, // Wartości do zmiany kierunku samochodu (nowe)
+	spin:3.2,
 },{
    x: 1245, // Początkowe współrzędne prostokąta 6
     y: 694,
@@ -510,6 +515,7 @@
     cy: 0, // Wartości do odbicia samochodu (nowe)
     cdx: 1226, // Wartości do zmiany kierunku samochodu (nowe)
     cdy: 705, // Wartości do zmiany kierunku samochodu (nowe)
+	spin:0.1
 },
 
 		];
@@ -587,6 +593,7 @@
 				
 				if(rectangle[i].color=="blue")
 				{
+				
 				noro=rectangle[i].cx;
 				car.spawnPointX=rectangle[i].x;
 				car.spawnPointY=rectangle[i].y;
@@ -606,6 +613,11 @@
 				 
 				wektorKierunku.x = (deltaX / distance);
 				wektorKierunku.y = (deltaY / distance);
+				let angle = Math.atan2(rectangle[i].cdy, rectangle[i].cdx);
+					    if (angle < 0) {
+							angle += 2 * Math.PI;
+							}
+							car.rotation=((angle * 180) / Math.PI)+car.spin;
 				}
 				rectangle[i].cy+=1;
 				}
@@ -621,6 +633,13 @@
 				 
 				wektorKierunku.x = (deltaX / distance);
 				wektorKierunku.y = (deltaY / distance);
+				
+				let angle = Math.atan2(rectangle[i].cdy, rectangle[i].cdx);
+					    if (angle < 0) {
+							angle += 2 * Math.PI;
+							}
+							car.rotation=((angle * 180) / Math.PI)+0.1;
+				
 				}
                 //car.x+=rectangle[i].cx;
                 //car.y+=rectangle[i].cy;
@@ -635,7 +654,6 @@
 		//car.rotation=Math.Pi/2;
         car.x += wektorKierunku.x * 2;
         car.y += wektorKierunku.y * 2;
-		
         // Sprawdź kolizję z prostokątami
         for (let i = 0; i < rectangle.length; i++) {
 
@@ -646,12 +664,13 @@
 				alert("BABA POLECIAŁA NA MARSA!!!");
 				location.reload();
 				}
-				
 				if(rectangle[i].color=="blue")
 				{
+				
 				noro=rectangle[i].cx;
 				car.spawnPointX=rectangle[i].x;
 				car.spawnPointY=rectangle[i].y;
+				car.spin=rectangle[i].spin;
 				point.x=pointview.x[noro];
                 point.y=pointview.y[noro];
                 point.rotation=pointview.rotation[noro];
@@ -660,7 +679,6 @@
 				
 				if(rectangle[i].cy!=0)
 				{
-				
 				const deltaX = rectangle[i].cdx - car.x; // Oblicz różnicę między pozycją samochodu a punktem cdx niebieskiego prostokąta w osi x
 				const deltaY = rectangle[i].cdy - car.y; // Oblicz różnicę między pozycją samochodu a punktem cdy niebieskiego prostokąta w osi y
 				const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
@@ -671,14 +689,16 @@
 					    if (angle < 0) {
 							angle += 2 * Math.PI;
 							}
-							car.rotation=((angle * 180) / Math.PI);
+							car.rotation=((angle * 180) / Math.PI)+car.spin;
 				}
 				rectangle[i].cy+=1;
+
 				}
 				else
 				{
+				
 				car.x=car.spawnPointX;	
-				car.y=car.spawnPointY;		
+				car.y=car.spawnPointY;
 				if(car.spawnPointX==188)
 				{
 				const deltaX = 153 - car.x; // Oblicz różnicę między pozycją samochodu a punktem cdx niebieskiego prostokąta w osi x
@@ -687,6 +707,14 @@
 				 
 				wektorKierunku.x = (deltaX / distance);
 				wektorKierunku.y = (deltaY / distance);
+				
+				let angle = Math.atan2(rectangle[i].cdy, rectangle[i].cdx);
+					    if (angle < 0) {
+							angle += 2 * Math.PI;
+							}
+							car.rotation=((angle * 180) / Math.PI)+3.2;
+				
+				
 				}
                 //car.x+=rectangle[i].cx;
                 //car.y+=rectangle[i].cy;
@@ -782,7 +810,7 @@ function isCollidingWithRectangle(car, rectangle) {
       ctx.save();
       ctx.translate(rectangle[i].x, rectangle[i].y);
       ctx.rotate(rectangle[i].rotation);
-      ctx.fillStyle = 'rgba(255, 0, 0, 0	  )';
+      ctx.fillStyle = 'rgba(255, 0, 0,0.5)';
       ctx.fillRect(-rectangle[i].width / 2, -rectangle[i].height / 2, rectangle[i].width, rectangle[i].height);
       ctx.restore();
     }
