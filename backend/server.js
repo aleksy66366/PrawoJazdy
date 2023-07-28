@@ -816,6 +816,22 @@ app.post('/addStat', checkAuth, (req, res) => {
     }
   });
 });
+app.post('/addStat-babolot', checkAuth, (req, res) => {
+  const userId = req.session.loggedUserId;
+  const seconds = req.body.seconds; // Otrzymujemy dane "seconds" od klienta
+
+  // Wykonaj zapytanie INSERT INTO, aby dodać nowy wpis do tabeli allStat
+  const insertStatQuery = 'INSERT INTO allStat (statId, userId, score) VALUES (?, ?, ?)';
+  db.run(insertStatQuery, [1, userId, seconds], function (err) {
+    if (err) {
+      console.error('Błąd przy dodawaniu wpisu do tabeli allStat:', err.message);
+      res.status(500).send('Internal Server Error');
+    } else {
+      console.log(`Dodano wpis do tabeli allStat o id ${this.lastID}.`);
+      res.sendStatus(200); // Odpowiedź dla klienta, że dodanie wpisu zakończyło się sukcesem
+    }
+  });
+});
 
 //-----_____-----______-----_____-----_____-----_____-----_____-----
 //Kod wojtek

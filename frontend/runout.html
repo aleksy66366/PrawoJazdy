@@ -69,21 +69,23 @@
         // Call the updateMoney function to initially fetch and display user's money
         updateMoney();
 
+        //zmienne
         let dane;
         let lives;
         let protect;
-        fetch('/car-lvl')
-      .then(response => response.json())
-      .then(data => {
-        dane = data;
-        player.speed*=dane[0].lvl;
-        lives=dane[2].lvl;
-        protect=1000*dane[1].lvl;
-        animate();
-      })
-      .catch(error => {
-        console.error(error);
-      });
+
+        //fetch
+        fetch('/car-lvl')//stała 
+        .then(response => response.json())
+        .then(data => {
+            dane = data; //nie jest to obowiązkowe ale łatwiej alertować błędy
+            player.speed*=dane[0].lvl; //to jest przypisanie silnika u mnie ta mzienna odpowiada za prędkość
+            lives=dane[2].lvl;  //to są zdeżaki u mnie im więcej zdeżaków tym więcej zycia 
+            protect=1000*dane[1].lvl;   //to są zdezaki
+            animate();  //to jest utuchomienie tej funkcji odpowiadającą za animacje masz to w 242 linijce
+        }).catch(error => {
+            console.error(error);
+        });
 
       
 

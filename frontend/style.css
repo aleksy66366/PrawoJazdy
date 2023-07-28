@@ -200,22 +200,24 @@ h1 {
 }
 
 #moneyValue {
-    width: 90px;
+    width: 74px;
     height: 100px;
+    border: 8px solid green;
+    border-radius: 25px;
 }
 
 #mon {
-    width: 90px;
+    width: 100%;
     height: 50px;
     float: left;
     background-image: url("./assets/menu/money.png");
-    background-size: 50%;
+    background-size: 60%;
     background-repeat: no-repeat;
     background-position: center;
 }
 
 #val {
-    width: 90px;
+    width: 100%;
     height: 50px;
     float: left;
     display: flex;
@@ -232,12 +234,12 @@ h1 {
 }
 
 #back{
-    background-image: url("./assets/menu/logout1.png");
+    background-image: url("./assets/menu/options1.png");
     background-size: cover;
 }
 
 #back:hover {
-    background-image: url("./assets/menu/logout.png");
+    background-image: url("./assets/menu/options.png");
     background-size: cover;
 }
 
@@ -273,14 +275,14 @@ h1 {
 
 /*  suwak */
 
-#volume {
+/*#volume {
     width: 42px;
     height: 400px;
     padding: 2px 2px 27px 2px;
     float: left;
     position: relative;
     overflow-y: scroll;
-}
+}*/
 
 
 /* budynki */
@@ -612,6 +614,12 @@ h1 {
 
 }
 
+.bookbutton:hover {
+    transform: scale(1.01);
+    border: 8px dotted black;
+    box-shadow: 0 0 8px 8px white;
+}
+
 #book {
     width: 100%;
     height: 729px;
@@ -766,6 +774,24 @@ h1 {
     padding: 24px 24px 24px 90px;
     font-size: 26px;
     box-shadow: 0 5px 9px 0 rgba(0, 0, 0, 0.5), 0 7px 21px 0 rgba(0, 0, 0, 0.29);
+    position: relative;
+    animation-name: oknaWybor;
+    animation-duration: 2s;
+    animation-delay: 0s;
+    animation-iteration-count: 1;
+}
+
+@keyframes oknaWybor {
+    0% {
+        left: 0;
+        top: 320px;
+        opacity: 0.2;
+    }
+
+    100% {
+        left: 0;
+        top: 0;
+    }
 }
 
 #empty {
@@ -778,15 +804,15 @@ h1 {
 #znaki {
     width: 35.83%;
     height: 264px;
-    margin: 0 50px 100px 150px;
+    margin: 0 50px 50px 150px;
     box-sizing: border-box;
     display:flex;
+    position: relative;
     box-shadow: 0 5px 9px 0 rgba(0, 0, 0, 0.5), 0 7px 21px 0 rgba(0, 0, 0, 0.29);
 }
 
 #znaki img {
     width: 43.5%;
-    margin: auto 0;
 }
 
 #kodeksNauka {
