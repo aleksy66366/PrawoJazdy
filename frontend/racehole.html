@@ -233,7 +233,11 @@ imageElement.width=1296
 imageElement.height=728
 
 canvas.remove();
+
+
 screenDiv.appendChild(imageElement);
+screenDiv.appendChild();
+ctx.alert('bitch');
 }
 
 
@@ -307,15 +311,15 @@ screenDiv.appendChild(imageElement);
 
         // Funkcja resetująca grę
         function resetGame() {
-		fallingObjects.length = 0;
-		stopAnimation=true;
-		clearCanvas();
-		updateRandomSquare();
+		    fallingObjects.length = 0;
+		    stopAnimation=true;
+		    clearCanvas();
+		    updateRandomSquare();
 		
             //location.reload();
         }
 		
-				        function clearCanvas() {
+			function clearCanvas() {
             // Wyczyść Canvas i narysuj tło
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.drawImage(backgroundImage, 0, backgroundY, canvas.width, canvas.height);
