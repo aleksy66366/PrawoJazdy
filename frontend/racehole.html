@@ -86,7 +86,16 @@
 		let babaX=200;
 		let babaY=100;
 		
-		
+var screenDiv=document.getElementById("screen")		
+
+
+    var imageElement = document.createElement("img");
+    imageElement.src = "assets/race/scenenoloop.gif";
+    imageElement.width = 1296;
+    imageElement.height = 728
+	
+	
+
 		
         // Wymiary i położenie kwadratu gracza
         const squareSize = 100;
@@ -192,7 +201,19 @@ if(randomSquareY<-95)
 ud*=-1;
 babaX/=2
 babaY/=2
+randomSquareX=playerX;
 }
+if(randomSquareY==playerY-100)
+{
+var imageElement=document.createElement("img")
+imageElement.src=("assets/race/scenenoloop.gif")
+imageElement.width=1296
+imageElement.height=728
+
+canvas.remove();
+screenDiv.appendChild(imageElement);
+}
+
 
 
 }
@@ -347,6 +368,12 @@ babaY/=2
         ctx.drawImage(backgroundImage, 0, backgroundY - canvas.height, canvas.width, canvas.height);
         ctx.drawImage(playerImage, playerX, playerY, squareSize, squareSize);
         ctx.drawImage(randomImage, randomSquareX, randomSquareY, squareSize, squareSize);
+screenDiv.onload=function()
+{
+alert("kebab")
+
+}
+
 		
 
 		
