@@ -1464,13 +1464,15 @@ td {
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
-    background-image: url("./assets/background/runout.png");
+    background-image: url("./assets/background/background.png");
     background-size: cover;
     background-position: center;
     filter: grayscale(60%);
     margin: 19% 1.5%;
     box-shadow: 0 7px 11px 0 rgba(0, 0, 0, 0.5), 0 9px 23px 0 rgba(0, 0, 0, 0.29);
     border: 10px outset red;
+    position: relative;
+    overflow: hidden;
 }
 
 #babolot:hover, #racehole:hover, #runOut:hover {
@@ -1480,7 +1482,18 @@ td {
     transform: scale(1.02);
 }
 
-.imageLogo {
+#babolot img {
     width:50%;
-    height:50%;
+    height: 70%;
 }
+
+#racehole img {
+    width:60%;
+    height: 60%;
+}
+
+#runOut img{
+    width:60%;
+    height: 60%;
+}
+
