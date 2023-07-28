@@ -883,7 +883,7 @@ function isCollidingWithRectangle(car, rectangle) {
       ctx.save();
       ctx.translate(rectangle[i].x, rectangle[i].y);
       ctx.rotate(rectangle[i].rotation);
-      ctx.fillStyle = 'rgba(255, 0, 0,0.5)';
+      ctx.fillStyle = 'rgba(255, 0, 0,0)';
       ctx.fillRect(-rectangle[i].width / 2, -rectangle[i].height / 2, rectangle[i].width, rectangle[i].height);
       ctx.restore();
     }
@@ -900,16 +900,6 @@ function isCollidingWithRectangle(car, rectangle) {
 
         moveCar();
 
-function handleMouseClick(event) {
-  const posX = event.clientX; // Pozycja kursora w osi X względem okna przeglądarki
-  const posY = event.clientY; // Pozycja kursora w osi Y w oknae przeglądarki
-
-  // Wyświetlenie alertu z pozycją kursora
-  alert(`Pozycja kursora X: ${posX}, Y: ${posY}`);
-}
-
-// Dodaj nasłuchiwanie na zdarzenie "click" na całym dokumencie
-document.addEventListener("click", handleMouseClick)
 
 function rotateVectorToMovementDirection(wektorKierunku) {
     const velocityX = wektorKierunku[0];
