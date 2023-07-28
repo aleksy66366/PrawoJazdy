@@ -4,12 +4,12 @@
     --primary-color: #fff1e8;
     --border: black;
     --h1-color: black;
-    --button-color: rgb(41,173,255);
+    --button-color: /*rgb(41,173,255)*/#1d2b53;
 }
 
 body {
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
     background-image: url("./assets/background/bc.png");
     background-repeat: repeat;
     background-size: cover;
@@ -139,7 +139,7 @@ h1 {
     justify-content: center;
     align-items: center;
     background-color: #1d2b53;
-    position: relative;
+    /*position: relative;*/
 
 }
 
@@ -149,16 +149,18 @@ h1 {
     border-radius: 70%;
     text-align: center;
     transform: scale(1.2);
+    position: relative;
     z-index: 1;
 }
 
 .name {
-    position: absolute;
-    text-align: center;
-    top: 10px;
-    color: white;
+    top: 50px;
     z-index: 2;
-    font-size: 25px;
+    width:150px;
+    height: 120px;
+    background-image: url("./assets/background/grandmalogo.png");
+    background-size: cover;
+    position: absolute;
 }
 
 
@@ -198,23 +200,30 @@ h1 {
 }
 
 #moneyValue {
-    width: 90px;
+    width: 74px;
     height: 100px;
+    border: 8px solid green;
+    border-radius: 25px;
 }
 
 #mon {
-    width: 90px;
+    width: 100%;
     height: 50px;
     float: left;
     background-image: url("./assets/menu/money.png");
-    background-size: contain;
+    background-size: 60%;
     background-repeat: no-repeat;
+    background-position: center;
 }
 
 #val {
-    width: 90px;
+    width: 100%;
     height: 50px;
     float: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
 }
 
 .settingsButton {
@@ -225,12 +234,12 @@ h1 {
 }
 
 #back{
-    background-image: url("./assets/menu/logout1.png");
+    background-image: url("./assets/menu/options1.png");
     background-size: cover;
 }
 
 #back:hover {
-    background-image: url("./assets/menu/logout.png");
+    background-image: url("./assets/menu/options.png");
     background-size: cover;
 }
 
@@ -266,14 +275,14 @@ h1 {
 
 /*  suwak */
 
-#volume {
+/*#volume {
     width: 42px;
     height: 400px;
     padding: 2px 2px 27px 2px;
     float: left;
     position: relative;
     overflow-y: scroll;
-}
+}*/
 
 
 /* budynki */
@@ -605,6 +614,12 @@ h1 {
 
 }
 
+.bookbutton:hover {
+    transform: scale(1.01);
+    border: 8px dotted black;
+    box-shadow: 0 0 8px 8px white;
+}
+
 #book {
     width: 100%;
     height: 729px;
@@ -704,7 +719,6 @@ h1 {
     height: 229px;
     margin: 50px 50px 30px 50px;
     background-color: #d6785a;
-    font-family: "Roboto Regular 400";
     display: flex;
     justify-content: center;
     align-items: center;
@@ -760,6 +774,24 @@ h1 {
     padding: 24px 24px 24px 90px;
     font-size: 26px;
     box-shadow: 0 5px 9px 0 rgba(0, 0, 0, 0.5), 0 7px 21px 0 rgba(0, 0, 0, 0.29);
+    position: relative;
+    animation-name: oknaWybor;
+    animation-duration: 2s;
+    animation-delay: 0s;
+    animation-iteration-count: 1;
+}
+
+@keyframes oknaWybor {
+    0% {
+        left: 0;
+        top: 320px;
+        opacity: 0.2;
+    }
+
+    100% {
+        left: 0;
+        top: 0;
+    }
 }
 
 #empty {
@@ -772,15 +804,15 @@ h1 {
 #znaki {
     width: 35.83%;
     height: 264px;
-    margin: 0 50px 100px 150px;
+    margin: 0 50px 50px 150px;
     box-sizing: border-box;
     display:flex;
+    position: relative;
     box-shadow: 0 5px 9px 0 rgba(0, 0, 0, 0.5), 0 7px 21px 0 rgba(0, 0, 0, 0.29);
 }
 
 #znaki img {
     width: 43.5%;
-    margin: auto 0;
 }
 
 #kodeksNauka {
@@ -984,7 +1016,9 @@ h1 {
     height: 200px;
     box-sizing: border-box;
     display: flex;
-    /*background-color: crimson;*/
+    background-image: url("./assets/menu/gratulacje.png");
+    background-size: 130%;
+    background-position: center;
     margin: 50px 45px 0 45px;
     border-bottom: 8px solid #008751;
 }
@@ -994,11 +1028,14 @@ h1 {
     height: 150px;
     box-sizing: border-box;
     display: flex;
+    flex-wrap: wrap;
+    align-content: center;
     justify-content: center;
     align-items: center;
-    font-size: 27px;
+    font-size: 30px;
     margin: 43px 45px 0 45px;
     border-top: 8px solid #008751;
+    padding-top: 5%;
 }
 
 #podsumowanie p {
@@ -1033,7 +1070,7 @@ h1 {
 
 #babolotStats {
     margin: 100px 0 0 100px;
-    background-color: #008751;
+    background-color:  #a8e72e;
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
 }
@@ -1056,7 +1093,7 @@ h1 {
 
 #holeraceStats {
     margin: 100px 0 0 0;
-    background-color: #a8e72e;
+    background-color: #008751;
 }
 
 #imageholeStats {
@@ -1064,7 +1101,9 @@ h1 {
     width:80%;
     height: 94%;
     background-image: url("./assets/garage/cone.png");
-    background-size: cover;
+    background-size: 90%;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 #quizyStats {
@@ -1080,7 +1119,7 @@ h1 {
     height: 100%;
     background-image: url("./assets/garage/kioskquizy.png");
     background-size: cover;
-    background-position: 0% 20%;
+    background-position: 0 20%;
 }
 
 #XP {
@@ -1101,8 +1140,19 @@ h1 {
     margin: 0 22% 101px 0;
     background-color: #a8e72e;
     border-bottom-right-radius: 20px;
+    /*background-image: url("./assets/garage/race.png");*/
 }
 
+#imagerunout {
+    margin: 0 auto;
+    width: 90%;
+    height: 100%;
+    background-image: url(./assets/garage/race.png);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+/*
 #lvl {
     position: absolute;
     width: 264px;
@@ -1119,7 +1169,7 @@ h1 {
     color:#000000;
     font-family: "Courier New";
     font-weight: bold;
-}
+}*/
 
 
 #AllStatsInfo {
@@ -1163,7 +1213,6 @@ td, th {
     text-align: center;
     border: 3px solid #be1250;
     border-radius: 10px;
-    font-family: "Footlight MT Light";
     color:#111d35;
 }
 
@@ -1190,14 +1239,14 @@ td {
     height: 729px;
     display:flex;
     flex-direction: column;
-    background-color: brown;
+    /*background-color: brown;*/
 }
 
 #kolory {
     width: 100%;
     height: 479px;
     box-sizing: border-box;
-    background-color: skyblue;
+    /*background-color: skyblue;*/
     display: flex;
     flex-wrap: wrap;
 }
@@ -1205,38 +1254,41 @@ td {
 .colors {
     width: 35%;
     height: 40%;
-    border: 5px solid #00ff00;
 }
 
 #color1 {
     background-color: red;
     margin: 10% 1% 0 11%;
     border-radius: 5px 50px;
+    border: 5px dashed #990000;
 }
 
 #color2 {
     background-color: orange;
     margin: 10% 11% 0 1%;
     border-radius: 50px 5px;
+    border: 5px dashed #FFFF33;
 }
 
 #color3 {
     background-color: green;
     margin: 0 1% 10% 11%;
     border-radius: 50px 5px;
-    border: 5px solid #00ff00;
-}
-
-#color3:hover {
-    border-radius: 50%;
-    transition: 0.3s;
-    transform: scale(0.95);
+    border: 5px dashed #00ff00;
 }
 
 #color4 {
     background-color: pink ;
     margin: 0 11% 10% 1%;
     border-radius: 5px 50px;
+    border: 5px dashed #FF33AA;
+}
+
+
+#color1:hover, #color2:hover, #color3:hover, #color4:hover {
+    border-radius: 50%;
+    transform: scale(0.95);
+    transition: border-radius 0.5s;
 }
 
 #resetUlepszen {
@@ -1246,27 +1298,43 @@ td {
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 10px groove #a8e72e;
 }
 
 #resetUlepszen h1 {
     margin: 0;
+    width: 90%;
+
 }
 
 #zapiszNowyKolor {
     width: 100%;
     height: 100px;
     box-sizing: border-box;
-    background-image: url("./assets/menu/save.png");
-    background-size: cover;
+    background-image: url("./assets/menu/save1.png");
+    background-size: 50%;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 15px auto;
 }
 
+#zapiszNowyKolor:hover {
+    background-image: url("./assets/menu/save.png");
+    background-size: 50%;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 15px auto;
+}
 
-/* GARAGE.HTML */
+    /* GARAGE.HTML */
 
 #samochod {
     width: 50%;
     height: 729px;
-    background-color: red;
+    background-image: url("./assets/garage/car.png");
+    background-size: 90%;
+    background-repeat: no-repeat;
+    background-position: bottom right;
     display: flex;
     box-sizing: border-box;
 }
@@ -1276,7 +1344,7 @@ td {
     height: 729px;
     display:flex;
     flex-direction: column;
-    background-color: #be1250;
+    /*background-color: #be1250;*/
     box-sizing: border-box;
 }
 
@@ -1285,7 +1353,7 @@ td {
     height: 40%;
     box-sizing: border-box;
     display: flex;
-    background-color: #065ab5;
+    /*background-color: #065ab5;*/
 }
 
 #updateGarage {
@@ -1297,14 +1365,20 @@ td {
     flex-direction: column-reverse;
     align-content: center;
     justify-content: center;
-    background-color: #f3ef7d;
+    /*background-color: #f3ef7d;*/
 }
 
 .updateGarage {
     width: 30%;
     height: 80%;
     box-sizing: border-box;
-    background-color: #fff1e8;
+    background-color: rgb(243,239,125);
+    /*background-color: #fff1e8;
+    border-radius: 50px;*/
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+    border: 5px solid rgb(159,76,51);
+    /*border: 5px solid #808080;*/
     margin: 0 10px 0 10px;
     display: flex;
     flex-wrap: wrap;
@@ -1315,56 +1389,137 @@ td {
     width:60%;
     height: 25%;
     box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: #ffa300;
+    border-top: 3px solid #008751;
+    border-bottom: 3px solid #008751;
+    border-left: 3px solid #008751;
+    font-size: 30px;
+    font-weight: bold;
+    /*border-top-left-radius: 40px;
+    border-bottom-left-radius: 20px;*/
 }
 
 .cena {
-    width:40%;
+    width: 40%;
     height: 25%;
     box-sizing: border-box;
-    background-color: skyblue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    color: #00008B;
+    background-color: #a8e72e;
+    border: 3px solid #008751;
+    /*border-top-right-radius: 40px;
+    border-bottom-right-radius: 20px;*/
 }
 
 .zdjGarage {
     width:90%;
-    height: 50%;
+    height: 65%;
     box-sizing: border-box;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-width: 5px;
+    border-radius: 40%;
+    border-style: dotted dashed solid;
+    border-color: /*#5f574f*/ black;
+}
+
+.zdjGarage:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 8px 8px #FFFF33;
 }
 
 #amorzdj {
     background-image: url("./assets/garage/amortyzator.png");
-    background-size: cover;
 }
 
 #zdezdj {
     background-image: url("./assets/garage/zderzak.png");
-    background-size: cover;
 }
 
 #silzdj {
     background-image: url("./assets/garage/silnik.png");
-    background-size: cover;
 }
 
 /* RACE.HTML */
 
 #babolot {
-    width:33.3%;
+    width: 30.3%;
+    height: 35%;
     display: flex;
+    justify-content: center;
+    align-items: center;
     box-sizing: border-box;
-    background-color: #ffa300;
+    background-image: url("./assets/background/babolot.png");
+    background-size: cover;
+    background-position: center;
+    filter: grayscale(60%);
+    margin: 19% 1.5%;
+    box-shadow: 0 7px 11px 0 rgba(0, 0, 0, 0.5), 0 9px 23px 0 rgba(0, 0, 0, 0.29);
+    border: 10px outset blue;
 }
 
 #racehole {
-    width: 33.3%;
+    width: 30.3%;
+    height: 35%;
     display: flex;
+    justify-content: center;
+    align-items: center;
     box-sizing: border-box;
-    background-color: #8D18F2;
+    background-image: url("./assets/background/racehole.png");
+    background-size: cover;
+    background-position: center;
+    filter: grayscale(60%);
+    margin: 19% 1.5%;
+    box-shadow: 0 7px 11px 0 rgba(0, 0, 0, 0.5), 0 9px 23px 0 rgba(0, 0, 0, 0.29);
+    border: 10px outset yellow;
 }
 
 #runOut {
-    width: 33.3%;
+    width: 30.3%;
+    height: 35%;
     display: flex;
+    justify-content: center;
+    align-items: center;
     box-sizing: border-box;
-    background-color: #065ab5;
+    background-image: url("./assets/background/background.png");
+    background-size: cover;
+    background-position: center;
+    filter: grayscale(60%);
+    margin: 19% 1.5%;
+    box-shadow: 0 7px 11px 0 rgba(0, 0, 0, 0.5), 0 9px 23px 0 rgba(0, 0, 0, 0.29);
+    border: 10px outset red;
+    position: relative;
+    overflow: hidden;
 }
+
+#babolot:hover, #racehole:hover, #runOut:hover {
+    filter: grayscale(0%);
+    box-shadow: 0 0 11px 11px white, 0 0 23px 23px ghostwhite;
+    transition: 0.3s;
+    transform: scale(1.02);
+}
+
+#babolot img {
+    width:50%;
+    height: 70%;
+}
+
+#racehole img {
+    width:60%;
+    height: 60%;
+}
+
+#runOut img{
+    width:60%;
+    height: 60%;
+}
+
