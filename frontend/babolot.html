@@ -715,10 +715,26 @@
 
   // Przeliczanie na minuty, sekundy i milisekundy
 				const minutes = Math.floor(duration / 60000); // 1 minuta = 60 000 ms
-				const seconds = Math.floor((duration % 60000) / 1000); // 1 sekunda = 1000 ms
+				const second = Math.floor((duration % 60000) / 1000); // 1 sekunda = 1000 ms
 				const milliseconds = duration % 1000;
+                const seconds= duration/100;
 
-				alert(`Czas trwania operacji: ${minutes}:${seconds}:${milliseconds}`);
+				alert(`Czas:${seconds}`);
+                fetch('/addStat-babolot', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ seconds: seconds })
+                }).then(response => {
+                    if (response.ok) {
+                        console.log('Wpis do tabeli allStat został dodany.');
+                    } else {
+                        console.error('Błąd podczas dodawania wpisu do tabeli allStat.');
+                    }
+                }).catch(error => {
+                    console.error('Błąd podczas wykonywania zapytania:', error);
+                });
 				location.reload();
 				}
 				if(rectangle[i].color=="blue")
