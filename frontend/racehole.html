@@ -50,6 +50,7 @@
         const canvas = document.getElementById("myCanvas");
         const ctx = canvas.getContext("2d");
 		let ud=1;
+		let isEnd=0
         const animationFrames = [
             "assets/race/babathrow1.png",
             "assets/race/babathrow2.png",
@@ -90,7 +91,7 @@ var screenDiv=document.getElementById("screen")
 
 
     var imageElement = document.createElement("img");
-    imageElement.src = "assets/race/scenenoloop.gif";
+    //imageElement.src = "assets/race/scenenoloop.gif";
     imageElement.width = 1296;
     imageElement.height = 728
 	
@@ -210,8 +211,14 @@ imageElement.src=("assets/race/scenenoloop.gif")
 imageElement.width=1296
 imageElement.height=728
 
+
 canvas.remove();
+isEnd=1;
+
 screenDiv.appendChild(imageElement);
+
+
+
 }
 
 
@@ -279,8 +286,17 @@ screenDiv.appendChild(imageElement);
             // Wywołaj funkcję ponownie przy następnej animacji
 			
             requestAnimationFrame(updateRandomSquare);
+			if(isEnd>0)
+			{
+			isEnd++;
+			
+			if (isEnd==145)
+			{
+			alert("11");
+			}
 			
 			
+			}
         }
 
         // Funkcja resetująca grę
@@ -368,7 +384,7 @@ screenDiv.appendChild(imageElement);
         ctx.drawImage(backgroundImage, 0, backgroundY - canvas.height, canvas.width, canvas.height);
         ctx.drawImage(playerImage, playerX, playerY, squareSize, squareSize);
         ctx.drawImage(randomImage, randomSquareX, randomSquareY, squareSize, squareSize);
-screenDiv.onload=function()
+imageElement.onload=function()
 {
 alert("kebab")
 
